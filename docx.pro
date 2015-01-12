@@ -9,7 +9,8 @@ SOURCES += \
     shared.cpp \
     text.cpp \
     blkcntnr.cpp \
-    documentpart.cpp
+    documentpart.cpp \
+    opc/part.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -17,4 +18,5 @@ HEADERS +=\
     shared.h \
     text.h \
     blkcntnr.h \
-    documentpart.h
+    documentpart.h \
+    opc/part.h
