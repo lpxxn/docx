@@ -10,3 +10,9 @@ Part::~Part()
 
 }
 
+
+
+PartFactory::PartFactory()
+{
+
+}

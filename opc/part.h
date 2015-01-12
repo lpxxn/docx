@@ -9,4 +9,13 @@ public:
     ~Part();
 };
 
+class PartFactory
+{
+public:
+    PartFactory();
+
+private:
+
+};
+
 #endif // PART_H
