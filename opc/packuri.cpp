@@ -10,8 +10,8 @@ PackURI::PackURI(const QString &str)
 }
 
 PackURI PackURI::fromRelRef(const QString &baseURI, const QString &relative_ref)
-{
-    return PackURI(baseURI.append(relative_ref));
+{    
+    return PackURI(QString().append(baseURI).append(relative_ref));
 }
 
 QString PackURI::baseURI()

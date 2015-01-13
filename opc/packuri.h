@@ -8,7 +8,7 @@ class PackURI : public QString
 {
 public:
     PackURI(const QString &str);
-    PackURI fromRelRef(const QString &baseURI, const QString &relative_ref);
+    static PackURI fromRelRef(const QString &baseURI, const QString &relative_ref);
     QString baseURI();
     QString fileName();
     PackURI relsUri();

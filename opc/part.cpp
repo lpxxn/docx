@@ -11,7 +11,7 @@ Part::Part(const QString &partName, const QString &contentType, const QString &b
 
 Part* Part::load(const QString &partName, const QString &contentType, const QString &blob, Package *package)
 {
-    return Part(partName, contentType, blob, package);
+    return new Part(partName, contentType, blob, package);
 }
 
 Part::~Part()
