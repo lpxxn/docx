@@ -12,7 +12,8 @@ SOURCES += \
     documentpart.cpp \
     opc/part.cpp \
     opc/packuri.cpp \
-    opc/opcpackage.cpp
+    opc/opcpackage.cpp \
+    package.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -23,4 +24,5 @@ HEADERS +=\
     documentpart.h \
     opc/part.h \
     opc/packuri.h \
-    opc/opcpackage.h
+    opc/opcpackage.h \
+    package.h

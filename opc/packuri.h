@@ -1,12 +1,24 @@
 #ifndef PACKURI_H
 #define PACKURI_H
 
+#include <QString>
+#include <QStringList>
 
-class PackURI
+class PackURI : public QString
 {
 public:
-    PackURI();
+    PackURI(const QString &str);
+    PackURI fromRelRef(const QString &baseURI, const QString &relative_ref);
+    QString baseURI();
+    QString fileName();
+    PackURI relsUri();
+    QString memberName();
+    QString ext();
+    QString relativeRef(const QString &baseURI);
+
     ~PackURI();
+private:
+    QStringList pathSplit();
 };
 
 #endif // PACKURI_H

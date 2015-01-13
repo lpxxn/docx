@@ -1,7 +1,6 @@
 #ifndef OPCPACKAGE_H
 #define OPCPACKAGE_H
 
-
 class OpcPackage
 {
 public:
