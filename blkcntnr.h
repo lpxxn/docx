@@ -5,7 +5,7 @@ class Blkcntnr
 {
 public:
     Blkcntnr();
-    ~Blkcntnr();
+    virtual ~Blkcntnr();
 };
 
 #endif // BLKCNTNR_H

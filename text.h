@@ -27,7 +27,7 @@ class DOCX_EXPORT Text
 {
 public:
     Text();
-    ~Text();
+    virtual ~Text();
 };
 
 

@@ -1,6 +1,7 @@
 include(../../simcubelibrary.pri)
 
 QT -= gui
+QT += xml
 
 DEFINES += DOCX_LIBRARY
 
@@ -13,7 +14,13 @@ SOURCES += \
     opc/part.cpp \
     opc/packuri.cpp \
     opc/opcpackage.cpp \
-    package.cpp
+    package.cpp \
+    oxml/parts/document.cpp \
+    oxml/text.cpp \
+    opc/parts/corepropertiespart.cpp \
+    opc/coreproperties.cpp \
+    opc/oxml.cpp \
+    opc/constants.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -25,4 +32,10 @@ HEADERS +=\
     opc/part.h \
     opc/packuri.h \
     opc/opcpackage.h \
-    package.h
+    package.h \
+    oxml/parts/document.h \
+    oxml/text.h \
+    opc/parts/corepropertiespart.h \
+    opc/coreproperties.h \
+    opc/oxml.h \
+    opc/constants.h

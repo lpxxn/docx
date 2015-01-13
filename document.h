@@ -13,7 +13,7 @@ public:
     Document();
     explicit Document(const QString& name);
     explicit Document(QIODevice* device);
-    ~Document();
+    virtual ~Document();
 
     void save(const QString& path);
 

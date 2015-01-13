@@ -7,7 +7,7 @@ class Package : public OpcPackage
 {
 public:
     Package();
-    ~Package();
+    virtual ~Package();
 };
 
 #endif // PACKAGE_H

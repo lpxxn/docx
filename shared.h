@@ -5,7 +5,7 @@ class Shared
 {
 public:
     Shared();
-    ~Shared();
+    virtual ~Shared();
 };
 
 class Parented
@@ -14,7 +14,7 @@ public:
     Parented();
     Parented* part();
 
-    ~Parented();
+    virtual ~Parented();
 
 private:
     Parented *m_parent;

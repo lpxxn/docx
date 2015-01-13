@@ -7,7 +7,18 @@ class DocumentPart
 {
 public:
     DocumentPart();
-    ~DocumentPart();
+    virtual ~DocumentPart();
+
+private:
+
+};
+
+
+class _Body
+{
+public:
+
+private:
 };
 
 }

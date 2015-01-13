@@ -33,3 +33,18 @@ PartFactory::PartFactory()
 
 }
 
+// end PartFactory
+
+
+// XmlPart start
+
+XmlPart::XmlPart(const QString &partName, const QString &contentType, const QString &blob, Package *package)
+    : Part(partName, contentType, blob, package)
+{
+
+}
+
+XmlPart::~XmlPart()
+{
+
+}

@@ -5,7 +5,7 @@ class OpcPackage
 {
 public:
     OpcPackage();
-    ~OpcPackage();
+    virtual ~OpcPackage();
 };
 
 class Unmarshaller
@@ -13,7 +13,7 @@ class Unmarshaller
 public:
     Unmarshaller();
 
-    ~Unmarshaller();
+    virtual ~Unmarshaller();
 
 };
 

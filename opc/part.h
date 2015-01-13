@@ -9,7 +9,7 @@ class Part
 public:
     Part(const QString &partName, const QString &contentType, const QString &blob, Package *package = nullptr);
     virtual Part *load(const QString &partName, const QString &contentType, const QString &blob, Package *package = nullptr);
-    ~Part();
+    virtual ~Part();
 
 private:
     QString m_partName;
@@ -35,7 +35,9 @@ private:
 class XmlPart : public Part
 {
 public:
+    XmlPart(const QString &partName, const QString &contentType, const QString &blob, Package *package = nullptr);
 
+    virtual ~XmlPart();
 private:
 
 };

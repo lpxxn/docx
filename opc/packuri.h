@@ -16,7 +16,7 @@ public:
     QString ext();
     QString relativeRef(const QString &baseURI);
 
-    ~PackURI();
+    virtual ~PackURI();
 private:
     QStringList pathSplit();
 };
