@@ -1,6 +1,8 @@
-#ifndef PART_H
-#define PART_H
+#ifndef OPCDOCXPART_H
+#define OPCDOCXPART_H
 #include <QString>
+
+namespace Docx {
 
 class Package;
 
@@ -42,6 +44,6 @@ private:
 
 };
 
-
+}
 
 #endif // PART_H

@@ -1,5 +1,7 @@
 #include "opcpackage.h"
 
+using namespace Docx;
+
 OpcPackage::OpcPackage()
 {
 

@@ -2,6 +2,7 @@
 #include <string>
 
 using namespace std;
+using namespace Docx;
 
 PackURI::PackURI(const QString &str)
     : QString(str)

@@ -1,5 +1,6 @@
 #include "oxml.h"
 
+using namespace Docx;
 
 BaseOxmlElement::BaseOxmlElement()
     : QDomDocument()

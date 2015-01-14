@@ -1,8 +1,10 @@
-#ifndef PACKURI_H
-#define PACKURI_H
+#ifndef OPCPACKURI_H
+#define OPCPACKURI_H
 
 #include <QString>
 #include <QStringList>
+
+namespace Docx {
 
 class PackURI : public QString
 {
@@ -20,5 +22,6 @@ public:
 private:
     QStringList pathSplit();
 };
+}
 
 #endif // PACKURI_H

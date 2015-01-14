@@ -5,6 +5,8 @@
 
 #include "../part.h"
 #include "../../package.h"
+namespace Docx {
+
 
 class CorePropertiesPart : public XmlPart
 {
@@ -18,4 +20,5 @@ private:
 
 };
 
+}
 #endif // COREPROPERTIESPART_H

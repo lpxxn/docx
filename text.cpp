@@ -2,37 +2,33 @@
 
 namespace Docx {
 
-/*!
- * \brief Paragraph::Paragraph
- * \param parent
- */
-Paragraph::Paragraph(Parented *parent)
-    : Parented()
+
+Paragraph::Paragraph()
 {
 
 }
 
 Run *Paragraph::addRun(const QString &text, const QString &style)
 {
-    return new Run(nullptr);
+    return new Run();
 }
 
-/*!
- * \brief Run::Run
- * \param parent
- *
- *
- */
-Run::Run(Parented *parent)
-    : Parented()
+Paragraph::~Paragraph()
 {
 
 }
 
+Run::Run()
+  : Parented()
+{
 
-/*!
- * \brief Text::Text
- */
+}
+
+Run::~Run()
+{
+
+}
+
 Text::Text()
 {
 
@@ -43,4 +39,8 @@ Text::~Text()
 
 }
 
+
+
 }
+
+

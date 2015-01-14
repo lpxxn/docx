@@ -1,5 +1,8 @@
-#ifndef SHARED_H
-#define SHARED_H
+#ifndef DOCXSHARED_H
+#define DOCXSHARED_H
+
+namespace Docx
+{
 
 class Shared
 {
@@ -17,7 +20,8 @@ public:
     virtual ~Parented();
 
 private:
-    Parented *m_parent;
+
 };
+}
 
 #endif // SHARED_H

@@ -1,5 +1,7 @@
 #include "shared.h"
 
+using namespace Docx;
+
 Shared::Shared()
 {
 
@@ -14,15 +16,15 @@ Shared::~Shared()
 
 Parented::Parented()
 {
-    //m_parent = parent;
+
 }
 
 Parented *Parented::part()
 {
-    return m_parent;
+    return nullptr;
 }
 
 Parented::~Parented()
 {
-    delete m_parent;
+    //delete m_parent;
 }

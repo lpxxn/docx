@@ -1,5 +1,5 @@
-#ifndef TEXT_H
-#define TEXT_H
+#ifndef DOCXTEXT_H
+#define DOCXTEXT_H
 #include "shared.h"
 #include "docx_global.h"
 #include <QString>
@@ -10,17 +10,24 @@ class Run;
 class DOCX_EXPORT Paragraph : public Parented
 {
 public:
-    Paragraph(Parented *parent);
+    Paragraph();
+
     Run* addRun(const QString &text, const QString &style);
 
+    virtual ~Paragraph();
 
 private:
+
+
 };
 
 class DOCX_EXPORT Run : public Parented
 {
 public:
-    Run(Parented *parent);
+    Run();
+
+    virtual ~Run();
+
 };
 
 class DOCX_EXPORT Text

@@ -15,12 +15,15 @@ SOURCES += \
     opc/packuri.cpp \
     opc/opcpackage.cpp \
     package.cpp \
-    oxml/parts/document.cpp \
-    oxml/text.cpp \
     opc/parts/corepropertiespart.cpp \
     opc/coreproperties.cpp \
     opc/oxml.cpp \
-    opc/constants.cpp
+    opc/constants.cpp \
+    documenttext.cpp \
+    oxml/parts/oxmldocument.cpp \
+    oxml/oxmltext.cpp \
+    table.cpp \
+    oxml/xmlchemy.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -33,9 +36,12 @@ HEADERS +=\
     opc/packuri.h \
     opc/opcpackage.h \
     package.h \
-    oxml/parts/document.h \
-    oxml/text.h \
     opc/parts/corepropertiespart.h \
     opc/coreproperties.h \
     opc/oxml.h \
-    opc/constants.h
+    opc/constants.h \
+    documenttext.h \
+    oxml/parts/oxmldocument.h \
+    oxml/oxmltext.h \
+    table.h \
+    oxml/xmlchemy.h

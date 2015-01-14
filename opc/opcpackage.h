@@ -1,6 +1,8 @@
 #ifndef OPCPACKAGE_H
 #define OPCPACKAGE_H
 
+namespace Docx {
+
 class OpcPackage
 {
 public:
@@ -16,5 +18,5 @@ public:
     virtual ~Unmarshaller();
 
 };
-
+}
 #endif // OPCPACKAGE_H

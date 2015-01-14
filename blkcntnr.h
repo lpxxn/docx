@@ -1,11 +1,20 @@
 #ifndef BLKCNTNR_H
 #define BLKCNTNR_H
+#include "shared.h"
+#include <QString>
+namespace Docx {
 
-class Blkcntnr
+class Paragraph;
+class Table;
+class BlockItemContainer : public Parented
 {
 public:
-    Blkcntnr();
-    virtual ~Blkcntnr();
+    BlockItemContainer();
+    Paragraph* addParagraph(const QString &text, const QString &style);
+    Table *addTable(const int rows, const int cols);
+
+    virtual ~BlockItemContainer();
 };
+}
 
 #endif // BLKCNTNR_H

@@ -1,7 +1,9 @@
-#ifndef OXML_H
-#define OXML_H
+#ifndef DOCXOPCOXML_H
+#define DOCXOPCOXML_H
 #include <QDomDocument>
 #include "constants.h"
+
+namespace Docx {
 
 class BaseOxmlElement : public QDomDocument
 {
@@ -79,4 +81,5 @@ private:
 
 };
 
+}
 #endif // OXML_H

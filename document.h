@@ -1,5 +1,5 @@
-#ifndef DOCUMENT_H
-#define DOCUMENT_H
+#ifndef DOCXDOCUMENT_H
+#define DOCXDOCUMENT_H
 
 #include "docx_global.h"
 

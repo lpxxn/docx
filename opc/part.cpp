@@ -1,5 +1,6 @@
 #include "part.h"
 
+using namespace Docx;
 
 Part::Part(const QString &partName, const QString &contentType, const QString &blob, Package *package)
 {
