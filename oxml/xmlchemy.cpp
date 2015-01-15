@@ -28,5 +28,35 @@ ZeroOrOne::~ZeroOrOne()
 
 }
 
+
+// OxmlElementBase
+
+OxmlElementBase::OxmlElementBase()
+    : QDomElement()
+{
+
+}
+
+OxmlElementBase::OxmlElementBase(const QDomDocument &x)
+    : OxmlElementBase()
+{
+
+}
+
+void OxmlElementBase::insertElementBefore(QDomElement *elm, const QString &tagname)
+{
+    QDomElement child = this->firstChildElement(tagname);
+    if (child.isElement()) {
+        this->insertBefore(*elm, child);
+    } else
+        this->appendChild(*elm);
+
+}
+
+OxmlElementBase::~OxmlElementBase()
+{
+
+}
+
 }
 

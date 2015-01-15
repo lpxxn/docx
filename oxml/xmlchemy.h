@@ -2,6 +2,7 @@
 #define XMLCHEMY_H
 
 #include<QString>
+#include<QDomElement>
 
 namespace Docx {
 
@@ -26,6 +27,24 @@ public:
     virtual ~ZeroOrOne();
 
 private:
+};
+
+/*!
+ * \brief base class for custom element classes standardized behavior
+ */
+
+class OxmlElementBase : public QDomElement
+{
+public:
+    OxmlElementBase();
+    OxmlElementBase(const QDomDocument &x);
+    void insertElementBefore(QDomElement *elm, const QString &tagname);
+
+    virtual ~OxmlElementBase();
+
+protected:
+    QDomDocument *m_dom;
+
 };
 
 }

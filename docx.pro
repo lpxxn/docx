@@ -23,7 +23,8 @@ SOURCES += \
     oxml/parts/oxmldocument.cpp \
     oxml/oxmltext.cpp \
     table.cpp \
-    oxml/xmlchemy.cpp
+    oxml/xmlchemy.cpp \
+    oxml/oxmltable.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -44,4 +45,5 @@ HEADERS +=\
     oxml/parts/oxmldocument.h \
     oxml/oxmltext.h \
     table.h \
-    oxml/xmlchemy.h
+    oxml/xmlchemy.h \
+    oxml/oxmltable.h
