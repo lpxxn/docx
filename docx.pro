@@ -10,7 +10,7 @@ SOURCES += \
     shared.cpp \
     text.cpp \
     blkcntnr.cpp \
-    documentpart.cpp \
+    parts/documentpart.cpp \
     opc/part.cpp \
     opc/packuri.cpp \
     opc/opcpackage.cpp \
@@ -24,7 +24,11 @@ SOURCES += \
     oxml/oxmltext.cpp \
     table.cpp \
     oxml/xmlchemy.cpp \
-    oxml/oxmltable.cpp
+    oxml/oxmltable.cpp \
+    oxml/oxmlshape.cpp \
+    shape.cpp \
+    parts/imagepart.cpp \
+    image/image.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -32,7 +36,7 @@ HEADERS +=\
     shared.h \
     text.h \
     blkcntnr.h \
-    documentpart.h \
+    parts/documentpart.h \
     opc/part.h \
     opc/packuri.h \
     opc/opcpackage.h \
@@ -46,4 +50,8 @@ HEADERS +=\
     oxml/oxmltext.h \
     table.h \
     oxml/xmlchemy.h \
-    oxml/oxmltable.h
+    oxml/oxmltable.h \
+    oxml/oxmlshape.h \
+    shape.h \
+    parts/imagepart.h \
+    image/image.h

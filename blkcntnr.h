@@ -11,7 +11,7 @@ class BlockItemContainer : public Parented
 public:
     BlockItemContainer();
     Paragraph* addParagraph(const QString &text, const QString &style);
-    Table *addTable(const int rows, const int cols);
+    Table *addTable(int rows, int cols);
 
     virtual ~BlockItemContainer();
 };

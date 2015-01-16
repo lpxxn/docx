@@ -6,6 +6,8 @@ namespace Docx
 class CT_Body
 {
 public:
+    CT_Body();
+    virtual ~CT_Body();
 
 private:
 

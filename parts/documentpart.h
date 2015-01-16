@@ -2,16 +2,20 @@
 #define DOCUMENTPART_H
 #include "docx_global.h"
 #include "documenttext.h"
-#include "text.h"
+
+#include <QPair>
+
 namespace Docx {
 class Body;
 class CT_Default;
-//class Paragraphss;
+class Paragraph;
+class Table;
 class DocumentPart
 {
 public:
     DocumentPart();    
     Paragraph* addParagraph(const QString &text, const QString &style);
+    Table * addTable(int rows, int cols);
 
     virtual ~DocumentPart();
 
@@ -25,6 +29,7 @@ class Body
 public:
     Body();
     Paragraph* addParagraph(const QString &text, const QString &style);
+    Table * addTable(int rows, int cols);
 
 private:
 };

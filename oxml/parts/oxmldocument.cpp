@@ -1,5 +1,16 @@
 #include "oxmldocument.h"
 
-using namespace Docx;
+namespace Docx
+{
 
+CT_Body::CT_Body()
+{
 
+}
+
+CT_Body::~CT_Body()
+{
+
+}
+
+}

@@ -13,7 +13,7 @@ Paragraph *BlockItemContainer::addParagraph(const QString &text, const QString &
     return new Paragraph();
 }
 
-Table *BlockItemContainer::addTable(const int rows, const int cols)
+Table *BlockItemContainer::addTable(int rows, int cols)
 {
     return new Table();
 }

@@ -1,4 +1,7 @@
 #include "document.h"
+#include "documentpart.h"
+#include "text.h"
+#include "table.h"
 
 using namespace Docx;
 
@@ -17,6 +20,16 @@ Document::Document(const QString &name)
 Document::Document(QIODevice *device)
 {
     qDebug() << "construct docx document from io";
+}
+
+Paragraph *Document::addParagraph(const QString &text, const QString &style)
+{
+    return m_docPart->addParagraph(text, style);
+}
+
+Table *Document::addTable(int rows, int cols)
+{
+    return m_docPart->addTable(rows, cols);
 }
 
 Document::~Document()
