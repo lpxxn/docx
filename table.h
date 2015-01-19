@@ -3,7 +3,7 @@
 #include "docx_global.h"
 #include "shared.h"
 #include "blkcntnr.h"
-#include "oxml/oxmltable.h"
+#include "./oxml/oxmltable.h"
 #include <QString>
 
 namespace Docx {

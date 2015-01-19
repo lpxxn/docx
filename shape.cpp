@@ -1,5 +1,5 @@
 #include "shape.h"
-#include "oxml/oxmlshape.h"
+#include "./oxml/oxmlshape.h"
 
 namespace Docx {
 

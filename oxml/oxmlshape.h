@@ -1,7 +1,7 @@
 #ifndef OXMLSHAPE_H
 #define OXMLSHAPE_H
 
-#include<QString>
+#include <QString>
 
 namespace Docx {
 

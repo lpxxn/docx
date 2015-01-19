@@ -18,7 +18,7 @@ public:
     virtual ~InlineShape();
 
 private:
-    CT_Inline m_inline;
+    CT_Inline* m_inline;
 
 };
 

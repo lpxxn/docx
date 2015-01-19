@@ -1,9 +1,10 @@
 #ifndef DOCXTEXT_H
 #define DOCXTEXT_H
-#include "shared.h"
-#include "docx_global.h"
-#include <QString>
 
+#include "docx_global.h"
+#include "shared.h"
+
+#include <QString>
 
 namespace Docx {
 class Run;
@@ -28,7 +29,6 @@ private:
 class DOCX_EXPORT Run : public Parented
 {
 public:
-    __declspec
     Run();
     void addTab();
     Text* addText(const QString &text);

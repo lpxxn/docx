@@ -1,7 +1,8 @@
 #include "documentpart.h"
-#include "text.h"
-#include "table.h"
-#include "opc/oxml.h"
+#include "../text.h"
+#include "../table.h"
+#include "../opc/oxml.h"
+
 namespace Docx
 {
 DocumentPart::DocumentPart()

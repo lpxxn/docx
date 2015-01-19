@@ -1,5 +1,5 @@
 #include "document.h"
-#include "documentpart.h"
+#include "./parts/documentpart.h"
 #include "text.h"
 #include "table.h"
 

@@ -1,7 +1,8 @@
 #ifndef DOCUMENTPART_H
 #define DOCUMENTPART_H
-#include "docx_global.h"
-#include "documenttext.h"
+
+#include "../docx_global.h"
+#include "../documenttext.h"
 
 #include <QPair>
 
