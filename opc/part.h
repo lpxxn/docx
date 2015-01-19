@@ -1,5 +1,6 @@
 #ifndef OPCDOCXPART_H
 #define OPCDOCXPART_H
+
 #include <QString>
 
 namespace Docx {

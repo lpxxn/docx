@@ -1,7 +1,7 @@
 include(../../simcubelibrary.pri)
 
 QT -= gui
-QT += xml
+QT += xml gui-private
 
 DEFINES += DOCX_LIBRARY
 
@@ -28,7 +28,11 @@ SOURCES += \
     oxml/oxmlshape.cpp \
     shape.cpp \
     parts/imagepart.cpp \
-    image/image.cpp
+    image/image.cpp \
+    opc/physpkgreader.cpp \
+    opc/packagereader.cpp \
+    opc/contenttypemap.cpp \
+    opc/serializedrelationships.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -54,4 +58,8 @@ HEADERS +=\
     oxml/oxmlshape.h \
     shape.h \
     parts/imagepart.h \
-    image/image.h
+    image/image.h \
+    opc/physpkgreader.h \
+    opc/packagereader.h \
+    opc/contenttypemap.h \
+    opc/serializedrelationships.h

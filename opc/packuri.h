@@ -14,14 +14,17 @@ public:
     QString baseURI();
     QString fileName();
     PackURI relsUri();
+    QString relsUriStr();
     QString memberName();
     QString ext();
     QString relativeRef(const QString &baseURI);
 
     virtual ~PackURI();
+
 private:
     QStringList pathSplit();
 };
+
 }
 
 #endif // PACKURI_H

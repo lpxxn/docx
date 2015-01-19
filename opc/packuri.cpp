@@ -31,11 +31,17 @@ QString PackURI::fileName()
 
 PackURI PackURI::relsUri()
 {
+    QString rels_uri_str = relsUriStr();
+    return PackURI(rels_uri_str);
+}
+
+QString PackURI::relsUriStr()
+{
     QStringList strs = pathSplit();
 
     QString rels_filename = QString("%1.rels").arg(strs.at(1));
     QString rels_uri_str = QString("%1_rels%2").arg(strs.at(0)).arg(rels_filename);
-    return PackURI(rels_uri_str);
+    return rels_uri_str;
 }
 
 QString PackURI::memberName()
