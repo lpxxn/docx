@@ -2,6 +2,7 @@
 #define COREPROPERTIESPART_H
 
 #include <QString>
+#include <QByteArray>
 
 #include "../part.h"
 #include "../../package.h"
@@ -13,7 +14,7 @@ class CorePropertiesPart : public XmlPart
 {
 public:
     CorePropertiesPart(const QString &partName, const QString &contentType
-                       , const QString &blob, Package *package = nullptr);
+                       , const QByteArray &blob, Package *package = nullptr);
 
     virtual ~CorePropertiesPart();
 

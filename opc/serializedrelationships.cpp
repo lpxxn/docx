@@ -1,4 +1,5 @@
 #include "serializedrelationships.h"
+#include "constants.h"
 
 #include <QDomDocument>
 
@@ -9,9 +10,8 @@ SerializedRelationship::SerializedRelationship()
 
 }
 
-SerializedRelationship::SerializedRelationship(const QString baseURI, const QString id
-                                               , const QString relType, const QString target)
-    : m_baseURI(baseURI), m_rId(id), m_relType(relType), m_target(target)
+SerializedRelationship::SerializedRelationship(const QString &baseURI, const QString &id, const QString &relType, const QString &target, const QString &targetModel)
+    : m_baseURI(baseURI), m_rId(id), m_relType(relType), m_target(target), m_targetMode(targetModel)
 {
 
 }
@@ -50,6 +50,11 @@ QString SerializedRelationship::targetPartName() const
     return path;
 }
 
+bool SerializedRelationship::isExternal()
+{
+    return m_targetMode == Constants::EXTERNAL;
+}
+
 SerializedRelationship::~SerializedRelationship()
 {
 
@@ -78,7 +83,8 @@ SerializedRelationships *SerializedRelationships::loadFromData(const QString bas
         rels->m_rels.append(SerializedRelationship(baseURI,
                                                    ele.attribute(QStringLiteral("Id")),
                                                    ele.attribute(QStringLiteral("Type")),
-                                                   ele.attribute(QStringLiteral("Target"))));
+                                                   ele.attribute(QStringLiteral("Target"),
+                                                   ele.attribute(QStringLiteral("TargetMode"), Constants::INTERNAL))));
     }
     return rels;
 

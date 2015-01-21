@@ -58,7 +58,7 @@ public:
     CT_Relationship();
     CT_Relationship(const QDomElement &x);
     static CT_Relationship newRelationship(const QString &rId, const QString &reltype
-                                   , const QString &target, const QString &target_mode);
+                                   , const QString &target, bool target_mode);
     QString rId();
     QString relType();
     QString targetRef();

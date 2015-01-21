@@ -1,4 +1,5 @@
 #include "oxml.h"
+#include "constants.h"
 
 using namespace Docx;
 
@@ -92,8 +93,6 @@ CT_Override::~CT_Override()
 
 // CT_Relationship
 
-RELATIONSHIP_TARGET_MODE rtm;
-
 CT_Relationship::CT_Relationship()
     : QDomElement()
 {
@@ -107,15 +106,15 @@ CT_Relationship::CT_Relationship(const QDomElement &x)
 }
 
 CT_Relationship CT_Relationship::newRelationship(const QString &rId, const QString &reltype
-                                         , const QString &target, const QString &target_mode)
+                                         , const QString &target, bool target_mode)
 {
     QDomDocument docment;
     CT_Relationship eleXml = CT_Relationship(docment.createElement("Relationship"));
     eleXml.setAttribute("Id", rId);
     eleXml.setAttribute("Type", reltype);
     eleXml.setAttribute("Target", target);
-    if (target_mode == rtm.EXTERNAL)
-        eleXml.setAttribute("TargetMode", rtm.EXTERNAL);
+    if (target_mode)
+        eleXml.setAttribute("TargetMode", Constants::EXTERNAL);
     return eleXml;
 }
 
@@ -136,7 +135,7 @@ QString CT_Relationship::targetRef()
 
 QString CT_Relationship::targetMode()
 {
-    return this->attribute("TargetMode", rtm.INTERNAL);
+    return this->attribute("TargetMode", Constants::INTERNAL);
 }
 
 CT_Relationship::~CT_Relationship()

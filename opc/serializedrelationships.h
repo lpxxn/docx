@@ -2,6 +2,7 @@
 #define SERIALIZEDRELATIONSHIPS_H
 
 #include "packuri.h"
+#include "constants.h"
 
 #include <QVector>
 #include <QString>
@@ -13,12 +14,13 @@ class SerializedRelationship
 {
 public:
     SerializedRelationship();
-    SerializedRelationship(const QString baseURI, const QString id, const QString relType, const QString target);
+    SerializedRelationship(const QString &baseURI, const QString &id, const QString &relType, const QString &target, const QString &targetModel = Constants::INTERNAL);
     QString baseURI() const;
     QString rId() const;
     QString relType() const;
     QString target() const;
     QString targetPartName() const;
+    bool  isExternal();
     ~SerializedRelationship();
 
 private:
@@ -26,6 +28,7 @@ private:
     QString m_rId;
     QString m_relType;
     QString m_target;
+    QString m_targetMode;
 
 };
 

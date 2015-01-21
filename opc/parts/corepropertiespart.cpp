@@ -3,7 +3,7 @@
 using namespace Docx;
 
 CorePropertiesPart::CorePropertiesPart(const QString &partName, const QString &contentType
-                                       , const QString &blob, Package *package)
+                                       , const QByteArray &blob, Package *package)
     : XmlPart(partName, contentType, blob, package)
 {
 
