@@ -31,14 +31,12 @@ ZeroOrOne::~ZeroOrOne()
 
 // OxmlElementBase
 
-OxmlElementBase::OxmlElementBase()
-    : QDomElement()
+OxmlElementBase::OxmlElementBase() : QDomElement()
 {
 
 }
 
-OxmlElementBase::OxmlElementBase(const QDomDocument &x)
-    : OxmlElementBase()
+OxmlElementBase::OxmlElementBase(const QDomDocument &x) : OxmlElementBase()
 {
 
 }

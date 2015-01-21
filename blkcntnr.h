@@ -1,11 +1,15 @@
 #ifndef BLKCNTNR_H
 #define BLKCNTNR_H
+
 #include "shared.h"
+
 #include <QString>
+
 namespace Docx {
 
 class Paragraph;
 class Table;
+
 class BlockItemContainer : public Parented
 {
 public:

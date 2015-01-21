@@ -1,6 +1,7 @@
 #include "blkcntnr.h"
 #include "text.h"
 #include "table.h"
+
 using namespace Docx;
 
 BlockItemContainer::BlockItemContainer()

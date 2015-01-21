@@ -15,7 +15,7 @@ public:
     PhysPkgReader(const QString &filePath);
     QByteArray contentTypesData();
     QByteArray blobForm(const QString &packuri);
-    QByteArray relsFrom(PackURI &sourceUri);
+    QByteArray relsFrom(const PackURI &sourceUri);    
 
     ~PhysPkgReader();    
 

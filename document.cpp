@@ -1,5 +1,6 @@
 #include "document.h"
 #include "./parts/documentpart.h"
+#include "./opc/opcpackage.h"
 #include "text.h"
 #include "table.h"
 
@@ -15,6 +16,8 @@ Document::Document()
 Document::Document(const QString &name)
 {
     qDebug() << "construct docx document from " << name;
+    //OpcPackage * pack = new OpcPackage();
+    OpcPackage::open(name);
 }
 
 Document::Document(QIODevice *device)

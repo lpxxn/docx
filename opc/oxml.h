@@ -1,8 +1,9 @@
 #ifndef DOCXOPCOXML_H
 #define DOCXOPCOXML_H
 
-#include <QDomDocument>
 #include "constants.h"
+
+#include <QDomDocument>
 
 namespace Docx {
 

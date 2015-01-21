@@ -2,8 +2,7 @@
 
 using namespace Docx;
 
-BaseOxmlElement::BaseOxmlElement()
-    : QDomDocument()
+BaseOxmlElement::BaseOxmlElement() : QDomDocument()
 {
 
 }
@@ -22,20 +21,19 @@ CT_Default::CT_Default()
 
 }
 
-CT_Default::CT_Default(const QDomElement &x)
-    : QDomElement(x)
+CT_Default::CT_Default(const QDomElement &x) : QDomElement(x)
 {
 
 }
 
 QString CT_Default::contentType()
 {
-    return this->attribute("ContentType");
+    return attribute(QStringLiteral("ContentType"));
 }
 
 QString CT_Default::extension()
 {
-    return this->attribute("Extension");
+    return attribute(QStringLiteral("Extension"));
 }
 
 CT_Default CT_Default::newDefault(const QString &ext, const QString &content_type)
@@ -70,12 +68,12 @@ CT_Override::CT_Override(const QDomElement &x)
 
 QString CT_Override::contentType()
 {
-    return this->attribute("ContentType");
+    return attribute("ContentType");
 }
 
 QString CT_Override::partname()
 {
-    return this->attribute("PartName");
+    return attribute("PartName");
 }
 
 CT_Override CT_Override::newOverride(const QString &partname, const QString &content_type)

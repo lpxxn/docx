@@ -16,6 +16,40 @@ SerializedRelationship::SerializedRelationship(const QString baseURI, const QStr
 
 }
 
+QString SerializedRelationship::baseURI() const
+{
+    return m_baseURI;
+}
+
+QString SerializedRelationship::rId() const
+{
+    return m_rId;
+}
+
+QString SerializedRelationship::relType() const
+{
+    return m_relType;
+}
+
+QString SerializedRelationship::target() const
+{
+    return m_target;
+}
+
+QString SerializedRelationship::targetPartName() const
+{
+    QString path = m_baseURI + m_target;
+    const QString reStr = "../";
+    if (path.contains(reStr)) {
+
+        int dotIndex = path.lastIndexOf(reStr);
+
+        int rLen = path.length() - dotIndex - reStr.length();
+        path = path.right(rLen);
+    }
+    return path;
+}
+
 SerializedRelationship::~SerializedRelationship()
 {
 
@@ -50,10 +84,45 @@ SerializedRelationships *SerializedRelationships::loadFromData(const QString bas
 
 }
 
+QVector<SerializedRelationship> SerializedRelationships::rels() const
+{
+    return m_rels;
+}
+
 SerializedRelationships::~SerializedRelationships()
 {
 
 }
+
+// End SerializedRelationships
+
+
+SerializedPart::SerializedPart(const PackURI &partName, const QString &contentType, const QString &reltype, const QByteArray &blob, const SerializedRelationships &srels)
+    : m_partName(partName), m_contentType(contentType), m_reltype(reltype), m_blob(blob), m_srels(srels)
+{
+
+}
+
+PackURI SerializedPart::partName() const
+{
+    return m_partName;
+}
+
+QString SerializedPart::contentType() const
+{
+    return m_contentType;
+}
+
+QString SerializedPart::relType() const
+{
+    return m_reltype;
+}
+
+QByteArray SerializedPart::blob() const
+{
+    return m_blob;
+}
+
 
 
 

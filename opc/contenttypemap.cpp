@@ -1,7 +1,9 @@
 #include "contenttypemap.h"
+
 #include <QDomDocument>
 
 namespace Docx {
+
 ContentTypeMap::ContentTypeMap()
 {
 
@@ -16,7 +18,7 @@ ContentTypeMap *ContentTypeMap::fromXml(const QByteArray &contentTypesXml)
     QDomNodeList overrides =  doc.elementsByTagName("Override");
 
     ContentTypeMap *types = new ContentTypeMap();
-    for (int i = 0; i < defaults.count(); i++) {
+    for (int i = 0, sz = defaults.count(); i < sz; i++) {
         QDomNode n = defaults.at(i);
         QString ext = n.toElement().attribute("Extension");
         QString cty = n.toElement().attribute("ContentType");
@@ -41,6 +43,15 @@ void ContentTypeMap::addDefault(const QString &extension, const QString &content
 void ContentTypeMap::addOverride(const QString &partName, const QString &contentType)
 {
     m_overrides.insert(partName, contentType);
+}
+
+QString ContentTypeMap::contentType(const PackURI &partname) const
+{
+    if (m_overrides.contains(partname.fullURI()))
+        return m_overrides.value(partname.fullURI());
+    if (m_defaults.contains(partname.ext()))
+        return m_defaults.value(partname.ext());
+    return QStringLiteral("");
 }
 
 ContentTypeMap::~ContentTypeMap()

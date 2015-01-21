@@ -1,11 +1,8 @@
 #include "packuri.h"
-#include <string>
 
-using namespace std;
 using namespace Docx;
 
-PackURI::PackURI(const QString &str)
-    : QString(str)
+PackURI::PackURI(const QString &str) : QString(str)
 {
 
 }
@@ -15,42 +12,46 @@ PackURI PackURI::fromRelRef(const QString &baseURI, const QString &relative_ref)
     return PackURI(QString().append(baseURI).append(relative_ref));
 }
 
-QString PackURI::baseURI()
+QString PackURI::baseURI() const
 {
     QStringList strs = pathSplit();
 
     return strs.first();
 }
 
-QString PackURI::fileName()
+QString PackURI::fullURI() const
+{
+    return QString("/").append(*this);
+}
+
+QString PackURI::fileName() const
 {
     QStringList strs = pathSplit();
 
     return strs.at(1);
 }
 
-PackURI PackURI::relsUri()
+PackURI PackURI::relsUri() const
 {
     QString rels_uri_str = relsUriStr();
     return PackURI(rels_uri_str);
 }
 
-QString PackURI::relsUriStr()
+QString PackURI::relsUriStr() const
 {
     QStringList strs = pathSplit();
 
-    QString rels_filename = QString("%1.rels").arg(strs.at(1));
-    QString rels_uri_str = QString("%1_rels%2").arg(strs.at(0)).arg(rels_filename);
+    QString rels_uri_str = QString::fromLatin1("%1_rels/%2.rels").arg(strs.at(0)).arg(strs.at(1));
     return rels_uri_str;
 }
 
-QString PackURI::memberName()
+QString PackURI::memberName() const
 {
     // remove first /
     return this->mid(1);
 }
 
-QString PackURI::ext()
+QString PackURI::ext() const
 {
     return this->split('.').last();
 }
@@ -59,7 +60,7 @@ QString PackURI::ext()
 QString PackURI::relativeRef(const QString &baseURI)
 {
     QString str;
-    if (baseURI == "/")
+    if (baseURI == QStringLiteral("/"))
         str = this->mid(1);
     else {
         str = this->replace(baseURI, "");
@@ -75,20 +76,19 @@ PackURI::~PackURI()
 
 }
 
-QStringList PackURI::pathSplit()
+QStringList PackURI::pathSplit() const
 {
     QStringList oStr;
     if (this->length() == 1) {
-        oStr.append("/");
-        oStr.append("");
+        oStr << QStringLiteral("") << QStringLiteral("");
         return oStr;
     }
 
-    int i = this->toStdString().rfind('/');
+    int i = this->lastIndexOf('/');
 
-    oStr.append(this->left(i));
+    oStr.append(this->left(i + 1));
 
-    int l = oStr.length() - i - 1;
+    int l = this->length() - i - 1;
 
     oStr.append(this->right(l));
     return oStr;

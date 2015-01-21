@@ -24,7 +24,7 @@ QByteArray PhysPkgReader::blobForm(const QString &packuri)
     return m_reader->fileData(packuri);
 }
 
-QByteArray PhysPkgReader::relsFrom(PackURI &sourceUri)
+QByteArray PhysPkgReader::relsFrom(const PackURI &sourceUri)
 {
     QString relstr = sourceUri.relsUriStr();
     return blobForm(relstr);

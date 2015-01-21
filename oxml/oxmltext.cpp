@@ -3,8 +3,7 @@
 namespace Docx {
 
 // CT_P
-CT_P::CT_P(const QDomDocument &dom)
-    : OxmlElementBase(dom)
+CT_P::CT_P(const QDomDocument &dom) : OxmlElementBase(dom)
 {
 
 }

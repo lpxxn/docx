@@ -5,6 +5,7 @@
 
 #include "../part.h"
 #include "../../package.h"
+
 namespace Docx {
 
 
