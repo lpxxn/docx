@@ -1,6 +1,7 @@
 #include "document.h"
 #include "./parts/documentpart.h"
 #include "./opc/opcpackage.h"
+#include "package.h"
 #include "text.h"
 #include "table.h"
 
@@ -17,7 +18,10 @@ Document::Document(const QString &name)
 {
     qDebug() << "construct docx document from " << name;
     //OpcPackage * pack = new OpcPackage();
-    OpcPackage::open(name);
+
+    m_package = Package::open(name);
+    m_docPart = m_package->mainDocument();
+    m_docPart->addParagraph("text");
 }
 
 Document::Document(QIODevice *device)
@@ -38,6 +42,8 @@ Table *Document::addTable(int rows, int cols)
 Document::~Document()
 {
     qDebug() << "delete Docx::Document.";
+    delete m_docPart;
+    delete m_package;
 }
 
 void Document::save(const QString &path)

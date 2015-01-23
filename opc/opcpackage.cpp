@@ -2,6 +2,9 @@
 #include "packagereader.h"
 #include "part.h"
 #include "../package.h"
+#include "rel.h"
+#include "constants.h"
+#include "../parts/documentpart.h"
 
 #include <QList>
 
@@ -12,19 +15,22 @@ OpcPackage::OpcPackage()
 
 }
 
-OpcPackage *OpcPackage::open(const QString &pkgFile)
+DocumentPart *OpcPackage::mainDocument()
 {
-    PackageReader *reader = PackageReader::fromFile(pkgFile);
-    //
-    Package *package = new Package();
-    Unmarshaller::unmarshal(reader, package);
-
-    return new OpcPackage();
+    Part * part = partByRelated(Constants::OFFICE_DOCUMENT);
+    DocumentPart *mainPart = dynamic_cast<DocumentPart *>(part);
+    return mainPart;
 }
+
+Part *OpcPackage::partByRelated(const QString &reltype)
+{
+    return m_rels->partWithReltype(reltype);
+}
+
 
 OpcPackage::~OpcPackage()
 {
-
+    delete m_rels;
 }
 
 Unmarshaller::Unmarshaller()
@@ -45,7 +51,6 @@ void Unmarshaller::unmarshal(PackageReader *pkgReader, Package *package)
     for (Part * p : parts.values()) {
         p->afterUnmarshal();
     }
-
 }
 
 /*!
@@ -88,7 +93,7 @@ void Unmarshaller::unmarshalRelationships(PackageReader *pkgReader, Package *pac
     }
 }
 
-    Unmarshaller::~Unmarshaller()
-    {
+Unmarshaller::~Unmarshaller()
+{
 
-    }
+}

@@ -1,4 +1,5 @@
 #include "package.h"
+#include "./opc/packagereader.h"
 
 namespace Docx {
 Package::Package()
@@ -13,7 +14,22 @@ void Package::loadRel(const QString &reltype, Part *target, const QString rId, b
     m_rels->addRelationship(reltype, target, rId, isternal);
 }
 
+Package *Package::open(const QString &pkgFile)
+{
+    PackageReader *reader = PackageReader::fromFile(pkgFile);
+    //
+    Package *package = new Package();
+    Unmarshaller::unmarshal(reader, package);
+
+    return package;
+}
+
 Package::~Package()
+{
+
+}
+
+ImageParts::ImageParts()
 {
 
 }

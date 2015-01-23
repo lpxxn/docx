@@ -11,7 +11,7 @@ Relationship::Relationship(const QString &rId, const QString &reltype, Part *tar
 
 Relationship::~Relationship()
 {
-
+    delete m_target;
 }
 
 
@@ -30,9 +30,19 @@ Relationship *Relationships::addRelationship(const QString &reltype, Part *targe
     return rel;
 }
 
+Part *Relationships::partWithReltype(const QString &reltype)
+{
+    for (Relationship *s : m_rels.values()) {
+        if (s->relType() == reltype)
+            return s->target();
+    }
+    return nullptr;
+}
+
 Relationships::~Relationships()
 {
-
+    m_targetPartsByrId.clear();
+    m_rels.clear();
 }
 
 

@@ -11,6 +11,7 @@ const char WML_STYLES[]             = "application/vnd.openxmlformats-officedocu
 const char IMAGE[]                  = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/image";
 const char EXTERNAL[]               = "External";
 const char  INTERNAL[]              = "Internal";
+const char OFFICE_DOCUMENT[]        = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument";
 }
 }
 

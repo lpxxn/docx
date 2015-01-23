@@ -35,6 +35,7 @@ class Relationships
 public:
     Relationships(const QString &baseURI);
     Relationship *addRelationship(const QString &reltype, Part *target, const QString &rId, bool external = false);
+    Part *partWithReltype(const QString &reltype);
     virtual ~Relationships();
 
 private:

@@ -9,15 +9,18 @@ namespace Docx {
 class PackageReader;
 class Package;
 class Part;
-
+class DocumentPart;
+class Relationships;
 class OpcPackage
 {
 public:
     OpcPackage();
-    static OpcPackage* open(const QString &pkgFile);
+    DocumentPart *mainDocument();
+    Part * partByRelated(const QString &reltype);
     virtual ~OpcPackage();
 
-private:
+protected:
+    Relationships *m_rels;
 
 };
 

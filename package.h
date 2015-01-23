@@ -11,11 +11,21 @@ class Package : public OpcPackage
 public:
     Package();
     void loadRel(const QString &reltype, Part *target, const QString rId, bool isternal = false);
+    static Package* open(const QString &pkgFile);
     virtual ~Package();
 
-private:
-    Relationships *m_rels;
+
 };
+
+class ImageParts
+{
+public:
+    ImageParts();
+
+private:
+
+};
+
 }
 
 #endif // PACKAGE_H

@@ -17,7 +17,8 @@ class DocumentPart : public Part
 {
 public:
     DocumentPart(const QString &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
-    Paragraph* addParagraph(const QString &text, const QString &style);
+    Paragraph* addParagraph(const QString &text, const QString &style = QStringLiteral(""));
+    static DocumentPart *load(const PackURI &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
     Table * addTable(int rows, int cols);
     void afterUnmarshal();
     QDomDocument * element() const;

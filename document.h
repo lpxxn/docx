@@ -9,6 +9,7 @@ namespace Docx {
 class Paragraph;
 class Table;
 class DocumentPart;
+class Package;
 
 class DOCX_EXPORT Document
 {
@@ -25,6 +26,7 @@ public:
 
 private:
     DocumentPart *m_docPart;
+    Package *m_package;
 
 };
 

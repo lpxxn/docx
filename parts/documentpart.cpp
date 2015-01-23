@@ -3,13 +3,10 @@
 #include "../table.h"
 #include "../opc/oxml.h"
 
+#include <QDebug>
+
 namespace Docx
 {
-
-DocumentPart::~DocumentPart()
-{
-
-}
 
 DocumentPart::DocumentPart(const QString &partName, const QString &contentType, const QByteArray &blob, Package *package)
     : Part(partName, contentType, blob, package)
@@ -21,8 +18,14 @@ DocumentPart::DocumentPart(const QString &partName, const QString &contentType, 
 
 Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 {
+    qDebug() << "Add Paragraph  Text = " + text;
     Paragraph * p = new Paragraph();
     return m_body->addParagraph(text, style);
+}
+
+DocumentPart *DocumentPart::load(const PackURI &partName, const QString &contentType, const QByteArray &blob, Package *package)
+{
+    return new DocumentPart(partName, contentType, blob, package);
 }
 
 Table *DocumentPart::addTable(int rows, int cols)
@@ -31,6 +34,7 @@ Table *DocumentPart::addTable(int rows, int cols)
 }
 void DocumentPart::afterUnmarshal()
 {
+    qDebug() << "afetrUnmarshal";
 }
 
 QDomDocument *DocumentPart::element() const
@@ -38,6 +42,11 @@ QDomDocument *DocumentPart::element() const
     return m_element;
 }
 
+DocumentPart::~DocumentPart()
+{
+    delete m_body;
+    delete m_element;
+}
 
 
 Body::Body(DocumentPart *docPart)
