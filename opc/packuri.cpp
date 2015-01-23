@@ -2,6 +2,11 @@
 
 using namespace Docx;
 
+PackURI::PackURI()
+{
+
+}
+
 PackURI::PackURI(const QString &str) : QString(str)
 {
 

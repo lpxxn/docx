@@ -10,7 +10,7 @@ using namespace Docx;
 
 Document::Document()
 {
-    qDebug() << "construct docx document.";
+    qDebug() << "construct docx document.";    
 }
 
 Document::Document(const QString &name)

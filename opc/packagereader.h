@@ -5,6 +5,7 @@
 
 #include <QString>
 #include <QList>
+#include <QMap>
 
 namespace Docx {
 
@@ -19,6 +20,9 @@ public:
     static PackageReader* fromFile(const QString &pkgFile);
     static SerializedRelationships* srelsFrom(PhysPkgReader *physReader, const QString &sourceUri);
     static QList<SerializedPart> loadSerializedParts(PhysPkgReader *physReader, const SerializedRelationships *srels, const ContentTypeMap *contentTypes);
+    QMap<QString, QVector<SerializedRelationship> > partRels() const;
+    ContentTypeMap *contentTypes() const { return m_contentTypes; }
+    QList<SerializedPart> sparts() const { return m_sparts; }
 
     ~PackageReader();
 

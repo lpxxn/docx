@@ -20,7 +20,7 @@ public:
     QString relType() const;
     QString target() const;
     QString targetPartName() const;
-    bool  isExternal();
+    bool  isExternal() const;
     ~SerializedRelationship();
 
 private:
@@ -38,7 +38,10 @@ class SerializedRelationships
 public:
     SerializedRelationships();
     static SerializedRelationships* loadFromData(const QString baseURI, const QByteArray &relsXml);
+    void addRelationship(const SerializedRelationship &rel);
+    void addRelationships(const QVector<SerializedRelationship> &rels);
     QVector<SerializedRelationship> rels() const;
+    int count() const;
 
     ~SerializedRelationships();
 
@@ -54,7 +57,7 @@ public:
     QString contentType() const;
     QString relType() const;
     QByteArray blob() const;
-    //SerializedRelationships s
+    SerializedRelationships rels() const { return m_srels; }
 
 private:
     PackURI m_partName;

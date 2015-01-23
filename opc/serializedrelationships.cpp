@@ -50,7 +50,7 @@ QString SerializedRelationship::targetPartName() const
     return path;
 }
 
-bool SerializedRelationship::isExternal()
+bool SerializedRelationship::isExternal() const
 {
     return m_targetMode == Constants::EXTERNAL;
 }
@@ -90,9 +90,24 @@ SerializedRelationships *SerializedRelationships::loadFromData(const QString bas
 
 }
 
+void SerializedRelationships::addRelationship(const SerializedRelationship &rel)
+{
+    m_rels.append(rel);
+}
+
+void SerializedRelationships::addRelationships(const QVector<SerializedRelationship> &rels)
+{
+    m_rels += rels;
+}
+
 QVector<SerializedRelationship> SerializedRelationships::rels() const
 {
     return m_rels;
+}
+
+int SerializedRelationships::count() const
+{
+    return m_rels.count();
 }
 
 SerializedRelationships::~SerializedRelationships()

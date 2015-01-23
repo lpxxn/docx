@@ -70,6 +70,21 @@ QList<SerializedPart> PackageReader::loadSerializedParts(PhysPkgReader *physRead
     return sparts;
 }
 
+QMap<QString, QVector<SerializedRelationship> > PackageReader::partRels() const
+{
+    QMap<QString, QVector<SerializedRelationship> > partMaps;
+
+    partMaps[QStringLiteral("/")] = m_srels->rels();
+
+    for (const SerializedPart p : m_sparts) {
+        SerializedRelationships s = p.rels();
+        if (s.count() > 0) {
+            partMaps[p.partName()] = s.rels();
+        }
+    }
+    return partMaps;
+}
+
 PackageReader::~PackageReader()
 {
 

@@ -1,7 +1,7 @@
 #ifndef OPCDOCXPART_H
 #define OPCDOCXPART_H
 
-#include "../parts/imagepart.h"
+#include "packuri.h"
 
 #include <QString>
 #include <QByteArray>
@@ -9,19 +9,29 @@
 namespace Docx {
 
 class Package;
+class ImagePart;
+class OpcPackage;
+class Relationships;
 
 class Part
 {
 public:
-    Part(const QString &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
-    virtual Part *load(const QString &partName, const QString &contentType, const QByteArray &blob, Package *package = nullptr);
+    Part(const PackURI &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
+    static Part *load(const PackURI &partName, const QString &contentType, const QByteArray &blob, Package *package = nullptr);
+    virtual void loadRel(const QString &reltype, Part *target, const QString rId, bool isternal);
+    QString partName() const;
+    QString contentType() const;
+    QByteArray blob() const;
+    virtual void afterUnmarshal();
+
     virtual ~Part();
 
 private:
-    QString m_partName;
+    PackURI m_partName;
     QString m_contentType;
     QByteArray m_blob;
     Package *m_package;
+    Relationships *m_rels;
 
 };
 
@@ -29,7 +39,7 @@ class PartFactory
 {
 public:
     PartFactory();
-    static Part* newPart(const QString partname, const QString contentType, const QString reltype, const QByteArray &blob = QByteArray(), Package *package = nullptr);
+    static Part* newPart(const PackURI &partname, const QString &contentType, const QString &reltype, const QByteArray &blob = QByteArray(), Package *package = nullptr);
 
 private:
 
@@ -42,6 +52,7 @@ public:
     XmlPart(const QString &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
 
     virtual ~XmlPart();
+
 private:
 
 };

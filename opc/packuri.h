@@ -8,6 +8,7 @@ namespace Docx {
 class PackURI : public QString
 {
 public:
+    PackURI();
     PackURI(const QString &str);
     static PackURI fromRelRef(const QString &baseURI, const QString &relative_ref);
     QString baseURI() const;

@@ -32,7 +32,8 @@ SOURCES += \
     opc/physpkgreader.cpp \
     opc/packagereader.cpp \
     opc/contenttypemap.cpp \
-    opc/serializedrelationships.cpp
+    opc/serializedrelationships.cpp \
+    opc/rel.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -62,6 +63,7 @@ HEADERS +=\
     opc/physpkgreader.h \
     opc/packagereader.h \
     opc/contenttypemap.h \
-    opc/serializedrelationships.h
+    opc/serializedrelationships.h \
+    opc/rel.h
 
 

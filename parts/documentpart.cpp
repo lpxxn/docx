@@ -5,14 +5,18 @@
 
 namespace Docx
 {
-DocumentPart::DocumentPart()
-{
-    m_body = new Body();
-}
 
 DocumentPart::~DocumentPart()
 {
 
+}
+
+DocumentPart::DocumentPart(const QString &partName, const QString &contentType, const QByteArray &blob, Package *package)
+    : Part(partName, contentType, blob, package)
+{
+    m_body = new Body(this);
+    m_element = new QDomDocument();
+    m_element->setContent(blob);
 }
 
 Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
@@ -25,10 +29,18 @@ Table *DocumentPart::addTable(int rows, int cols)
 {
     return m_body->addTable(rows, cols);
 }
+void DocumentPart::afterUnmarshal()
+{
+}
+
+QDomDocument *DocumentPart::element() const
+{
+    return m_element;
+}
 
 
 
-Body::Body()
+Body::Body(DocumentPart *docPart)
 {
 
 }
@@ -46,3 +58,5 @@ Table *Body::addTable(int rows, int cols)
     return table;
 }
 }
+
+
