@@ -31,23 +31,24 @@ ZeroOrOne::~ZeroOrOne()
 
 // OxmlElementBase
 
-OxmlElementBase::OxmlElementBase() : QDomElement()
+OxmlElementBase::OxmlElementBase()
 {
 
 }
 
-OxmlElementBase::OxmlElementBase(const QDomDocument &x) : OxmlElementBase()
+OxmlElementBase::OxmlElementBase(QDomElement *x)
+    : m_element(x)
 {
 
 }
 
 void OxmlElementBase::insertElementBefore(QDomElement *elm, const QString &tagname)
 {
-    QDomElement child = this->firstChildElement(tagname);
-    if (child.isElement()) {
-        this->insertBefore(*elm, child);
-    } else
-        this->appendChild(*elm);
+//    QDomElement child = this->firstChildElement(tagname);
+//    if (child.isElement()) {
+//        this->insertBefore(*elm, child);
+//    } else
+//        this->appendChild(*elm);
 
 }
 

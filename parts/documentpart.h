@@ -2,14 +2,14 @@
 #define DOCUMENTPART_H
 
 #include "../docx_global.h"
-#include "../documenttext.h"
 #include "../opc/part.h"
 
 #include <QPair>
 #include <QDomDocument>
+#include <QByteArray>
 
 namespace Docx {
-class Body;
+//class Body;
 class CT_Default;
 class Paragraph;
 class Table;
@@ -22,24 +22,26 @@ public:
     Table * addTable(int rows, int cols);
     void afterUnmarshal();
     QDomDocument * element() const;
+    QByteArray blob() const;
     virtual ~DocumentPart();
 
 private:
-    Body *m_body;
-    QDomDocument *m_element;
+    //Body *m_body;
+    QDomDocument *m_dom;
 
 };
 
 
-class Body
-{
-public:
-    Body(DocumentPart *docPart);
-    Paragraph* addParagraph(const QString &text, const QString &style);
-    Table * addTable(int rows, int cols);
+//class Body
+//{
+//public:
+//    Body(DocumentPart *docPart);
+//    Paragraph* addParagraph(const QString &text, const QString &style);
+//    Table * addTable(int rows, int cols);
 
-private:
-};
+//private:
+//    DocumentPart *m_parent;
+//};
 
 }
 

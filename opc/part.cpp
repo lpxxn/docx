@@ -23,12 +23,12 @@ Part* Part::load(const PackURI &partName, const QString &contentType, const QByt
     return new Part(partName, contentType, blob, package);
 }
 
-void Part::loadRel(const QString &reltype, Part *target, const QString rId, bool isternal)
+void Part::loadRel(const QString &reltype, const QString &targetRef, Part *target, const QString rId, bool isternal)
 {
-    m_rels->addRelationship(reltype, target, rId, isternal);
+    m_rels->addRelationship(reltype, targetRef, target, rId, isternal);
 }
 
-QString Part::partName() const
+PackURI Part::partName() const
 {
     return m_partName;
 }
@@ -43,6 +43,11 @@ QByteArray Part::blob() const
     return m_blob;
 }
 
+Relationships *Part::rels() const
+{
+    return m_rels;
+}
+
 void Part::afterUnmarshal()
 {
 
@@ -50,7 +55,7 @@ void Part::afterUnmarshal()
 
 Part::~Part()
 {
-
+    delete m_rels;
 }
 
 PartFactory::PartFactory()

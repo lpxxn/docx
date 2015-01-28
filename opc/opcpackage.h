@@ -17,7 +17,11 @@ public:
     OpcPackage();
     DocumentPart *mainDocument();
     Part * partByRelated(const QString &reltype);
+    QList<Part *> parts() const;
     virtual ~OpcPackage();
+
+protected:
+    void partsbyRels(const Relationships *rels, QList<Part *> *parts) const;
 
 protected:
     Relationships *m_rels;

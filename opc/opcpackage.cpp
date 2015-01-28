@@ -27,10 +27,30 @@ Part *OpcPackage::partByRelated(const QString &reltype)
     return m_rels->partWithReltype(reltype);
 }
 
+QList<Part *> OpcPackage::parts() const
+{
+    QList<Part *> theParts;
+    partsbyRels(m_rels, &theParts);
+    return theParts;
+}
+
 
 OpcPackage::~OpcPackage()
 {
     delete m_rels;
+}
+
+void OpcPackage::partsbyRels(const Relationships *rels, QList<Part *> *parts) const
+{
+    QList<Relationship *> relsCol = rels->rels().values();
+    for (const Relationship * rel : relsCol) {
+        Part * p = rel->target();
+        parts->append(p);
+        Relationships *pRels = p->rels();
+        if (pRels->count() > 0) {
+            partsbyRels(pRels, parts);
+        }
+    }
 }
 
 Unmarshaller::Unmarshaller()
@@ -84,10 +104,10 @@ void Unmarshaller::unmarshalRelationships(PackageReader *pkgReader, Package *pac
         for (const SerializedRelationship &r : rels) {
             Part * target = parts[r.targetPartName()];
             if (key.isEmpty() || key == QStringLiteral("/")) {
-                package->loadRel(r.relType(), target, r.rId(), r.isExternal());
+                package->loadRel(r.relType(), r.target(), target, r.rId(), r.isExternal());
             } else {
                 Part * part = parts[key];
-                part->loadRel(r.relType(), target, r.rId(), r.isExternal());
+                part->loadRel(r.relType(), r.target(), target, r.rId(), r.isExternal());
             }
         }
     }

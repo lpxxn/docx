@@ -3,7 +3,7 @@
 namespace Docx {
 
 // CT_P
-CT_P::CT_P(const QDomDocument &dom) : OxmlElementBase(dom)
+CT_P::CT_P(QDomElement *element) : OxmlElementBase(element)
 {
 
 }
@@ -15,8 +15,8 @@ CT_P::~CT_P()
 
 // CT_R
 
-CT_R::CT_R(const QDomDocument &dom)
-    : OxmlElementBase(dom)
+CT_R::CT_R(QDomElement *element)
+    : OxmlElementBase(element)
 {
 
 }
@@ -28,8 +28,8 @@ CT_R::~CT_R()
 
 // CT_RPr
 
-CT_RPr::CT_RPr(const QDomDocument &dom)
-    : OxmlElementBase(dom)
+CT_RPr::CT_RPr(QDomElement *element)
+    : OxmlElementBase(element)
 {
 
 }

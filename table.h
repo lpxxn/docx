@@ -4,7 +4,9 @@
 #include "shared.h"
 #include "blkcntnr.h"
 #include "./oxml/oxmltable.h"
+
 #include <QString>
+#include <QDomDocument>
 
 namespace Docx {
 class Paragraph;
@@ -18,6 +20,7 @@ class DOCX_EXPORT Table : public Parented
 {
 public:
     Table();
+    Table(QDomDocument *dom);
     Table(const CT_Tbl &table);
     void setAlignment(const QString &align);
     Cell* cell(int rowIdx, int colIdx);
@@ -33,6 +36,7 @@ private:
 
 private:
     CT_Tbl m_table;
+    QDomDocument *m_dom;
 };
 
 class Cell

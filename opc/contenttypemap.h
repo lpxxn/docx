@@ -5,6 +5,7 @@
 
 #include <QString>
 #include <QMap>
+#include <QByteArray>
 
 namespace Docx {
 
@@ -16,7 +17,9 @@ public:
     static ContentTypeMap* fromXml(const QByteArray &contentTypesXml);
     void addDefault(const QString &extension, const QString &contentType);
     void addOverride(const QString &partName, const QString &contentType);
+    void addContentType(const PackURI &name, const QString &contentType);
     QString contentType(const PackURI &partname) const;
+    QByteArray blob();
     ~ContentTypeMap();
 
 private:

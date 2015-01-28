@@ -1,10 +1,13 @@
 #include "rel.h"
 
+#include <QXmlStreamWriter>
+#include <QBuffer>
+
 namespace Docx {
 
 
-Relationship::Relationship(const QString &rId, const QString &reltype, Part *target, const QString &baseURI, bool external)
-    : m_rId(rId), m_reltype(reltype), m_baseURI(baseURI), m_isexternal(external), m_target(target)
+Relationship::Relationship(const QString &rId, const QString &reltype, const QString &targetRef, Part *target, const QString &baseURI, bool external)
+    : m_rId(rId),m_targetRef(targetRef), m_reltype(reltype), m_baseURI(baseURI), m_isexternal(external), m_target(target)
 {
 
 }
@@ -21,9 +24,9 @@ Relationships::Relationships(const QString &baseURI)
 
 }
 
-Relationship *Relationships::addRelationship(const QString &reltype, Part *target, const QString &rId, bool external)
+Relationship *Relationships::addRelationship(const QString &reltype, const QString &targetRef, Part *target, const QString &rId, bool external)
 {
-    Relationship *rel = new Relationship(rId, reltype, target, m_baseURI, external);
+    Relationship *rel = new Relationship(rId, reltype, targetRef, target, m_baseURI, external);
     m_rels[rId] = rel;
     if (!external)
         m_targetPartsByrId[rId] = target;
@@ -37,6 +40,46 @@ Part *Relationships::partWithReltype(const QString &reltype)
             return s->target();
     }
     return nullptr;
+}
+
+int Relationships::count() const
+{
+    return m_rels.count();
+}
+
+QMap<QString, Relationship *> Relationships::rels() const
+{
+    return m_rels;
+}
+
+QByteArray Relationships::blob() const
+{
+    QByteArray data;
+    QBuffer buffer(&data);
+    buffer.open(QIODevice::WriteOnly);
+    QXmlStreamWriter writer(&buffer);
+
+    writer.writeStartDocument(QStringLiteral("1.0"), true);
+    writer.writeStartElement(QStringLiteral("Relationships"));
+    writer.writeAttribute(QStringLiteral("xmlns"), QStringLiteral("http://schemas.openxmlformats.org/package/2006/relationships"));
+
+    QMapIterator<QString, Relationship *> iter(m_rels);
+    while(iter.hasNext()) {
+        iter.next();
+        Relationship *rel = iter.value();
+        writer.writeStartElement(QStringLiteral("Relationship"));
+        writer.writeAttribute(QStringLiteral("Id"), rel->rId());
+        writer.writeAttribute(QStringLiteral("Type"), rel->relType());
+        PackURI p = rel->target()->partName();
+
+        writer.writeAttribute(QStringLiteral("Target"), rel->targetRef());
+
+        writer.writeEndElement();
+    }
+
+    writer.writeEndElement();
+    writer.writeEndDocument();
+    return data;
 }
 
 Relationships::~Relationships()

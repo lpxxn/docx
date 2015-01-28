@@ -18,10 +18,11 @@ class Part
 public:
     Part(const PackURI &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
     static Part *load(const PackURI &partName, const QString &contentType, const QByteArray &blob, Package *package = nullptr);
-    virtual void loadRel(const QString &reltype, Part *target, const QString rId, bool isternal);
-    QString partName() const;
+    virtual void loadRel(const QString &reltype, const QString &targetRef, Part *target, const QString rId, bool isternal);
+    PackURI partName() const;
     QString contentType() const;
-    QByteArray blob() const;
+    virtual QByteArray blob() const;
+    Relationships *rels() const;
     virtual void afterUnmarshal();
 
     virtual ~Part();

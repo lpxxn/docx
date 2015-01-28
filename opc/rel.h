@@ -6,6 +6,7 @@
 
 #include <QString>
 #include <QMap>
+#include <QByteArray>
 
 
 namespace Docx {
@@ -13,10 +14,11 @@ namespace Docx {
 class Relationship
 {
 public:
-    Relationship(const QString &rId, const QString &reltype, Part *target, const QString &baseURI, bool external = false);
+    Relationship(const QString &rId, const QString &reltypet, const QString &targetRef, Part *target, const QString &baseURI, bool external = false);
     QString rId() const { return m_rId; }
     QString relType() const { return m_reltype; }
     Part * target() const { return m_target; }
+    QString targetRef() const {return m_targetRef;}
     QString baseURI() const { return m_baseURI; }
     bool isExternal() const { return m_isexternal; }
     virtual ~Relationship();
@@ -24,6 +26,7 @@ public:
 private:
     QString m_rId;
     QString m_reltype;
+    QString m_targetRef;
     Part *m_target;
     QString m_baseURI;
     bool m_isexternal;
@@ -34,12 +37,15 @@ class Relationships
 {
 public:
     Relationships(const QString &baseURI);
-    Relationship *addRelationship(const QString &reltype, Part *target, const QString &rId, bool external = false);
+    Relationship *addRelationship(const QString &reltype, const QString &targetRef, Part *target, const QString &rId, bool external = false);
     Part *partWithReltype(const QString &reltype);
+    int count() const;
+    QMap<QString, Relationship *> rels() const;
+    QByteArray blob() const;
     virtual ~Relationships();
 
 private:
-    QString m_baseURI;
+    QString m_baseURI;    
     QMap<QString, Part *> m_targetPartsByrId;
     QMap<QString, Relationship *> m_rels;
 };

@@ -7,7 +7,7 @@ namespace Docx {
 class CT_P : public OxmlElementBase
 {
 public:
-    CT_P(const QDomDocument &dom);
+    CT_P(QDomElement *element);
 
     virtual ~CT_P();
 
@@ -19,7 +19,7 @@ private:
 class CT_R : public OxmlElementBase
 {
 public:
-    CT_R(const QDomDocument &dom);
+    CT_R(QDomElement *element);
 
     virtual ~CT_R();
 
@@ -30,7 +30,7 @@ private:
 class CT_RPr : public OxmlElementBase
 {
 public:
-    CT_RPr(const QDomDocument &dom);
+    CT_RPr(QDomElement *element);
     void setStyle(const QString &style);
     virtual ~CT_RPr();
 

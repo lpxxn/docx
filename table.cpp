@@ -10,6 +10,12 @@ Table::Table()
 
 }
 
+Table::Table(QDomDocument *dom)
+    : m_dom(dom)
+{
+
+}
+
 Table::Table(const CT_Tbl &table)
     : m_table(table)
 {
@@ -111,7 +117,7 @@ Cell::Cell()
 
 Paragraph *Cell::addParagraph(const QString &text, const QString &style)
 {
-    return new Paragraph();
+    return nullptr;
 }
 
 Table *Cell::addTable(int rows, int cols)

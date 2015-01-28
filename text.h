@@ -5,6 +5,10 @@
 #include "shared.h"
 
 #include <QString>
+#include <QDomElement>
+#include <QList>
+
+class QDomDocument;
 
 namespace Docx {
 class Run;
@@ -13,9 +17,10 @@ class Text;
 class DOCX_EXPORT Paragraph : public Parented
 {
 public:
-    Paragraph();
 
-    Run* addRun(const QString &text, const QString &style);
+    Paragraph(QDomDocument *domDocument, QDomElement *element);
+
+    Run* addRun(const QString &text, const QString &style = "");
     void setAlignment(const QString &align);
     Paragraph* insertParagraphBefore(const QString &text, const QString &style);
 
@@ -24,14 +29,22 @@ public:
 private:
 
 
+private:    
+    QDomDocument *m_dom;
+    QDomElement *m_pEle;
+    QList<Run *> m_runs;
+
 };
 
 class DOCX_EXPORT Run : public Parented
 {
-public:
-    Run();
+public:    
+    Run(QDomDocument *domDocument, QDomElement *parent);
+
     void addTab();
-    Text* addText(const QString &text);
+    void addText(const QString &text);
+    QString text() const;
+    void clearText();
 
     virtual ~Run();
 
@@ -53,13 +66,23 @@ private:
     bool m_isItalic;
     bool m_isDoubleStrike;
 
+    QString m_text;
+    QDomDocument *m_dom;
+    QDomElement m_rEle;
+    QDomElement *m_parent;
+
 };
 
 class DOCX_EXPORT Text
 {
 public:
     Text();
+    Text(QDomDocument *domDocument, QDomElement *parent);
     virtual ~Text();
+
+private:
+    QDomDocument *m_dom;
+    QDomElement *m_parent;
 };
 
 

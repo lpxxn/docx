@@ -18,8 +18,7 @@ SOURCES += \
     opc/parts/corepropertiespart.cpp \
     opc/coreproperties.cpp \
     opc/oxml.cpp \
-    opc/constants.cpp \
-    documenttext.cpp \
+    opc/constants.cpp \    
     oxml/parts/oxmldocument.cpp \
     oxml/oxmltext.cpp \
     table.cpp \
@@ -33,7 +32,9 @@ SOURCES += \
     opc/packagereader.cpp \
     opc/contenttypemap.cpp \
     opc/serializedrelationships.cpp \
-    opc/rel.cpp
+    opc/rel.cpp \
+    opc/packagewriter.cpp \
+    opc/physpkgwriter.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -49,8 +50,7 @@ HEADERS +=\
     opc/parts/corepropertiespart.h \
     opc/coreproperties.h \
     opc/oxml.h \
-    opc/constants.h \
-    documenttext.h \
+    opc/constants.h \    
     oxml/parts/oxmldocument.h \
     oxml/oxmltext.h \
     table.h \
@@ -64,6 +64,8 @@ HEADERS +=\
     opc/packagereader.h \
     opc/contenttypemap.h \
     opc/serializedrelationships.h \
-    opc/rel.h
+    opc/rel.h \
+    opc/packagewriter.h \
+    opc/physpkgwriter.h
 
 

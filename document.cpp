@@ -20,8 +20,7 @@ Document::Document(const QString &name)
     //OpcPackage * pack = new OpcPackage();
 
     m_package = Package::open(name);
-    m_docPart = m_package->mainDocument();
-    m_docPart->addParagraph("text");
+    m_docPart = m_package->mainDocument();    
 }
 
 Document::Document(QIODevice *device)
@@ -49,4 +48,5 @@ Document::~Document()
 void Document::save(const QString &path)
 {
     qDebug() << "save docx file: " << path;
+    m_package->save(path);
 }

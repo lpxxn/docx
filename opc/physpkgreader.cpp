@@ -1,5 +1,6 @@
 #include "physpkgreader.h"
 #include "packuri.h"
+#include "constants.h"
 
 #include <private/qzipreader_p.h>
 #include <QByteArray>
@@ -16,7 +17,7 @@ PhysPkgReader::PhysPkgReader(const QString &filePath) :
 // Return the '[Content_Types].xml' blob from the package
 QByteArray PhysPkgReader::contentTypesData()
 {
-    return blobForm(QLatin1String("[Content_Types].xml"));
+    return blobForm(Constants::CONTENT_TYPES_URI);
 }
 
 QByteArray PhysPkgReader::blobForm(const QString &packuri)

@@ -13,7 +13,6 @@ public:
 
     virtual ~BaseChildElement();
 
-
 private:
     QString m_nsptagname;
     QString m_successors;
@@ -33,17 +32,17 @@ private:
  * \brief base class for custom element classes standardized behavior
  */
 
-class OxmlElementBase : public QDomElement
+class OxmlElementBase
 {
 public:
     OxmlElementBase();
-    OxmlElementBase(const QDomDocument &x);
+    OxmlElementBase(QDomElement *x);
     void insertElementBefore(QDomElement *elm, const QString &tagname);
 
     virtual ~OxmlElementBase();
 
 protected:
-    QDomDocument *m_dom;
+    QDomElement *m_element;
 
 };
 

@@ -9,18 +9,30 @@ namespace Docx
 {
 
 DocumentPart::DocumentPart(const QString &partName, const QString &contentType, const QByteArray &blob, Package *package)
-    : Part(partName, contentType, blob, package)
-{
-    m_body = new Body(this);
-    m_element = new QDomDocument();
-    m_element->setContent(blob);
+    : Part(partName, contentType, QByteArray(), package)
+{    
+    m_dom = new QDomDocument();
+    m_dom->setContent(blob);
 }
 
 Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 {
     qDebug() << "Add Paragraph  Text = " + text;
-    Paragraph * p = new Paragraph();
-    return m_body->addParagraph(text, style);
+    QDomNodeList nodes = m_dom->elementsByTagName(QStringLiteral("w:sectPr"));
+
+    QDomNode n = nodes.at(nodes.count() - 1);
+    QDomNode parentNode = n.parentNode();
+
+    QDomElement pEle = m_dom->createElement(QStringLiteral("w:p"));
+
+    Paragraph *p = new Paragraph(m_dom, &pEle);
+
+    //p->addAtLast(text, style);
+    p->addRun(text, style);
+
+    parentNode.appendChild(pEle);
+
+    return p;
 }
 
 DocumentPart *DocumentPart::load(const PackURI &partName, const QString &contentType, const QByteArray &blob, Package *package)
@@ -30,7 +42,8 @@ DocumentPart *DocumentPart::load(const PackURI &partName, const QString &content
 
 Table *DocumentPart::addTable(int rows, int cols)
 {
-    return m_body->addTable(rows, cols);
+    Table *table =  new Table();
+    return table;
 }
 void DocumentPart::afterUnmarshal()
 {
@@ -39,33 +52,39 @@ void DocumentPart::afterUnmarshal()
 
 QDomDocument *DocumentPart::element() const
 {
-    return m_element;
+    return m_dom;
+}
+
+QByteArray DocumentPart::blob() const
+{
+    return m_dom->toByteArray();
 }
 
 DocumentPart::~DocumentPart()
 {
-    delete m_body;
-    delete m_element;
+    //delete m_body;
+    delete m_dom;
 }
 
 
-Body::Body(DocumentPart *docPart)
-{
+//Body::Body(DocumentPart *docPart)
+//    : m_parent(docPart)
+//{
 
-}
+//}
 
-Paragraph *Body::addParagraph(const QString &text, const QString &style)
-{
-    Paragraph *p =new Paragraph();
+//Paragraph *Body::addParagraph(const QString &text, const QString &style)
+//{
+//    Paragraph *p =new Paragraph();
 
-    return p;
-}
+//    return p;
+//}
 
-Table *Body::addTable(int rows, int cols)
-{
-    Table *table =  new Table();
-    return table;
-}
+//Table *Body::addTable(int rows, int cols)
+//{
+//    Table *table =  new Table();
+//    return table;
+//}
 }
 
 
