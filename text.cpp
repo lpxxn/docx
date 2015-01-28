@@ -9,7 +9,7 @@ namespace Docx {
 Paragraph::Paragraph(QDomDocument *domDocument, QDomElement *element)
 {
     m_dom = domDocument;
-    m_pEle = element;
+    m_pEle = new QDomElement(*element);
 }
 
 Run *Paragraph::addRun(const QString &text, const QString &style)    
@@ -30,12 +30,24 @@ void Paragraph::setAlignment(const QString &align)
 
 Paragraph *Paragraph::insertParagraphBefore(const QString &text, const QString &style)
 {
-    return nullptr;
+    QDomElement pEle = m_dom->createElement(QStringLiteral("w:p"));
+    Paragraph *p = new Paragraph(m_dom, &pEle);
+    p->addRun(text, style);
+    QDomNode parent = m_pEle->parentNode();
+
+    parent.insertBefore(pEle, *m_pEle);
+    return p;
+}
+
+QDomElement& Paragraph::element()
+{
+    return *m_pEle;
 }
 
 Paragraph::~Paragraph()
 {
     qDeleteAll(m_runs);
+    delete m_pEle;
 }
 
 // End Paragraph

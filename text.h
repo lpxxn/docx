@@ -23,7 +23,7 @@ public:
     Run* addRun(const QString &text, const QString &style = "");
     void setAlignment(const QString &align);
     Paragraph* insertParagraphBefore(const QString &text, const QString &style);
-
+    QDomElement &element();
     virtual ~Paragraph();
 
 private:
