@@ -25,7 +25,7 @@ Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 
     QDomElement pEle = m_dom->createElement(QStringLiteral("w:p"));
 
-    Paragraph *p = new Paragraph(m_dom, &pEle);
+    Paragraph *p = new Paragraph(m_dom, pEle);
 
     //p->addAtLast(text, style);
     p->addRun(text, style);

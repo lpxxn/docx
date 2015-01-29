@@ -6,10 +6,10 @@
 namespace Docx {
 
 
-Paragraph::Paragraph(QDomDocument *domDocument, QDomElement *element)
+Paragraph::Paragraph(QDomDocument *domDocument, const QDomElement &element)
 {
     m_dom = domDocument;
-    m_pEle = new QDomElement(*element);
+    m_pEle = new QDomElement(element);
 }
 
 Run *Paragraph::addRun(const QString &text, const QString &style)    
@@ -31,7 +31,7 @@ void Paragraph::setAlignment(const QString &align)
 Paragraph *Paragraph::insertParagraphBefore(const QString &text, const QString &style)
 {
     QDomElement pEle = m_dom->createElement(QStringLiteral("w:p"));
-    Paragraph *p = new Paragraph(m_dom, &pEle);
+    Paragraph *p = new Paragraph(m_dom, pEle);
     p->addRun(text, style);
     QDomNode parent = m_pEle->parentNode();
 

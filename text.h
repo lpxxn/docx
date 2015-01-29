@@ -18,7 +18,7 @@ class DOCX_EXPORT Paragraph : public Parented
 {
 public:
 
-    Paragraph(QDomDocument *domDocument, QDomElement *element);
+    Paragraph(QDomDocument *domDocument, const QDomElement &element);
 
     Run* addRun(const QString &text, const QString &style = "");
     void setAlignment(const QString &align);
