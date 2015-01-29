@@ -4,6 +4,9 @@
 #include "xmlchemy.h"
 
 namespace Docx {
+class Run;
+class Paragraph;
+
 class CT_P : public OxmlElementBase
 {
 public:
@@ -16,26 +19,41 @@ private:
 };
 
 
-class CT_R : public OxmlElementBase
+/*!
+ * \brief 段落的属性
+ */
+class CT_PPr
 {
 public:
-    CT_R(QDomElement *element);
+    CT_PPr(Paragraph *paragraph);
+    void setStyle(const QString &style = QString());
+    void addOrAssignStyle();
+    virtual ~CT_PPr();
 
-    virtual ~CT_R();
 
 private:
+    QDomElement m_style;
+    QDomElement m_pStyle;
+    Paragraph *m_paragraph;
+
 };
 
 
-class CT_RPr : public OxmlElementBase
+class CT_RPr
 {
 public:
-    CT_RPr(QDomElement *element);
-    void setStyle(const QString &style);
-    virtual ~CT_RPr();
+    CT_RPr(Run *run);
+    void setStyle(const QString &style = QString());
+    void setBold(bool bold);
+    virtual ~CT_RPr();    
 
 private:
+    void addOrAssignStyle();
 
+private:
+    Run *m_run;
+    QDomElement m_style;
+    QDomElement m_rStyle;
 };
 
 }

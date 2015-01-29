@@ -9,7 +9,7 @@ namespace Docx {
 class BaseChildElement
 {
 public:
-    BaseChildElement(const QString &nsptagname, const QString &successors = "");
+    BaseChildElement(const QString &nsptagname, const QString &successors = QString());
 
     virtual ~BaseChildElement();
 
@@ -21,7 +21,7 @@ private:
 class ZeroOrOne : public BaseChildElement
 {
 public:
-    ZeroOrOne(const QString &nsptagname, const QString &successors = "");
+    ZeroOrOne(const QString &nsptagname, const QString &successors = QString());
 
     virtual ~ZeroOrOne();
 

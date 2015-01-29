@@ -1,6 +1,6 @@
 #include "shared.h"
 
-using namespace Docx;
+namespace Docx{
 
 Shared::Shared()
 {
@@ -27,4 +27,24 @@ Parented *Parented::part()
 Parented::~Parented()
 {
     //delete m_parent;
+}
+
+
+QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QString eleName, bool addToFirst)
+{
+    QDomNodeList elements = parent->elementsByTagName(eleName);
+
+    if (elements.count() == 0) {
+        QDomElement ele = dom->createElement(eleName);
+        if (addToFirst) {
+            QDomNode firstnode = parent->firstChild();
+            parent->insertBefore(ele, firstnode);
+        } else
+            parent->appendChild(ele);
+
+        return ele;
+    } else
+        return elements.at(0).toElement();
+
+}
 }

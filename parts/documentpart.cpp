@@ -27,10 +27,10 @@ Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 
     Paragraph *p = new Paragraph(m_dom, pEle);
 
-    //p->addAtLast(text, style);
-    p->addRun(text, style);
+    if (!text.isEmpty())
+        p->addRun(text, style);
 
-    parentNode.appendChild(pEle);
+    parentNode.insertBefore(pEle, n);
 
     return p;
 }

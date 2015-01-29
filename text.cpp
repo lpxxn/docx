@@ -1,4 +1,5 @@
 #include "text.h"
+#include "./oxml/oxmltext.h"
 
 #include <QDomDocument>
 #include <QDebug>
@@ -10,17 +11,23 @@ Paragraph::Paragraph(QDomDocument *domDocument, const QDomElement &element)
 {
     m_dom = domDocument;
     m_pEle = new QDomElement(element);
+    m_style = new CT_PPr(this);
 }
 
 Run *Paragraph::addRun(const QString &text, const QString &style)    
 {
     Run *run = new Run(m_dom, m_pEle);
     run->addText(text);
-    if (!style.isEmpty()) {
+    if (!style.isEmpty())
+        setStyle(style);
 
-    }
     m_runs.append(run);
     return run;
+}
+
+void Paragraph::setStyle(const QString &style)
+{
+    m_style->setStyle(style);
 }
 
 void Paragraph::setAlignment(const QString &align)
@@ -58,6 +65,7 @@ Run::Run(QDomDocument *domDocument, QDomElement *parent)
 {
     m_rEle = m_dom->createElement(QStringLiteral("w:r"));
     m_parent->appendChild(m_rEle);
+    m_style = new CT_RPr(this);
 }
 
 void Run::addTab()
@@ -78,48 +86,32 @@ QString Run::text() const
     return m_text;
 }
 
-void Run::clearText()
+void Run::setStyle(const QString &style)
 {
-    m_text.clear();
+    m_style->setStyle(style);
 }
 
 Run::~Run()
 {
-
-}
-bool Run::isallcaps() const
-{
-    return m_isCaps;
+    delete m_style;
 }
 
-void Run::setIsallcaps(bool isallcaps)
+void Run::setAllcaps(bool isallcaps)
 {
     m_isCaps = isallcaps;
 }
-bool Run::isbold() const
+
+void Run::setBold(bool isbold)
 {
-    return m_isBold;
+    m_style->setBold(isbold);
 }
 
-void Run::setIsbold(bool isbold)
-{
-    m_isBold = isbold;
-}
-bool Run::isItalic() const
-{
-    return m_isItalic;
-}
-
-void Run::setIsItalic(bool isItalic)
+void Run::setItalic(bool isItalic)
 {
     m_isItalic = isItalic;
 }
-bool Run::isDoubleStrike() const
-{
-    return m_isDoubleStrike;
-}
 
-void Run::setIsDoubleStrike(bool isDoubleStrike)
+void Run::setDoubleStrike(bool isDoubleStrike)
 {
     m_isDoubleStrike = isDoubleStrike;
 }

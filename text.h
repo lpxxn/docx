@@ -13,6 +13,8 @@ class QDomDocument;
 namespace Docx {
 class Run;
 class Text;
+class CT_RPr;
+class CT_PPr;
 
 class DOCX_EXPORT Paragraph : public Parented
 {
@@ -20,7 +22,8 @@ public:
 
     Paragraph(QDomDocument *domDocument, const QDomElement &element);
 
-    Run* addRun(const QString &text, const QString &style = "");
+    Run* addRun(const QString &text, const QString &style = QString());
+    void setStyle(const QString &style);
     void setAlignment(const QString &align);
     Paragraph* insertParagraphBefore(const QString &text, const QString &style);
     QDomElement &element();
@@ -33,6 +36,8 @@ private:
     QDomDocument *m_dom;
     QDomElement *m_pEle;
     QList<Run *> m_runs;
+    CT_PPr *m_style;
+    friend class CT_PPr;
 
 };
 
@@ -44,21 +49,17 @@ public:
     void addTab();
     void addText(const QString &text);
     QString text() const;
-    void clearText();
+    void setStyle(const QString &style);
 
     virtual ~Run();
 
-    bool isallcaps() const;
-    void setIsallcaps(bool isallcaps);
+    void setAllcaps(bool isallcaps);
 
-    bool isbold() const;
-    void setIsbold(bool isbold);
+    void setBold(bool isbold);
 
-    bool isItalic() const;
-    void setIsItalic(bool isItalic);
+    void setItalic(bool isItalic);
 
-    bool isDoubleStrike() const;
-    void setIsDoubleStrike(bool isDoubleStrike);
+    void setDoubleStrike(bool isDoubleStrike);
 
 private:
     bool m_isCaps;
@@ -70,6 +71,8 @@ private:
     QDomDocument *m_dom;
     QDomElement m_rEle;
     QDomElement *m_parent;
+    CT_RPr *m_style = nullptr;
+    friend class CT_RPr;
 
 };
 
