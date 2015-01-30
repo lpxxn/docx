@@ -2,6 +2,7 @@
 #define OXMLDOCXTEXT_H
 
 #include "xmlchemy.h"
+#include "../enums/enumtext.h"
 
 namespace Docx {
 class Run;
@@ -48,6 +49,7 @@ public:
     void setAllcaps(bool isallcaps);
     void setItalic(bool italic);
     void setDoubleStrike(bool isDoubleStrike);
+    void setUnderLine(const WD_UNDERLINE &underline);
     virtual ~CT_RPr();    
 
 private:

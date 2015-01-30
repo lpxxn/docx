@@ -39,9 +39,9 @@ QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QSt
         if (addToFirst) {
             QDomNode firstnode = parent->firstChild();
             parent->insertBefore(ele, firstnode);
-        } else
+        } else {
             parent->appendChild(ele);
-
+        }
         return ele;
     } else
         return elements.at(0).toElement();

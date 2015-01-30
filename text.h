@@ -3,6 +3,7 @@
 
 #include "docx_global.h"
 #include "shared.h"
+#include "./enums/enumtext.h"
 
 #include <QString>
 #include <QDomElement>
@@ -22,7 +23,7 @@ public:
 
     Paragraph(QDomDocument *domDocument, const QDomElement &element);
 
-    Run* addRun(const QString &text, const QString &style = QString());
+    Run* addRun(const QString &text = QString(), const QString &style = QString());
     void setStyle(const QString &style);
     void setAlignment(const QString &align);
     Paragraph* insertParagraphBefore(const QString &text, const QString &style);
@@ -53,25 +54,32 @@ public:
 
     virtual ~Run();
 
-    void setAllcaps(bool isallcaps);
+    /*!
+     * \brief 全部大写
+     * \param isallcaps
+     */
+    void setAllcaps(bool isallcaps = true);
+
 
     /*!
      * \brief 加粗
      * \param isbold
      */
-    void setBold(bool isbold);
+    void setBold(bool isbold = true);
 
     /*!
      * \brief 倾斜
      * \param isItalic
      */
-    void setItalic(bool isItalic);
+    void setItalic(bool isItalic = true);
 
     /*!
      * \brief 又划线
      * \param isDoubleStrike
      */
-    void setDoubleStrike(bool isDoubleStrike);
+    void setDoubleStrike(bool isDoubleStrike = true);
+
+    void setUnderLine(const WD_UNDERLINE &underline);
 
 private:
     bool m_isCaps;

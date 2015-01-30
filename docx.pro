@@ -34,7 +34,8 @@ SOURCES += \
     opc/serializedrelationships.cpp \
     opc/rel.cpp \
     opc/packagewriter.cpp \
-    opc/physpkgwriter.cpp
+    opc/physpkgwriter.cpp \
+    enums/enumtext.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -66,6 +67,7 @@ HEADERS +=\
     opc/serializedrelationships.h \
     opc/rel.h \
     opc/packagewriter.h \
-    opc/physpkgwriter.h
+    opc/physpkgwriter.h \
+    enums/enumtext.h
 
 

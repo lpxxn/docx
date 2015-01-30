@@ -17,7 +17,8 @@ Paragraph::Paragraph(QDomDocument *domDocument, const QDomElement &element)
 Run *Paragraph::addRun(const QString &text, const QString &style)    
 {
     Run *run = new Run(m_dom, m_pEle);
-    run->addText(text);
+    if (!text.isEmpty())
+        run->addText(text);
     if (!style.isEmpty())
         setStyle(style);
 
@@ -70,7 +71,8 @@ Run::Run(QDomDocument *domDocument, QDomElement *parent)
 
 void Run::addTab()
 {
-
+    QDomElement tabEle = m_dom->createElement(QStringLiteral("w:tab"));
+    m_rEle.appendChild(tabEle);
 }
 
 void Run::addText(const QString &text)
@@ -114,6 +116,11 @@ void Run::setItalic(bool isItalic)
 void Run::setDoubleStrike(bool isDoubleStrike)
 {
     m_style->setDoubleStrike(isDoubleStrike);
+}
+
+void Run::setUnderLine(const WD_UNDERLINE &underline)
+{
+    m_style->setUnderLine(underline);
 }
 
 
