@@ -55,10 +55,22 @@ public:
 
     void setAllcaps(bool isallcaps);
 
+    /*!
+     * \brief 加粗
+     * \param isbold
+     */
     void setBold(bool isbold);
 
+    /*!
+     * \brief 倾斜
+     * \param isItalic
+     */
     void setItalic(bool isItalic);
 
+    /*!
+     * \brief 又划线
+     * \param isDoubleStrike
+     */
     void setDoubleStrike(bool isDoubleStrike);
 
 private:

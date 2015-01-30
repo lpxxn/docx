@@ -45,10 +45,20 @@ public:
     CT_RPr(Run *run);
     void setStyle(const QString &style = QString());
     void setBold(bool bold);
+    void setAllcaps(bool isallcaps);
+    void setItalic(bool italic);
+    void setDoubleStrike(bool isDoubleStrike);
     virtual ~CT_RPr();    
 
 private:
     void addOrAssignStyle();
+
+    /*!
+     * \brief 设置样式子节点属性
+     * \param eleName
+     * \param enable
+     */
+    void addOrAssignStyleChildElement(const QString &eleName, bool enable);
 
 private:
     Run *m_run;

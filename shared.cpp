@@ -30,11 +30,11 @@ Parented::~Parented()
 }
 
 
-QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QString eleName, bool addToFirst)
+QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QString &eleName, bool addToFirst)
 {
     QDomNodeList elements = parent->elementsByTagName(eleName);
 
-    if (elements.count() == 0) {
+    if (elements.isEmpty()) {
         QDomElement ele = dom->createElement(eleName);
         if (addToFirst) {
             QDomNode firstnode = parent->firstChild();

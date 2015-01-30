@@ -98,7 +98,7 @@ Run::~Run()
 
 void Run::setAllcaps(bool isallcaps)
 {
-    m_isCaps = isallcaps;
+    m_style->setAllcaps(isallcaps);
 }
 
 void Run::setBold(bool isbold)
@@ -108,12 +108,12 @@ void Run::setBold(bool isbold)
 
 void Run::setItalic(bool isItalic)
 {
-    m_isItalic = isItalic;
+    m_style->setItalic(isItalic);
 }
 
 void Run::setDoubleStrike(bool isDoubleStrike)
 {
-    m_isDoubleStrike = isDoubleStrike;
+    m_style->setDoubleStrike(isDoubleStrike);
 }
 
 

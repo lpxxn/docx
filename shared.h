@@ -4,7 +4,15 @@
 
 namespace Docx
 {
-QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QString eleName, bool addToFirst = false);
+/*!
+ * \brief 查找是否有eleName节点，如果没有则创建
+ * \param dom
+ * \param parent
+ * \param eleName
+ * \param addToFirst
+ * \return
+ */
+QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QString &eleName, bool addToFirst = false);
 
 class Shared
 {

@@ -33,6 +33,16 @@ Paragraph *Document::addParagraph(const QString &text, const QString &style)
     return m_docPart->addParagraph(text, style);
 }
 
+Paragraph *Document::addHeading(const QString &text, int level)
+{
+    QString style;
+    if (level == 0)
+        style = "Title";
+    else
+        style = QString("Heading%1").arg(level);
+    return addParagraph(text, style);
+}
+
 Table *Document::addTable(int rows, int cols)
 {
     return m_docPart->addTable(rows, cols);

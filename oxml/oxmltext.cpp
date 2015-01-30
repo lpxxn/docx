@@ -66,12 +66,28 @@ void CT_RPr::setStyle(const QString &style)
 
 void CT_RPr::setBold(bool bold)
 {
-    addOrAssignStyle();
-    QDomElement m_bold = addOrAssignElement(m_run->m_dom, &m_style, QStringLiteral("w:b"));
-    if (!bold)
-        m_bold.setAttribute("w:val", 0);
-    else
-        m_bold.removeAttribute("w:val");
+    addOrAssignStyleChildElement(QStringLiteral("w:b"), bold);
+//    addOrAssignStyle();
+//    QDomElement m_bold = addOrAssignElement(m_run->m_dom, &m_style, QStringLiteral("w:b"));
+//    if (!bold)
+//        m_bold.setAttribute("w:val", 0);
+//    else
+    //        m_bold.removeAttribute("w:val");
+}
+
+void CT_RPr::setAllcaps(bool isallcaps)
+{
+    addOrAssignStyleChildElement(QStringLiteral("w:caps"), isallcaps);
+}
+
+void CT_RPr::setItalic(bool italic)
+{
+    addOrAssignStyleChildElement(QStringLiteral("w:i"), italic);
+}
+
+void CT_RPr::setDoubleStrike(bool isDoubleStrike)
+{
+    addOrAssignStyleChildElement(QStringLiteral("w:dstrike"), isDoubleStrike);
 }
 
 
@@ -79,6 +95,16 @@ void CT_RPr::addOrAssignStyle()
 {
     if (m_style.isNull())
         m_style = addOrAssignElement(m_run->m_dom, &m_run->m_rEle, QStringLiteral("w:rPr"), true);
+}
+
+void CT_RPr::addOrAssignStyleChildElement(const QString &eleName, bool enable)
+{
+    addOrAssignStyle();
+    QDomElement m_bold = addOrAssignElement(m_run->m_dom, &m_style, eleName);
+    if (!enable)
+        m_bold.setAttribute("w:val", 0);
+    else
+        m_bold.removeAttribute("w:val");
 }
 
 CT_RPr::~CT_RPr()
