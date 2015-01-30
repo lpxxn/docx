@@ -31,9 +31,9 @@ void Paragraph::setStyle(const QString &style)
     m_style->setStyle(style);
 }
 
-void Paragraph::setAlignment(const QString &align)
+void Paragraph::setAlignment(const WD_PARAGRAPH_ALIGNMENT &align)
 {
-
+    m_style->setAlignment(align);
 }
 
 Paragraph *Paragraph::insertParagraphBefore(const QString &text, const QString &style)
@@ -45,11 +45,6 @@ Paragraph *Paragraph::insertParagraphBefore(const QString &text, const QString &
 
     parent.insertBefore(pEle, *m_pEle);
     return p;
-}
-
-QDomElement& Paragraph::element()
-{
-    return *m_pEle;
 }
 
 Paragraph::~Paragraph()
@@ -81,11 +76,6 @@ void Run::addText(const QString &text)
     tEle.appendChild(m_dom->createTextNode(text));
     m_rEle.appendChild(tEle);
     //m_rEle
-}
-
-QString Run::text() const
-{
-    return m_text;
 }
 
 void Run::setStyle(const QString &style)

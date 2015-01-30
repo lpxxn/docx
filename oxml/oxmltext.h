@@ -28,6 +28,7 @@ class CT_PPr
 public:
     CT_PPr(Paragraph *paragraph);
     void setStyle(const QString &style = QString());
+    void setAlignment(const WD_PARAGRAPH_ALIGNMENT &align);
     void addOrAssignStyle();
     virtual ~CT_PPr();
 

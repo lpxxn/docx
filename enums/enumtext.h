@@ -4,6 +4,20 @@
 #include <QString>
 
 namespace Docx {
+
+enum class WD_PARAGRAPH_ALIGNMENT
+{
+    LEFT = 0,
+    CENTER,
+    RIGHT,
+    JUSTIFY,
+    DISTRIBUTE,
+    JUSTIFY_MED,
+    JUSTIFY_HI,
+    JUSTIFY_LOW,
+    THAI_JUSTIFY
+};
+
 enum class WD_UNDERLINE
 {
     None = -1,
@@ -28,6 +42,8 @@ enum class WD_UNDERLINE
 };
 
 QString underLineToString(const WD_UNDERLINE &underline);
+
+QString paragraphAlignToString(const WD_PARAGRAPH_ALIGNMENT &align);
 
 }
 

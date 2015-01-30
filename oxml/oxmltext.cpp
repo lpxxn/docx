@@ -32,6 +32,15 @@ void CT_PPr::setStyle(const QString &style)
         m_pStyle.setAttribute(QStringLiteral("w:val"), style);
 }
 
+void CT_PPr::setAlignment(const WD_PARAGRAPH_ALIGNMENT &align)
+{
+    addOrAssignStyle();
+    QDomElement alignStyle = addOrAssignElement(m_paragraph->m_dom, &m_style, QStringLiteral("w:jc"));
+    QString str = paragraphAlignToString(align);
+    alignStyle.setAttribute(QStringLiteral("w:val"), str);
+
+}
+
 void CT_PPr::addOrAssignStyle()
 {
     if (m_style.isNull())

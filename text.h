@@ -23,15 +23,31 @@ public:
 
     Paragraph(QDomDocument *domDocument, const QDomElement &element);
 
+    /*!
+     * \brief 添加文本块
+     * \param text
+     * \param style
+     * \return
+     */
     Run* addRun(const QString &text = QString(), const QString &style = QString());
+
     void setStyle(const QString &style);
-    void setAlignment(const QString &align);
+
+    /*!
+     * \brief 对齐方式
+     * \param align
+     */
+    void setAlignment(const WD_PARAGRAPH_ALIGNMENT &align);
+
+    /*!
+     * \brief 在本段落前添加段落
+     * \param text
+     * \param style
+     * \return
+     */
     Paragraph* insertParagraphBefore(const QString &text, const QString &style);
-    QDomElement &element();
+
     virtual ~Paragraph();
-
-private:
-
 
 private:    
     QDomDocument *m_dom;
@@ -49,7 +65,11 @@ public:
 
     void addTab();
     void addText(const QString &text);
-    QString text() const;
+
+    /*!
+     * \brief 设置样式
+     * \param style
+     */
     void setStyle(const QString &style);
 
     virtual ~Run();
@@ -79,13 +99,13 @@ public:
      */
     void setDoubleStrike(bool isDoubleStrike = true);
 
+    /*!
+     * \brief 下划线
+     * \param underline
+     */
     void setUnderLine(const WD_UNDERLINE &underline);
 
 private:
-    bool m_isCaps;
-    bool m_isBold;
-    bool m_isItalic;
-    bool m_isDoubleStrike;
 
     QString m_text;
     QDomDocument *m_dom;
