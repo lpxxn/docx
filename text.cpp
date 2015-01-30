@@ -26,6 +26,20 @@ Run *Paragraph::addRun(const QString &text, const QString &style)
     return run;
 }
 
+void Paragraph::addText(const QString &text)
+{
+    addRun(text);
+}
+
+QString Paragraph::text() const
+{
+    QString str;
+    for (const Run *r : m_runs) {
+        str += r->text();
+    }
+    return str;
+}
+
 void Paragraph::setStyle(const QString &style)
 {
     m_style->setStyle(style);
@@ -78,6 +92,11 @@ void Run::addText(const QString &text)
     //m_rEle
 }
 
+QString Run::text() const
+{
+    return m_rEle.text();
+}
+
 void Run::setStyle(const QString &style)
 {
     m_style->setStyle(style);
@@ -112,26 +131,6 @@ void Run::setUnderLine(const WD_UNDERLINE &underline)
 {
     m_style->setUnderLine(underline);
 }
-
-
-
-Text::Text()
-{
-
-}
-
-Text::Text(QDomDocument *domDocument, QDomElement *parent)
-    : m_dom(domDocument), m_parent(parent)
-{
-
-}
-
-Text::~Text()
-{
-
-}
-
-
 
 }
 

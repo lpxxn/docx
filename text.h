@@ -31,6 +31,18 @@ public:
      */
     Run* addRun(const QString &text = QString(), const QString &style = QString());
 
+    void addText(const QString &text);
+
+    /*!
+     * \brief 所有字体
+     * \return
+     */
+    QString text() const;
+
+    /*!
+     * \brief 设置样式
+     * \param style
+     */
     void setStyle(const QString &style);
 
     /*!
@@ -63,8 +75,13 @@ class DOCX_EXPORT Run : public Parented
 public:    
     Run(QDomDocument *domDocument, QDomElement *parent);
 
+    /*!
+     * \brief 添加 Tab
+     */
     void addTab();
+
     void addText(const QString &text);
+    QString text() const;
 
     /*!
      * \brief 设置样式
@@ -114,18 +131,6 @@ private:
     CT_RPr *m_style = nullptr;
     friend class CT_RPr;
 
-};
-
-class DOCX_EXPORT Text
-{
-public:
-    Text();
-    Text(QDomDocument *domDocument, QDomElement *parent);
-    virtual ~Text();
-
-private:
-    QDomDocument *m_dom;
-    QDomElement *m_parent;
 };
 
 
