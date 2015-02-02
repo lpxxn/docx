@@ -12,7 +12,11 @@ namespace Docx {
 //class Body;
 class CT_Default;
 class Paragraph;
+class Run;
 class Table;
+class InlineShapes;
+class ImagePart;
+
 class DocumentPart : public Part
 {
 public:
@@ -23,25 +27,27 @@ public:
     void afterUnmarshal();
     QDomDocument * element() const;
     QByteArray blob() const;
+    ImagePart *getOrAddImagePart(const QString &imageDescriptor);
     virtual ~DocumentPart();
 
 private:
     //Body *m_body;
     QDomDocument *m_dom;
+    InlineShapes *m_inlineshapes;
+    friend class Paragraph;
+    friend class Run;
 
 };
 
+class InlineShapes
+{
+public:
+    InlineShapes(DocumentPart *part);
+    ~InlineShapes();
 
-//class Body
-//{
-//public:
-//    Body(DocumentPart *docPart);
-//    Paragraph* addParagraph(const QString &text, const QString &style);
-//    Table * addTable(int rows, int cols);
-
-//private:
-//    DocumentPart *m_parent;
-//};
+private:
+    DocumentPart *m_part;
+};
 
 }
 

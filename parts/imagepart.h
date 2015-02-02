@@ -12,12 +12,13 @@ public:
     static ImagePart *load(const PackURI &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Image *image = nullptr);
     void afterUnmarshal();
     Image * image() const;
-
+    QByteArray Hash() const;
 
     ~ImagePart();   
 
 private:
-    Image *m_image;
+    Image *m_image;    
+    QByteArray m_hash;
 };
 }
 

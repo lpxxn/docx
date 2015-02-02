@@ -36,6 +36,27 @@ QString PackURI::fileName() const
     return strs.at(1);
 }
 
+/*!
+ * \brief PackURI::idx
+ * \return
+ */
+int PackURI::idx() const
+{
+    QString filename = fileName();
+    QString namePart = filename.split('.').first();
+    QStringList sl;
+
+    for (int i = namePart.length() - 1; i > 0; i--) {
+        if (namePart.at(i).isNumber())
+            sl.join(namePart.at(i));
+        else
+            break;
+    }
+    if (sl.isEmpty())
+        return 0;
+    return sl.join("").toInt();
+}
+
 PackURI PackURI::relsUri() const
 {
     QString rels_uri_str = relsUriStr();

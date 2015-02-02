@@ -32,7 +32,7 @@ void CT_PPr::setStyle(const QString &style)
         m_pStyle.setAttribute(QStringLiteral("w:val"), style);
 }
 
-void CT_PPr::setAlignment(const WD_PARAGRAPH_ALIGNMENT &align)
+void CT_PPr::setAlignment(WD_PARAGRAPH_ALIGNMENT align)
 {
     addOrAssignStyle();
     QDomElement alignStyle = addOrAssignElement(m_paragraph->m_dom, &m_style, QStringLiteral("w:jc"));
@@ -89,6 +89,11 @@ void CT_RPr::setAllcaps(bool isallcaps)
     addOrAssignStyleChildElement(QStringLiteral("w:caps"), isallcaps);
 }
 
+void CT_RPr::setSmallcaps(bool issmallcpas)
+{
+    addOrAssignStyleChildElement(QStringLiteral("w:smallCaps"), issmallcpas);
+}
+
 void CT_RPr::setItalic(bool italic)
 {
     addOrAssignStyleChildElement(QStringLiteral("w:i"), italic);
@@ -99,7 +104,12 @@ void CT_RPr::setDoubleStrike(bool isDoubleStrike)
     addOrAssignStyleChildElement(QStringLiteral("w:dstrike"), isDoubleStrike);
 }
 
-void CT_RPr::setUnderLine(const WD_UNDERLINE &underline)
+void CT_RPr::setShadow(bool shadow)
+{
+    addOrAssignStyleChildElement(QStringLiteral("w:shadow"), shadow);
+}
+
+void CT_RPr::setUnderLine(WD_UNDERLINE underline)
 {
     addOrAssignStyle();
     QDomElement line = addOrAssignElement(m_run->m_dom, &m_style, QStringLiteral("w:u"));

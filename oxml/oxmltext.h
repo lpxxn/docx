@@ -28,7 +28,7 @@ class CT_PPr
 public:
     CT_PPr(Paragraph *paragraph);
     void setStyle(const QString &style = QString());
-    void setAlignment(const WD_PARAGRAPH_ALIGNMENT &align);
+    void setAlignment(WD_PARAGRAPH_ALIGNMENT align);
     void addOrAssignStyle();
     virtual ~CT_PPr();
 
@@ -48,9 +48,11 @@ public:
     void setStyle(const QString &style = QString());
     void setBold(bool bold);
     void setAllcaps(bool isallcaps);
+    void setSmallcaps(bool issmallcpas);
     void setItalic(bool italic);
     void setDoubleStrike(bool isDoubleStrike);
-    void setUnderLine(const WD_UNDERLINE &underline);
+    void setShadow(bool shadow = true);
+    void setUnderLine(WD_UNDERLINE underline);
     virtual ~CT_RPr();    
 
 private:

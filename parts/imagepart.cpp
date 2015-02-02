@@ -1,4 +1,6 @@
 #include "imagepart.h"
+#include "../shared.h"
+
 
 namespace Docx {
 
@@ -6,6 +8,11 @@ namespace Docx {
 ImagePart::ImagePart(const PackURI &partName, const QString &contentType, const QByteArray &blob, Docx::Image *image)
     : Part(partName, contentType, blob)
 {
+    if (blob.isEmpty()) {
+        m_hash = imageHash(image->img());
+    } else {
+        m_hash = byteHash(blob);
+    }
     m_image = image;
 }
 
@@ -24,6 +31,11 @@ Image *ImagePart::image() const
         return nullptr;
     }
     return m_image;
+}
+
+QByteArray ImagePart::Hash() const
+{
+    return m_hash;
 }
 
 ImagePart::~ImagePart()

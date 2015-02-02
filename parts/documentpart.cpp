@@ -10,9 +10,10 @@ namespace Docx
 
 DocumentPart::DocumentPart(const QString &partName, const QString &contentType, const QByteArray &blob, Package *package)
     : Part(partName, contentType, QByteArray(), package)
-{    
+{        
     m_dom = new QDomDocument();
     m_dom->setContent(blob);
+    m_inlineshapes = new InlineShapes(this);
 }
 
 Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
@@ -25,7 +26,7 @@ Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 
     QDomElement pEle = m_dom->createElement(QStringLiteral("w:p"));
 
-    Paragraph *p = new Paragraph(m_dom, pEle);
+    Paragraph *p = new Paragraph(this, pEle);
 
     if (!text.isEmpty())
         p->addRun(text, style);
@@ -60,31 +61,28 @@ QByteArray DocumentPart::blob() const
     return m_dom->toByteArray();
 }
 
+ImagePart *DocumentPart::getOrAddImagePart(const QString &imageDescriptor)
+{
+    return nullptr;
+}
+
 DocumentPart::~DocumentPart()
 {
-    //delete m_body;
+    delete m_inlineshapes;
     delete m_dom;
 }
 
+InlineShapes::InlineShapes(DocumentPart *part)
+    : m_part(part)
+{
 
-//Body::Body(DocumentPart *docPart)
-//    : m_parent(docPart)
-//{
+}
 
-//}
+InlineShapes::~InlineShapes()
+{
 
-//Paragraph *Body::addParagraph(const QString &text, const QString &style)
-//{
-//    Paragraph *p =new Paragraph();
+}
 
-//    return p;
-//}
-
-//Table *Body::addTable(int rows, int cols)
-//{
-//    Table *table =  new Table();
-//    return table;
-//}
 }
 
 

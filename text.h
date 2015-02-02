@@ -16,12 +16,13 @@ class Run;
 class Text;
 class CT_RPr;
 class CT_PPr;
+class DocumentPart;
 
 class DOCX_EXPORT Paragraph : public Parented
 {
 public:
 
-    Paragraph(QDomDocument *domDocument, const QDomElement &element);
+    Paragraph(DocumentPart *part, const QDomElement &element);
 
     /*!
      * \brief 添加文本块
@@ -49,7 +50,7 @@ public:
      * \brief 对齐方式
      * \param align
      */
-    void setAlignment(const WD_PARAGRAPH_ALIGNMENT &align);
+    void setAlignment(WD_PARAGRAPH_ALIGNMENT align);
 
     /*!
      * \brief 在本段落前添加段落
@@ -61,7 +62,8 @@ public:
 
     virtual ~Paragraph();
 
-private:    
+private:
+    DocumentPart *m_part;
     QDomDocument *m_dom;
     QDomElement *m_pEle;
     QList<Run *> m_runs;
@@ -73,58 +75,35 @@ private:
 class DOCX_EXPORT Run : public Parented
 {
 public:    
-    Run(QDomDocument *domDocument, QDomElement *parent);
+    Run(DocumentPart *part, QDomElement *parent);
 
-    /*!
-     * \brief 添加 Tab
-     */
     void addTab();
 
     void addText(const QString &text);
     QString text() const;
 
-    /*!
-     * \brief 设置样式
-     * \param style
-     */
     void setStyle(const QString &style);
 
     virtual ~Run();
 
-    /*!
-     * \brief 全部大写
-     * \param isallcaps
-     */
     void setAllcaps(bool isallcaps = true);
 
+    void setSmallcaps(bool smallcpas = true);
 
-    /*!
-     * \brief 加粗
-     * \param isbold
-     */
     void setBold(bool isbold = true);
 
-    /*!
-     * \brief 倾斜
-     * \param isItalic
-     */
     void setItalic(bool isItalic = true);
 
-    /*!
-     * \brief 又划线
-     * \param isDoubleStrike
-     */
     void setDoubleStrike(bool isDoubleStrike = true);
 
-    /*!
-     * \brief 下划线
-     * \param underline
-     */
+    void setShadow(bool shadow = true);
+
     void setUnderLine(const WD_UNDERLINE &underline);
 
 private:
 
     QString m_text;
+    DocumentPart *m_part;
     QDomDocument *m_dom;
     QDomElement m_rEle;
     QDomElement *m_parent;

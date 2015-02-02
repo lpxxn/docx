@@ -14,6 +14,7 @@ public:
     QString baseURI() const;
     QString fullURI() const;
     QString fileName() const;
+    int idx() const;
     PackURI relsUri() const;
     QString relsUriStr() const;
     QString memberName() const;

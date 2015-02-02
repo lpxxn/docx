@@ -1,18 +1,19 @@
 #ifndef DOCXSHARED_H
 #define DOCXSHARED_H
+
 #include <QDomElement>
+#include <QByteArray>
+#include <QImage>
 
 namespace Docx
 {
-/*!
- * \brief 查找是否有eleName节点，如果没有则创建
- * \param dom
- * \param parent
- * \param eleName
- * \param addToFirst
- * \return
- */
+
 QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QString &eleName, bool addToFirst = false);
+
+QByteArray imageHash(const QImage &img);
+
+QByteArray byteHash(const QByteArray &bytes);
+
 
 class Shared
 {

@@ -41,9 +41,9 @@ enum class WD_UNDERLINE
 
 };
 
-QString underLineToString(const WD_UNDERLINE &underline);
+QString underLineToString(WD_UNDERLINE underline);
 
-QString paragraphAlignToString(const WD_PARAGRAPH_ALIGNMENT &align);
+QString paragraphAlignToString(WD_PARAGRAPH_ALIGNMENT align);
 
 }
 

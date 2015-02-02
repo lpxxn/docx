@@ -71,6 +71,7 @@ void Unmarshaller::unmarshal(PackageReader *pkgReader, Package *package)
     for (Part * p : parts.values()) {
         p->afterUnmarshal();
     }
+    package->afterUnmarshal();
 }
 
 /*!

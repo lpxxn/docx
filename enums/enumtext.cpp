@@ -2,9 +2,9 @@
 
 namespace Docx {
 
-QString underLineToString(const WD_UNDERLINE &underline)
+QString underLineToString(WD_UNDERLINE underline)
 {
-    switch(underline) {
+    switch (underline) {
         case WD_UNDERLINE::None:                return QStringLiteral("none"); break;
         case WD_UNDERLINE::SINGLE:              return QStringLiteral("single"); break;
         case WD_UNDERLINE::WORDS:               return QStringLiteral("words"); break;
@@ -26,9 +26,9 @@ QString underLineToString(const WD_UNDERLINE &underline)
     }
 }
 
-QString paragraphAlignToString(const WD_PARAGRAPH_ALIGNMENT &align)
+QString paragraphAlignToString(WD_PARAGRAPH_ALIGNMENT align)
 {
-    switch(align) {
+    switch (align) {
         case WD_PARAGRAPH_ALIGNMENT::LEFT:          return QStringLiteral("left"); break;
         case WD_PARAGRAPH_ALIGNMENT::CENTER:        return QStringLiteral("center"); break;
         case WD_PARAGRAPH_ALIGNMENT::RIGHT:         return QStringLiteral("right"); break;

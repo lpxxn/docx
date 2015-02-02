@@ -27,7 +27,7 @@ public:
 
     virtual ~Part();
 
-private:
+protected:
     PackURI m_partName;
     QString m_contentType;
     QByteArray m_blob;
