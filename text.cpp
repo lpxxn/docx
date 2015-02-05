@@ -1,6 +1,8 @@
 #include "text.h"
 #include "./oxml/oxmltext.h"
+#include "./oxml/oxmlshape.h"
 #include "./parts/documentpart.h"
+#include "./shape.h"
 
 #include <QDomDocument>
 #include <QDebug>
@@ -108,6 +110,39 @@ QString Run::text() const
 }
 
 /*!
+ * \brief 返回 InlineShape
+ * \param path
+ * \param width
+ * \param height
+ * \return
+ */
+InlineShape *Run::addPicture(const QString &path, const Length &width, const Length &height)
+{
+    InlineShapes *ships = m_part->m_inlineshapes;
+    InlineShape *picture = ships->addPicture(path, this);
+
+    if (!width.isEmpty() || !height.isEmpty()) {
+        int lwidth = width.emu();
+        int lheight = height.emu();
+
+        int native_width = picture->width();
+        int native_height = picture->height();
+        if (width.isEmpty()) {
+            float scaling_factor = float(lheight) / float(native_height);
+            lwidth = int(round(native_width * scaling_factor));
+        }
+        if (height.isEmpty()) {
+            float scaling_factor = float(lwidth) / float(native_width);
+            lheight = int(round(native_height * scaling_factor));
+        }
+        picture->setWidth(lwidth);
+        picture->setHeight(lheight);
+    }
+    qDebug() << picture->width() << " height " << picture->height();
+    return picture;
+}
+
+/*!
  * \brief 设置样式
  * \param style
  */
@@ -158,7 +193,7 @@ void Run::setItalic(bool isItalic)
 }
 
 /*!
- * \brief 又划线
+ * \brief 双划线
  * \param isDoubleStrike
  */
 void Run::setDoubleStrike(bool isDoubleStrike)
@@ -179,9 +214,17 @@ void Run::setShadow(bool shadow)
  * \brief 下划线
  * \param underline
  */
-void Run::setUnderLine(const WD_UNDERLINE &underline)
+void Run::setUnderLine(WD_UNDERLINE underline)
 {
     m_style->setUnderLine(underline);
+}
+
+void Run::addDrawing(CT_Inline *imline)
+{
+    QDomElement drawing = m_dom->createElement(QStringLiteral("w:drawing"));
+
+    m_rEle.appendChild(drawing);
+    drawing.appendChild(imline->element());
 }
 
 }

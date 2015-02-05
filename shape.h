@@ -1,19 +1,21 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
+#include "docx_global.h"
 
 namespace Docx {
 class CT_Inline;
+class Run;
+class ImagePart;
 
-class InlineShape
+class DOCX_EXPORT InlineShape
 {
 public:
-    InlineShape(CT_Inline *inlinev);
-
-    double height();
-    void setHeight(double height);
-    double width();
-    void setWidth(double width);
+    InlineShape(CT_Inline *inlinev);    
+    int width();
+    void setWidth(int width);
+    int height();
+    void setHeight(int height);
 
     virtual ~InlineShape();
 

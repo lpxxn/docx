@@ -5,17 +5,6 @@
 
 namespace Docx{
 
-Shared::Shared()
-{
-
-}
-
-Shared::~Shared()
-{
-
-}
-
-
 
 Parented::Parented()
 {
@@ -81,6 +70,7 @@ QByteArray byteHash(const QByteArray &bytes)
 {
     return QCryptographicHash::hash(bytes, QCryptographicHash::Md5);
 }
+
 
 }
 

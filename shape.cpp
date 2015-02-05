@@ -1,5 +1,7 @@
 #include "shape.h"
 #include "./oxml/oxmlshape.h"
+#include "text.h"
+#include "./parts/imagepart.h"
 
 namespace Docx {
 
@@ -9,24 +11,26 @@ InlineShape::InlineShape(CT_Inline *inlinev)
 
 }
 
-double InlineShape::height()
+int InlineShape::width()
 {
-    return 0.0;
+    QString value = m_inline->m_extent.attribute(QStringLiteral("cx"), "0");
+    return value.toInt();
 }
 
-void InlineShape::setHeight(double height)
+void InlineShape::setWidth(int width)
 {
-
+    m_inline->m_extent.setAttribute(QStringLiteral("cx"), QString::number(width));
 }
 
-double InlineShape::width()
+int InlineShape::height()
 {
-    return 0.0;
+    QString value = m_inline->m_extent.attribute(QStringLiteral("cy"), "0");
+    return value.toInt();
 }
 
-void InlineShape::setWidth(double width)
+void InlineShape::setHeight(int height)
 {
-
+    m_inline->m_extent.setAttribute(QStringLiteral("cy"), QString::number(height));
 }
 
 InlineShape::~InlineShape()

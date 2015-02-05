@@ -1,4 +1,5 @@
 #include "rel.h"
+//#include "packuri.h"
 
 #include <QXmlStreamWriter>
 #include <QBuffer>
@@ -10,6 +11,15 @@ Relationship::Relationship(const QString &rId, const QString &reltype, const QSt
     : m_rId(rId),m_targetRef(targetRef), m_reltype(reltype), m_baseURI(baseURI), m_isexternal(external), m_target(target)
 {
 
+}
+
+QString Relationship::targetRef() const
+{
+    return m_targetRef;
+//    if (m_isexternal)
+//        return m_targetRef;
+//    else
+//        return target()->partName().relativeRef(m_baseURI);
 }
 
 Relationship::~Relationship()
@@ -82,10 +92,81 @@ QByteArray Relationships::blob() const
     return data;
 }
 
+/*!
+ * \brief 添加Part Relactionship
+ * \param reltype
+ * \param target
+ * \return
+ */
+Relationship *Relationships::getOrAddPart(const QString &reltype, Part *target, const QString &baseUri)
+{
+    Relationship *rel = getMatching(reltype, target);
+    if (rel)
+        return rel;
+    QString rId = nextrId();
+    return addRelationship(reltype, target->partName().relativeRef(baseUri), target, rId);
+}
+
+/*!
+ * \brief 添加扩展Relactionship
+ * \param reltype
+ * \param target
+ * \return
+ */
+Relationship *Relationships::getOrAddExtPart(const QString &reltype, const QString &targetref)
+{
+    Relationship *rel = getMatchingExt(reltype, targetref);
+    if (rel)
+        return rel;
+
+    QString rId = nextrId();
+    return addRelationship(reltype, targetref, nullptr, rId, true);
+}
+
 Relationships::~Relationships()
 {
     m_targetPartsByrId.clear();
     m_rels.clear();
+}
+
+Relationship *Relationships::getMatching(const QString &reltype, Part *target)
+{
+    for (Relationship *rel : m_rels.values()) {
+        if (reltype != rel->relType())
+            continue;
+        if (rel->target() != target)
+            continue;
+
+        return rel;
+    }
+    return nullptr;
+}
+
+Relationship *Relationships::getMatchingExt(const QString &reltype, const QString &targetref)
+{
+    for (Relationship *rel : m_rels.values()) {
+        if (reltype != rel->relType())
+            return nullptr;
+        if (!rel->isExternal())
+            return nullptr;
+        if (rel->targetRef() != targetref)
+            return nullptr;
+
+        return rel;
+    }
+    return nullptr;
+}
+
+QString Relationships::nextrId()
+{
+    int size = m_rels.count() + 2;
+    QList<QString> keys = m_rels.keys();
+    QString rId(QStringLiteral("rId1"));
+    for (int i = 1; i< size; i++) {
+        rId = QString("rId%1").arg(i);
+        if (!keys.contains(rId))
+            return rId;
+    }
 }
 
 

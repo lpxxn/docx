@@ -2,6 +2,7 @@
 #define DOCXTEXT_H
 
 #include "docx_global.h"
+#include "length.h"
 #include "shared.h"
 #include "./enums/enumtext.h"
 
@@ -17,6 +18,8 @@ class Text;
 class CT_RPr;
 class CT_PPr;
 class DocumentPart;
+class InlineShape;
+class CT_Inline;
 
 class DOCX_EXPORT Paragraph : public Parented
 {
@@ -76,15 +79,16 @@ class DOCX_EXPORT Run : public Parented
 {
 public:    
     Run(DocumentPart *part, QDomElement *parent);
+    virtual ~Run();
 
     void addTab();
 
     void addText(const QString &text);
     QString text() const;
 
-    void setStyle(const QString &style);
+    InlineShape* addPicture(const QString &path, const Length &width, const Length &height);
 
-    virtual ~Run();
+    void setStyle(const QString &style);
 
     void setAllcaps(bool isallcaps = true);
 
@@ -98,7 +102,9 @@ public:
 
     void setShadow(bool shadow = true);
 
-    void setUnderLine(const WD_UNDERLINE &underline);
+    void setUnderLine(WD_UNDERLINE underline);
+
+    void addDrawing(CT_Inline *imline);
 
 private:
 

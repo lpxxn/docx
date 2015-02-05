@@ -8,17 +8,6 @@ namespace Docx {
 class Run;
 class Paragraph;
 
-class CT_P : public OxmlElementBase
-{
-public:
-    CT_P(QDomElement *element);
-
-    virtual ~CT_P();
-
-private:
-
-};
-
 
 /*!
  * \brief 段落的属性

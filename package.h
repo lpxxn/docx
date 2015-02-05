@@ -24,7 +24,7 @@ public:
     virtual ~Package();
 
 private:
-    void gatherImageParts(QMap<QString, Relationship *> rels);
+    void gatherImageParts(const QMap<QString, Relationship *> &rels);
 
 private:
     ImageParts *m_imageParts;
@@ -34,7 +34,14 @@ class ImageParts
 {
 public:
     ImageParts();
+    ~ImageParts();
+
+    ImagePart *getOrAddImagePart(const PackURI &imageDescriptor);
     void append(ImagePart * item);
+
+private:
+    ImagePart *getByHash(const QByteArray &hash);
+    PackURI nextImagePartName(const QString &ext);
 
 private:
     QList<ImagePart *> m_imageparts;

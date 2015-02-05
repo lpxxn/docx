@@ -4,17 +4,6 @@
 
 namespace Docx {
 
-// CT_P
-CT_P::CT_P(QDomElement *element) : OxmlElementBase(element)
-{
-
-}
-
-CT_P::~CT_P()
-{
-
-}
-
 // CT_PPr
 
 CT_PPr::CT_PPr(Paragraph *paragraph)

@@ -14,14 +14,6 @@ QByteArray imageHash(const QImage &img);
 
 QByteArray byteHash(const QByteArray &bytes);
 
-
-class Shared
-{
-public:
-    Shared();
-    virtual ~Shared();
-};
-
 class Parented
 {
 public:

@@ -18,7 +18,7 @@ public:
     QString rId() const { return m_rId; }
     QString relType() const { return m_reltype; }
     Part * target() const { return m_target; }
-    QString targetRef() const {return m_targetRef;}
+    QString targetRef() const;
     QString baseURI() const { return m_baseURI; }
     bool isExternal() const { return m_isexternal; }
     virtual ~Relationship();
@@ -42,7 +42,14 @@ public:
     int count() const;
     QMap<QString, Relationship *> rels() const;
     QByteArray blob() const;
+    Relationship * getOrAddPart(const QString &reltype, Part *target, const QString &baseUri);
+    Relationship * getOrAddExtPart(const QString &reltype, const QString &targetref);
     virtual ~Relationships();
+
+private:
+    Relationship *getMatching(const QString &reltype, Part *target);
+    Relationship *getMatchingExt(const QString &reltype, const QString &targetref);
+    QString nextrId();
 
 private:
     QString m_baseURI;    

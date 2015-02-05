@@ -16,6 +16,8 @@ class Run;
 class Table;
 class InlineShapes;
 class ImagePart;
+class ImageParts;
+class InlineShape;
 
 class DocumentPart : public Part
 {
@@ -27,15 +29,22 @@ public:
     void afterUnmarshal();
     QDomDocument * element() const;
     QByteArray blob() const;
-    ImagePart *getOrAddImagePart(const QString &imageDescriptor);
+    QPair<ImagePart *, QString> getOrAddImagePart(const PackURI &imageDescriptor);
+    int nextId();
     virtual ~DocumentPart();
+
+private:
+
+    void findAttributes(const QDomNodeList &eles, const QString &attr, QList<QString> *nums);
 
 private:
     //Body *m_body;
     QDomDocument *m_dom;
     InlineShapes *m_inlineshapes;
+
     friend class Paragraph;
     friend class Run;
+    friend class InlineShapes;
 
 };
 
@@ -45,8 +54,12 @@ public:
     InlineShapes(DocumentPart *part);
     ~InlineShapes();
 
+    InlineShape *addPicture(const QString &imagePath, Run *run);
+
 private:
     DocumentPart *m_part;
+    QDomDocument *m_dom;
+    friend class InlineShape;
 };
 
 }

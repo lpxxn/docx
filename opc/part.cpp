@@ -53,6 +53,23 @@ void Part::afterUnmarshal()
 
 }
 
+/*!
+ * \brief 把target 添加到Relationships里
+ * \param target
+ * \param reltype
+ * \param isExternal
+ * \return
+ */
+QString Part::relateTo(Part *target, const QString &reltype, const QString &baseUri, bool isExternal, const QString &targetRef)
+{
+    Relationship *ship;
+    if (isExternal)
+        ship = m_rels->getOrAddExtPart(reltype, targetRef);
+    else
+        ship = m_rels->getOrAddPart(reltype, target, baseUri);
+    return ship->rId();
+}
+
 Part::~Part()
 {
     delete m_rels;
@@ -69,15 +86,15 @@ Part *PartFactory::newPart(const PackURI &partname, const QString &contentType, 
         return ImagePart::load(partname, contentType, blob);
     }
     if (contentType == Constants::WML_DOCUMENT_MAIN) {
-        return DocumentPart::load(partname, contentType, blob);
+        return DocumentPart::load(partname, contentType, blob, package);
     }
-//    else if (contentType == Constants::OPC_CORE_PROPERTIES) {
-//        return nullptr;
-//    } else if (contentType == Constants::WML_NUMBERING) {
-//        return nullptr;
-//    } else if (contentType == Constants::WML_STYLES) {
-//        return nullptr;
-//    }
+    //    else if (contentType == Constants::OPC_CORE_PROPERTIES) {
+    //        return nullptr;
+    //    } else if (contentType == Constants::WML_NUMBERING) {
+    //        return nullptr;
+    //    } else if (contentType == Constants::WML_STYLES) {
+    //        return nullptr;
+    //    }
 
     return Part::load(partname, contentType, blob, package);
 }

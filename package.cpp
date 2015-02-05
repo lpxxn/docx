@@ -2,6 +2,7 @@
 #include "./opc/packagereader.h"
 #include "./opc/packagewriter.h"
 #include "./parts/imagepart.h"
+#include "shared.h"
 
 namespace Docx {
 Package::Package()
@@ -53,7 +54,7 @@ Package::~Package()
     delete m_imageParts;
 }
 
-void Package::gatherImageParts(QMap<QString, Relationship *> rels)
+void Package::gatherImageParts(const QMap<QString, Relationship *> &rels)
 {
     for (const Relationship *rel : rels.values()) {
         if (rel->relType() == Constants::IMAGE) {
@@ -72,9 +73,68 @@ ImageParts::ImageParts()
 
 }
 
+ImageParts::~ImageParts()
+{
+    qDeleteAll(m_imageparts);
+    m_imageparts.clear();
+}
+
+/*!
+ * \brief 得到或添加 ImagePart
+ *
+ *        查看是否有相应的 ImagePart 如果没有则新添加一下并返回
+ * \param 图片路径
+ * \return
+ */
+ImagePart *ImageParts::getOrAddImagePart(const PackURI &imageDescriptor)
+{
+    Image *img = new Image(imageDescriptor);
+    QByteArray key = byteHash(img->blob());
+    ImagePart *part = getByHash(key);
+    if (part) {
+        delete img;
+        return part;
+    }
+    PackURI name = nextImagePartName(img->ext());
+    part = ImagePart::fromImage(name, img);
+    append(part);
+    return part;
+}
+
 void ImageParts::append(ImagePart *item)
 {
     m_imageparts.append(item);
+}
+
+ImagePart *ImageParts::getByHash(const QByteArray &hash)
+{
+    for (ImagePart *p : m_imageparts) {
+        if (p->hash() == hash)
+            return p;
+    }
+    return nullptr;
+}
+
+/*!
+ * \brief 得到新图片的名称
+ * \param ext 图片扩展名
+ * \return
+ */
+PackURI ImageParts::nextImagePartName(const QString &ext)
+{
+    QList<int> numbers;
+    for (ImagePart *p : m_imageparts) {
+        numbers.append(p->partName().idx());
+    }
+    int num = 0;
+    for (int i = 1, size = numbers.count() + 2; i < size; i++) {
+        if (!numbers.contains(i)) {
+            num = i;
+            break;
+        }
+    }
+
+    return PackURI(QString("word/media/image%1.%2").arg(num).arg(ext));
 }
 
 }

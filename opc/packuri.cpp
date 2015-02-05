@@ -48,7 +48,7 @@ int PackURI::idx() const
 
     for (int i = namePart.length() - 1; i > 0; i--) {
         if (namePart.at(i).isNumber())
-            sl.join(namePart.at(i));
+            sl.append(namePart.at(i));
         else
             break;
     }

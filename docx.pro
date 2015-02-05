@@ -35,7 +35,8 @@ SOURCES += \
     opc/rel.cpp \
     opc/packagewriter.cpp \
     opc/physpkgwriter.cpp \
-    enums/enumtext.cpp
+    enums/enumtext.cpp \
+    length.cpp
 
 HEADERS +=\
     docx_global.h \
@@ -68,6 +69,7 @@ HEADERS +=\
     opc/rel.h \
     opc/packagewriter.h \
     opc/physpkgwriter.h \
-    enums/enumtext.h
+    enums/enumtext.h \
+    length.h
 
 

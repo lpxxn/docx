@@ -6,7 +6,7 @@
 
 namespace Docx {
 
-Image::Image(const QString &path)
+Image::Image(const PackURI &path)
 {
     m_img = QImage(path);
     m_imgSize = m_img.size();
@@ -17,7 +17,22 @@ Image::Image(const QString &path)
     m_vertDpi = m_img.logicalDpiY();
     m_ext = fileInfo.preferredSuffix();
     m_contentType = fileInfo.name();
+    saveBlob();
 
+}
+
+Image::Image(const QByteArray &data, const QString &format)
+{
+    m_img.loadFromData(data, format.toStdString().c_str());
+    m_imgSize = m_img.size();
+
+    QMimeDatabase base;
+    QMimeType fileInfo = base.mimeTypeForData(data);
+    m_horzDpi = m_img.logicalDpiX();
+    m_vertDpi = m_img.logicalDpiY();
+    m_ext = fileInfo.preferredSuffix();
+    m_contentType = fileInfo.name();
+    saveBlob();
 }
 
 QImage Image::img() const
@@ -50,13 +65,26 @@ QString Image::ext() const
     return m_ext;
 }
 
-Image *Image::fromFile(const QString &imgPath)
+QString Image::contentType() const
 {
-    return nullptr;
+    return m_contentType;
+}
+
+QByteArray Image::blob() const
+{    
+    return m_blob;
 }
 
 Image::~Image()
 {
+
+}
+
+void Image::saveBlob()
+{
+    QBuffer buffer(&m_blob);
+    buffer.open(QIODevice::WriteOnly);
+    m_img.save(&buffer, m_ext.toStdString().c_str());
 
 }
 

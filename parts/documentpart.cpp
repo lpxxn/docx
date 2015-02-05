@@ -2,6 +2,10 @@
 #include "../text.h"
 #include "../table.h"
 #include "../opc/oxml.h"
+#include "../shape.h"
+#include "../oxml/oxmlshape.h"
+#include "../package.h"
+#include "imagepart.h"
 
 #include <QDebug>
 
@@ -61,9 +65,13 @@ QByteArray DocumentPart::blob() const
     return m_dom->toByteArray();
 }
 
-ImagePart *DocumentPart::getOrAddImagePart(const QString &imageDescriptor)
+QPair<ImagePart *, QString> DocumentPart::getOrAddImagePart(const PackURI &imageDescriptor)
 {
-    return nullptr;
+    ImageParts *imgs = m_package->imageparts();
+    ImagePart *imagPart = imgs->getOrAddImagePart(imageDescriptor);
+
+    QString rId = relateTo(imagPart, Constants::IMAGE, QStringLiteral("word/"));
+    return QPair<ImagePart *, QString>(imagPart, rId);
 }
 
 DocumentPart::~DocumentPart()
@@ -72,16 +80,70 @@ DocumentPart::~DocumentPart()
     delete m_dom;
 }
 
+int DocumentPart::nextId()
+{
+    QDomNodeList eles = m_dom->childNodes();
+    QList<QString> numbers;
+    findAttributes(eles, QStringLiteral("id"), &numbers);
+
+    int size = numbers.count() + 2;
+    for (int i = 1; i < size; i++) {
+        if (!numbers.contains(QString::number(i)))
+            return i;
+    }
+    return 1;
+}
+
+/*!
+ * \brief DocumentPart::findAttributes
+ * \param eles
+ * \param attr
+ * \param nums
+ */
+void DocumentPart::findAttributes(const QDomNodeList &eles, const QString &attr, QList<QString> *nums)
+{
+    for (int i = 0; i < eles.count(); i++) {
+        QString num = eles.at(i).toElement().attribute(attr);
+        if (!nums->contains(num))
+            nums->append(num);
+        findAttributes(eles.at(i).childNodes(), attr, nums);
+    }
+}
+
 InlineShapes::InlineShapes(DocumentPart *part)
     : m_part(part)
 {
-
+    m_dom = part->m_dom;
 }
 
 InlineShapes::~InlineShapes()
 {
 
 }
+
+InlineShape *InlineShapes::addPicture(const QString &imagePath, Run *run)
+{
+
+    QPair<ImagePart *, QString> imagePartAndId = m_part->getOrAddImagePart(imagePath);
+    int shapeId = m_part->nextId();
+    //InlineShape *picture = new InlineShape()
+    CT_Picture *pic = new CT_Picture(m_part->m_dom, QStringLiteral("0")
+                                   , imagePartAndId.first->fileName()
+                                   , imagePartAndId.second
+                                   , imagePartAndId.first->defaultCx().emu()
+                                   , imagePartAndId.first->defaultCy().emu());
+
+    CT_Inline *lnLine = new CT_Inline(m_part->m_dom
+                                      , imagePartAndId.first->defaultCx().emu()
+                                      , imagePartAndId.first->defaultCy().emu()
+                                      , QString::number(shapeId)
+                                      , pic
+                                      );
+    run->addDrawing(lnLine);
+    InlineShape *picture = new InlineShape(lnLine);
+    return picture;
+}
+
 
 }
 
