@@ -5,6 +5,7 @@
 #include "length.h"
 
 #include <QString>
+#include <QImage>
 
 class QIODevice;
 
@@ -29,6 +30,7 @@ public:
     Table *addTable(int rows, int cols);
 
     InlineShape *addPicture(const QString &imgPath, const Length &width = Length(), const Length &height = Length());
+    InlineShape *addPicture(const QImage &img, const Length &width = Length(), const Length &height = Length());
 
     virtual ~Document();
 

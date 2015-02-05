@@ -4,6 +4,8 @@
 #include "./parts/imagepart.h"
 #include "shared.h"
 
+#include <QBuffer>
+
 namespace Docx {
 Package::Package()
     : OpcPackage()
@@ -89,6 +91,21 @@ ImageParts::~ImageParts()
 ImagePart *ImageParts::getOrAddImagePart(const PackURI &imageDescriptor)
 {
     Image *img = new Image(imageDescriptor);
+    return getOrAddImagePart(img);
+}
+
+ImagePart *ImageParts::getOrAddImagePart(const QImage &img)
+{
+    QByteArray blob;
+    QBuffer buffer(&blob);
+    buffer.open(QIODevice::WriteOnly);
+    img.save(&buffer, "PNG");
+    Image *image = new Image(blob, QString::fromLatin1("PNG"));
+    return getOrAddImagePart(image);
+}
+
+ImagePart *ImageParts::getOrAddImagePart(Image *img)
+{
     QByteArray key = byteHash(img->blob());
     ImagePart *part = getByHash(key);
     if (part) {

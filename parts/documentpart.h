@@ -7,6 +7,7 @@
 #include <QPair>
 #include <QDomDocument>
 #include <QByteArray>
+#include <QImage>
 
 namespace Docx {
 //class Body;
@@ -30,6 +31,8 @@ public:
     QDomDocument * element() const;
     QByteArray blob() const;
     QPair<ImagePart *, QString> getOrAddImagePart(const PackURI &imageDescriptor);
+    QPair<ImagePart *, QString> getOrAddImagePart(const QImage &img);
+    QPair<ImagePart *, QString> getOrAddImagePart(ImagePart *imagPart);
     int nextId();
     virtual ~DocumentPart();
 
@@ -55,6 +58,10 @@ public:
     ~InlineShapes();
 
     InlineShape *addPicture(const QString &imagePath, Run *run);
+    InlineShape *addPicture(const QImage &img, Run *run);
+
+private:
+    InlineShape *addPicture(const QPair<ImagePart *, QString> &imagePartAndId, Run *run);
 
 private:
     DocumentPart *m_part;

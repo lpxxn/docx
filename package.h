@@ -6,11 +6,13 @@
 #include "./opc/part.h"
 
 #include <QList>
+#include <QImage>
 
 namespace Docx {
 
 class ImagePart;
 class ImageParts;
+class Image;
 
 class Package : public OpcPackage
 {
@@ -37,6 +39,8 @@ public:
     ~ImageParts();
 
     ImagePart *getOrAddImagePart(const PackURI &imageDescriptor);
+    ImagePart *getOrAddImagePart(const QImage &img);
+    ImagePart *getOrAddImagePart(Image *img);
     void append(ImagePart * item);
 
 private:

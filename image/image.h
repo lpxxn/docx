@@ -12,7 +12,7 @@ namespace Docx {
 class Image
 {
 public:
-    Image(const PackURI &path);
+    Image(const PackURI &path);    
     Image(const QByteArray &data, const QString &format);
     QImage img() const;
     int pxWidth() const;

@@ -68,6 +68,14 @@ InlineShape *Document::addPicture(const QString &imgPath, const Length &width, c
     return picture;
 }
 
+InlineShape *Document::addPicture(const QImage &img, const Length &width, const Length &height)
+{
+    Run *run = addParagraph()->addRun();
+    InlineShape *picture = run->addPicture(img, width, height);
+
+    return picture;
+}
+
 Document::~Document()
 {
     qDebug() << "delete Docx::Document.";

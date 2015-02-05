@@ -70,6 +70,18 @@ QPair<ImagePart *, QString> DocumentPart::getOrAddImagePart(const PackURI &image
     ImageParts *imgs = m_package->imageparts();
     ImagePart *imagPart = imgs->getOrAddImagePart(imageDescriptor);
 
+    return getOrAddImagePart(imagPart);
+}
+
+QPair<ImagePart *, QString> DocumentPart::getOrAddImagePart(const QImage &img)
+{
+    ImageParts *imgs = m_package->imageparts();
+    ImagePart *imagPart = imgs->getOrAddImagePart(img);
+    return getOrAddImagePart(imagPart);
+}
+
+QPair<ImagePart *, QString> DocumentPart::getOrAddImagePart(ImagePart *imagPart)
+{
     QString rId = relateTo(imagPart, Constants::IMAGE, QStringLiteral("word/"));
     return QPair<ImagePart *, QString>(imagPart, rId);
 }
@@ -125,6 +137,17 @@ InlineShape *InlineShapes::addPicture(const QString &imagePath, Run *run)
 {
 
     QPair<ImagePart *, QString> imagePartAndId = m_part->getOrAddImagePart(imagePath);
+    return addPicture(imagePartAndId, run);
+}
+
+InlineShape *InlineShapes::addPicture(const QImage &img, Run *run)
+{
+    QPair<ImagePart *, QString> imagePartAndId = m_part->getOrAddImagePart(img);
+    return addPicture(imagePartAndId, run);
+}
+
+InlineShape *InlineShapes::addPicture(const QPair<ImagePart *, QString> &imagePartAndId, Run *run)
+{
     int shapeId = m_part->nextId();
     //InlineShape *picture = new InlineShape()
     CT_Picture *pic = new CT_Picture(m_part->m_dom, QStringLiteral("0")

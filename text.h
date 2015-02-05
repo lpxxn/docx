@@ -9,6 +9,7 @@
 #include <QString>
 #include <QDomElement>
 #include <QList>
+#include <QImage>
 
 class QDomDocument;
 
@@ -87,6 +88,7 @@ public:
     QString text() const;
 
     InlineShape* addPicture(const QString &path, const Length &width, const Length &height);
+    InlineShape* addPicture(const QImage &img, const Length &width, const Length &height);
 
     void setStyle(const QString &style);
 
@@ -106,6 +108,8 @@ public:
 
     void addDrawing(CT_Inline *imline);
 
+private:
+    InlineShape* scalePicture(InlineShape *picture, const Length &width, const Length &height);
 private:
 
     QString m_text;

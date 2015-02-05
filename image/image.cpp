@@ -3,6 +3,8 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QBuffer>
+#include <QImageReader>
+#include <QDebug>
 
 namespace Docx {
 
@@ -10,6 +12,7 @@ Image::Image(const PackURI &path)
 {
     m_img = QImage(path);
     m_imgSize = m_img.size();
+
 
     QMimeDatabase base;
     QMimeType fileInfo = base.mimeTypeForFile(path);
@@ -32,7 +35,7 @@ Image::Image(const QByteArray &data, const QString &format)
     m_vertDpi = m_img.logicalDpiY();
     m_ext = fileInfo.preferredSuffix();
     m_contentType = fileInfo.name();
-    saveBlob();
+    m_blob = data;
 }
 
 QImage Image::img() const

@@ -120,7 +120,12 @@ InlineShape *Run::addPicture(const QString &path, const Length &width, const Len
 {
     InlineShapes *ships = m_part->m_inlineshapes;
     InlineShape *picture = ships->addPicture(path, this);
+    return scalePicture(picture, width, height);
 
+}
+
+InlineShape *Run::scalePicture(InlineShape *picture, const Length &width, const Length &height)
+{
     if (!width.isEmpty() || !height.isEmpty()) {
         int lwidth = width.emu();
         int lheight = height.emu();
@@ -140,6 +145,13 @@ InlineShape *Run::addPicture(const QString &path, const Length &width, const Len
     }
     qDebug() << picture->width() << " height " << picture->height();
     return picture;
+}
+
+InlineShape *Run::addPicture(const QImage &img, const Length &width, const Length &height)
+{
+    InlineShapes *ships = m_part->m_inlineshapes;
+    InlineShape *picture = ships->addPicture(img, this);
+    return scalePicture(picture, width, height);
 }
 
 /*!
@@ -226,6 +238,8 @@ void Run::addDrawing(CT_Inline *imline)
     m_rEle.appendChild(drawing);
     drawing.appendChild(imline->element());
 }
+
+
 
 }
 
