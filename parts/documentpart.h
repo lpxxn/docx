@@ -26,7 +26,7 @@ public:
     DocumentPart(const QString &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
     Paragraph* addParagraph(const QString &text, const QString &style = QStringLiteral(""));
     static DocumentPart *load(const PackURI &partName, const QString &contentType, const QByteArray &blob = QByteArray(), Package *package = nullptr);
-    Table * addTable(int rows, int cols);
+    Table * addTable(int rows, int cols, const QString &style = QString::fromLatin1("TableGrid"));
     void afterUnmarshal();
     QDomDocument * element() const;
     QByteArray blob() const;
@@ -37,8 +37,8 @@ public:
     virtual ~DocumentPart();
 
 private:
-
     void findAttributes(const QDomNodeList &eles, const QString &attr, QList<QString> *nums);
+    QDomNode lastsectPr() const;
 
 private:
     //Body *m_body;
@@ -48,6 +48,7 @@ private:
     friend class Paragraph;
     friend class Run;
     friend class InlineShapes;
+    friend class Table;
 
 };
 

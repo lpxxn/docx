@@ -23,9 +23,9 @@ DocumentPart::DocumentPart(const QString &partName, const QString &contentType, 
 Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 {
     qDebug() << "Add Paragraph  Text = " + text;
-    QDomNodeList nodes = m_dom->elementsByTagName(QStringLiteral("w:sectPr"));
+    //QDomNodeList nodes = m_dom->elementsByTagName(QStringLiteral("w:sectPr"));
 
-    QDomNode n = nodes.at(nodes.count() - 1);
+    QDomNode n = lastsectPr();//nodes.at(nodes.count() - 1);
     QDomNode parentNode = n.parentNode();
 
     QDomElement pEle = m_dom->createElement(QStringLiteral("w:p"));
@@ -45,9 +45,24 @@ DocumentPart *DocumentPart::load(const PackURI &partName, const QString &content
     return new DocumentPart(partName, contentType, blob, package);
 }
 
-Table *DocumentPart::addTable(int rows, int cols)
+Table *DocumentPart::addTable(int rows, int cols, const QString &style)
 {
-    Table *table =  new Table();
+
+    QDomNode n = lastsectPr();
+    QDomNode parentNode = n.parentNode();
+
+    QDomElement pEle = m_dom->createElement(QStringLiteral("w:tbl"));
+    Table *table =  new Table(this, pEle);
+
+    parentNode.insertBefore(pEle, n);
+
+    for (int i = 0; i < cols; i++) {
+        table->addColumn();
+    }
+    for (int i = 0; i < rows; i++) {
+        table->addRow();
+    }
+    table->setStyle(style);
     return table;
 }
 void DocumentPart::afterUnmarshal()
@@ -120,6 +135,14 @@ void DocumentPart::findAttributes(const QDomNodeList &eles, const QString &attr,
             nums->append(num);
         findAttributes(eles.at(i).childNodes(), attr, nums);
     }
+}
+
+QDomNode DocumentPart::lastsectPr() const
+{
+    QDomNodeList nodes = m_dom->elementsByTagName(QStringLiteral("w:sectPr"));
+
+    QDomNode n = nodes.at(nodes.count() - 1);
+    return n;
 }
 
 InlineShapes::InlineShapes(DocumentPart *part)

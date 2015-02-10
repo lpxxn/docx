@@ -1,6 +1,10 @@
 #ifndef OXMLTABLE_H
 #define OXMLTABLE_H
 
+#include "../enums/enumtext.h"
+
+#include <QDomElement>
+#include <QMap>
 
 namespace Docx {
 
@@ -33,12 +37,21 @@ private:
 class CT_TblPr
 {
 public:
-    CT_TblPr();
-
+    CT_TblPr(QDomDocument *dom, const QDomElement &ele);
+    void setStyle(const QString &style);
+    void setAlignment(WD_TABLE_ALIGNMENT alignment);
     virtual ~CT_TblPr();
 
 private:
+    void checkStyleElement();
+    void checkAlignment();
 
+private:
+    QDomElement m_element;
+    QDomDocument *m_dom;    
+    QDomElement m_tblStyle;
+    QDomElement m_jcAlignment;
+    QMap<WD_TABLE_ALIGNMENT, QString> m_aligns;
 };
 
 /*!
@@ -47,12 +60,16 @@ private:
 class CT_TblGrid
 {
 public:
-    CT_TblGrid();
-
+    CT_TblGrid(QDomDocument *dom, const QDomElement &ele);
+    QDomElement addGridCol();
+    QDomElement ele() const;
+    int count() const;
     virtual ~CT_TblGrid();
 
 private:
-
+    QDomElement m_element;
+    QDomDocument *m_dom;
+    int cols = 0;
 };
 
 /*!
@@ -66,7 +83,7 @@ public:
     virtual ~CT_TblGridCol();
 
 private:
-    CT_TblGrid m_tblGrid;
+
 };
 
 /*!

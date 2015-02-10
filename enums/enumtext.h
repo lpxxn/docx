@@ -18,6 +18,19 @@ enum class WD_PARAGRAPH_ALIGNMENT
     THAI_JUSTIFY
 };
 
+enum class WD_TABLE_ALIGNMENT
+{
+    LEFT = 0,
+    CENTER,
+    RIGHT,
+    BOTH,
+    DISTRIBUTE,
+    MEDIUMKASHIDA,
+    HIGHKASHIDA,
+    LOWKASHIDA,
+    THAIDISTRIBUTE
+};
+
 enum class WD_UNDERLINE
 {
     None = -1,

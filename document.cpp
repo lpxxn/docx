@@ -55,9 +55,9 @@ Paragraph *Document::addHeading(const QString &text, int level)
     return addParagraph(text, style);
 }
 
-Table *Document::addTable(int rows, int cols)
+Table *Document::addTable(int rows, int cols, const QString &style)
 {
-    return m_docPart->addTable(rows, cols);
+    return m_docPart->addTable(rows, cols, style);
 }
 
 InlineShape *Document::addPicture(const QString &imgPath, const Length &width, const Length &height)

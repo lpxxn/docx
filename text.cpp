@@ -18,6 +18,12 @@ Paragraph::Paragraph(DocumentPart *part, const QDomElement &element)
     m_style = new CT_PPr(this);
 }
 
+/*!
+ * \brief 添加文本块
+ * \param text
+ * \param style
+ * \return
+ */
 Run *Paragraph::addRun(const QString &text, const QString &style)    
 {
     Run *run = new Run(m_part, m_pEle);
@@ -35,25 +41,44 @@ void Paragraph::addText(const QString &text)
     addRun(text);
 }
 
+/*!
+ * \brief 所有字体
+ * \return
+ */
 QString Paragraph::text() const
 {
-    QString str;
+    QStringList str;
     for (const Run *r : m_runs) {
-        str += r->text();
+        str.append(r->text());
     }
-    return str;
+    return str.join("");
 }
 
+
+/*!
+ * \brief 设置样式
+ * \param style
+ */
 void Paragraph::setStyle(const QString &style)
 {
     m_style->setStyle(style);
 }
 
+/*!
+ * \brief 对齐方式
+ * \param align
+ */
 void Paragraph::setAlignment(WD_PARAGRAPH_ALIGNMENT align)
 {
     m_style->setAlignment(align);
 }
 
+/*!
+ * \brief 在本段落前添加段落
+ * \param text
+ * \param style
+ * \return
+ */
 Paragraph *Paragraph::insertParagraphBefore(const QString &text, const QString &style)
 {
     QDomElement pEle = m_dom->createElement(QStringLiteral("w:p"));
@@ -130,8 +155,8 @@ InlineShape *Run::scalePicture(InlineShape *picture, const Length &width, const 
         int lwidth = width.emu();
         int lheight = height.emu();
 
-        int native_width = picture->width();
-        int native_height = picture->height();
+        int native_width = picture->width().emu();
+        int native_height = picture->height().emu();
         if (width.isEmpty()) {
             float scaling_factor = float(lheight) / float(native_height);
             lwidth = int(round(native_width * scaling_factor));
@@ -143,7 +168,7 @@ InlineShape *Run::scalePicture(InlineShape *picture, const Length &width, const 
         picture->setWidth(lwidth);
         picture->setHeight(lheight);
     }
-    qDebug() << picture->width() << " height " << picture->height();
+    qDebug() << picture->width().emu() << " height " << picture->height().emu();
     return picture;
 }
 

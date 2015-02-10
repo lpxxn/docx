@@ -28,40 +28,16 @@ public:
 
     Paragraph(DocumentPart *part, const QDomElement &element);
 
-    /*!
-     * \brief 添加文本块
-     * \param text
-     * \param style
-     * \return
-     */
     Run* addRun(const QString &text = QString(), const QString &style = QString());
 
     void addText(const QString &text);
 
-    /*!
-     * \brief 所有字体
-     * \return
-     */
     QString text() const;
 
-    /*!
-     * \brief 设置样式
-     * \param style
-     */
     void setStyle(const QString &style);
 
-    /*!
-     * \brief 对齐方式
-     * \param align
-     */
     void setAlignment(WD_PARAGRAPH_ALIGNMENT align);
 
-    /*!
-     * \brief 在本段落前添加段落
-     * \param text
-     * \param style
-     * \return
-     */
     Paragraph* insertParagraphBefore(const QString &text, const QString &style);
 
     virtual ~Paragraph();
@@ -87,8 +63,8 @@ public:
     void addText(const QString &text);
     QString text() const;
 
-    InlineShape* addPicture(const QString &path, const Length &width, const Length &height);
-    InlineShape* addPicture(const QImage &img, const Length &width, const Length &height);
+    InlineShape* addPicture(const QString &path, const Length &width = Length(), const Length &height = Length());
+    InlineShape* addPicture(const QImage &img, const Length &width = Length(), const Length &height = Length());
 
     void setStyle(const QString &style);
 

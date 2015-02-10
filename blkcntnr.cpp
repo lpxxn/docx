@@ -16,7 +16,7 @@ Paragraph *BlockItemContainer::addParagraph(const QString &text, const QString &
 
 Table *BlockItemContainer::addTable(int rows, int cols)
 {
-    return new Table();
+    return nullptr;
 }
 
 BlockItemContainer::~BlockItemContainer()

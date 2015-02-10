@@ -11,26 +11,26 @@ InlineShape::InlineShape(CT_Inline *inlinev)
 
 }
 
-int InlineShape::width()
+Length InlineShape::width() const
 {
     QString value = m_inline->m_extent.attribute(QStringLiteral("cx"), "0");
-    return value.toInt();
+    return Length(value.toInt());
 }
 
-void InlineShape::setWidth(int width)
+void InlineShape::setWidth(const Length &width)
 {
-    m_inline->m_extent.setAttribute(QStringLiteral("cx"), QString::number(width));
+    m_inline->m_extent.setAttribute(QStringLiteral("cx"), QString::number(width.emu()));
 }
 
-int InlineShape::height()
+Length InlineShape::height() const
 {
     QString value = m_inline->m_extent.attribute(QStringLiteral("cy"), "0");
-    return value.toInt();
+    return Length(value.toInt());
 }
 
-void InlineShape::setHeight(int height)
+void InlineShape::setHeight(const Length &height)
 {
-    m_inline->m_extent.setAttribute(QStringLiteral("cy"), QString::number(height));
+    m_inline->m_extent.setAttribute(QStringLiteral("cy"), QString::number(height.emu()));
 }
 
 InlineShape::~InlineShape()

@@ -2,6 +2,7 @@
 #define SHAPE_H
 
 #include "docx_global.h"
+#include "length.h"
 
 namespace Docx {
 class CT_Inline;
@@ -12,10 +13,10 @@ class DOCX_EXPORT InlineShape
 {
 public:
     InlineShape(CT_Inline *inlinev);    
-    int width();
-    void setWidth(int width);
-    int height();
-    void setHeight(int height);
+    Length width() const;
+    void setWidth(const Docx::Length &width);
+    Length height() const;
+    void setHeight(const Docx::Length &height);
 
     virtual ~InlineShape();
 

@@ -123,6 +123,11 @@ void ImageParts::append(ImagePart *item)
     m_imageparts.append(item);
 }
 
+/*!
+ * \brief 是否有相同hash值的ImagePart
+ * \param hash
+ * \return
+ */
 ImagePart *ImageParts::getByHash(const QByteArray &hash)
 {
     for (ImagePart *p : m_imageparts) {
