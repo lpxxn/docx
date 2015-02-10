@@ -1,15 +1,46 @@
 #include "oxmltable.h"
+#include "../table.h"
+#include <QDomElement>
 
 namespace Docx {
 
-CT_Tbl::CT_Tbl()
-{
+const QString strstyle       = QStringLiteral("w:tblPr");
+const QString strtblGrid     = QStringLiteral("w:tblGrid");
 
+CT_Tbl::CT_Tbl(Table *table, const QDomElement &ele)
+    : m_table(table), m_tblEle(ele)
+{
+    m_dom = m_table->m_dom;
+
+    QDomNodeList tblGrids = m_tblEle.elementsByTagName(strtblGrid);
+    if (tblGrids.isEmpty()) {
+        QDomElement tblGrid = m_dom->createElement(strtblGrid);
+        m_tblGrid = new CT_TblGrid(m_dom, tblGrid);
+        m_tblEle.appendChild(tblGrid);
+    } else {
+        m_tblGrid = new CT_TblGrid(m_dom, tblGrids.at(0).toElement());
+    }
+}
+
+void CT_Tbl::setStyle(const QString &style)
+{
+    if (!m_style) {
+        QDomElement styleEle = m_dom->createElement(strstyle);
+        m_style = new CT_TblPr(m_dom, styleEle);
+        QDomNode n = m_tblEle.firstChild();
+        m_tblEle.insertBefore(styleEle, n);
+    }
+    m_style->setStyle(style);
+}
+
+void CT_Tbl::setAlignment(WD_TABLE_ALIGNMENT alignment)
+{
+    m_style->setAlignment(alignment);
 }
 
 CT_Tbl::~CT_Tbl()
 {
-
+    delete m_style;
 }
 
 
@@ -120,6 +151,12 @@ void CT_TblPr::checkAlignment()
 }
 
 CT_Tc::CT_Tc()
+{
+
+}
+
+CT_Tc::CT_Tc(Cell *cell, const QDomElement &ele)
+    : m_cell(cell), m_ele(ele)
 {
 
 }

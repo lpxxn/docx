@@ -37,6 +37,9 @@ public:
     void save(const QString& path);
 
 private:
+    void open(const QString& name);
+
+private:
     DocumentPart *m_docPart;
     Package *m_package;
 

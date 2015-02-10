@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QDomDocument>
+#include <QSharedPointer>
 
 namespace Docx {
 class DocumentPart;
@@ -22,12 +23,11 @@ class DOCX_EXPORT Table
 {
 public:
 
-    Table(DocumentPart *part, const QDomElement &element);
-    void setAlignment(const QString &align);
-    Cell* cell(int rowIdx, int colIdx);
-    Row* addRow();
+    Table(DocumentPart *part, const QDomElement &element);    
+    Cell* cell(int rowIndex, int colIndex);
+    Row* addRow();    
     Column* addColumn();
-    QList<Cell*> rowCells(int rowIdx);
+    QList<Cell*> rowCells(int rowIndex);
     Rows* rows();
     Columns* columns();
     void setStyle(const QString &style);
@@ -37,12 +37,10 @@ public:
 private:
     QList<Row*> m_rows;
     DocumentPart *m_part = nullptr;
-    QDomDocument *m_dom = nullptr;
-    CT_TblGrid *m_tblGrid = nullptr;
-    QDomElement m_tblEle;
-    CT_TblPr *m_style = nullptr;
+    QDomDocument *m_dom = nullptr;        
+    CT_Tbl *m_ctTbl = nullptr;
     friend class Row;
-    //QDomElement m_tblGrid;
+    friend class CT_Tbl;
 };
 
 class DOCX_EXPORT Cell
@@ -52,15 +50,20 @@ public:
     Paragraph *addParagraph(const QString &text = QString(), const QString &style = QString());
     void addText(const QString &text);
     Table *addTable(int rows, int cols, const QString &style = QString::fromLatin1("TableGrid"));
+    Cell *merge(Cell *other);
+    int cellIndex();
+    int rowIndex();
+    Table *table();
     virtual ~Cell();
 
 private:
     QDomDocument *m_dom;
-    DocumentPart *m_part;
-    QDomElement m_ele;
+    DocumentPart *m_part;    
     QList<Paragraph *> m_paras;
     Paragraph *m_currentpara;
-    Row *m_row;
+    Row *m_row;    
+    QSharedPointer<CT_Tc> m_tc;
+    friend class CT_Tc;
 };
 
 class DOCX_EXPORT Columns
@@ -104,6 +107,8 @@ public:
     Row(const QDomElement &element, Table *table);
     Table *table() const;
     QList<Cell *> cells() const;
+    Table *table();
+    int rowIndex();
     virtual ~Row();
 
 private:

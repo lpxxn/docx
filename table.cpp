@@ -6,51 +6,36 @@
 
 namespace Docx {
 
-const QString strtblGrid     = QStringLiteral("w:tblGrid");
+
 const QString strtblRow      = QStringLiteral("w:tr");
 const QString strtblCell     = QStringLiteral("w:tc");
-const QString strstyle       = QStringLiteral("w:tblPr");
 
 Table::Table(DocumentPart *part, const QDomElement &element)
-    : m_part(part), m_tblEle(element)
+    : m_part(part)
 {
     m_dom = part->m_dom;
-    QDomNodeList tblGrids = m_tblEle.elementsByTagName(strtblGrid);
-    if (tblGrids.isEmpty()) {
-        QDomElement tblGrid = m_dom->createElement(strtblGrid);
-        m_tblGrid = new CT_TblGrid(m_dom, tblGrid);
-        m_tblEle.appendChild(tblGrid);
-    } else {
-        m_tblGrid = new CT_TblGrid(m_dom, tblGrids.at(0).toElement());
-    }
+    m_ctTbl = new CT_Tbl(this, element);
 }
 
-/*!
- * \brief 设置位置
- * \param align
- */
-void Table::setAlignment(const QString &align)
+Cell *Table::cell(int rowIndex, int colIndex)
 {
+    Row *row = m_rows.at(rowIndex);
 
-}
-
-Cell *Table::cell(int rowIdx, int colIdx)
-{
-    return nullptr;
+    return row->cells().at(colIndex);
 }
 
 Table::~Table()
 {
-
+    delete m_ctTbl;
 }
 
 Column *Table::addColumn()
 {
-    QDomElement gridCol = m_tblGrid->addGridCol();
+    QDomElement gridCol = m_ctTbl->m_tblGrid->addGridCol();
     for (Row *row : m_rows) {
         row->addTc();
     }
-    return new Column(gridCol, m_tblGrid->count(), this);
+    return new Column(gridCol, m_ctTbl->m_tblGrid->count(), this);
 }
 
 Row *Table::addRow()
@@ -58,16 +43,23 @@ Row *Table::addRow()
     QDomElement rowEle = m_dom->createElement(strtblRow);
     Row *row = new Row(rowEle, this);
     m_rows.append(row);
-    for (int i = 0; i< m_tblGrid->count(); i++) {
+    for (int i = 0; i< m_ctTbl->m_tblGrid->count(); i++) {
         row->addTc();
     }
-    m_tblEle.appendChild(rowEle);
-    return new Row(rowEle, this);
+    m_ctTbl->m_tblEle.appendChild(rowEle);
+    return row;
 }
 
-QList<Cell *> Table::rowCells(int rowIdx)
+/*!
+ * \brief 得到rowIndex的行内所有的cell
+ *
+ * index
+ * \param rowIdx
+ * \return
+ */
+QList<Cell *> Table::rowCells(int rowIndex)
 {
-    Row *row = m_rows.at(rowIdx);
+    Row *row = m_rows.at(rowIndex);
 
     return row->cells();
 }
@@ -88,18 +80,12 @@ Columns *Table::columns()
  */
 void Table::setStyle(const QString &style)
 {
-    if (!m_style) {
-        QDomElement styleEle = m_dom->createElement(strstyle);
-        m_style = new CT_TblPr(m_dom, styleEle);
-        QDomNode n = m_tblEle.firstChild();
-        m_tblEle.insertBefore(styleEle, n);
-    }
-    m_style->setStyle(style);
+    m_ctTbl->setStyle(style);
 }
 
 void Table::setAlignment(WD_TABLE_ALIGNMENT alignment)
 {
-    m_style->setAlignment(alignment);
+    m_ctTbl->setAlignment(alignment);
 }
 
 Columns::Columns()
@@ -168,17 +154,28 @@ QList<Cell *> Row::cells() const
     return m_cells;
 }
 
+Table *Row::table()
+{
+    return m_table;
+}
+
+int Row::rowIndex()
+{
+    return m_table->m_rows.indexOf(this);
+}
+
 Row::~Row()
 {
 
 }
 
 Cell::Cell(const QDomElement &element, Row *row)
-    : m_ele(element)
+    : m_row(row)
 {
     m_dom = row->m_dom;
     m_part = row->m_part;
-    addParagraph();
+    m_tc = QSharedPointer<CT_Tc>(new CT_Tc(this, element));
+    addParagraph();    
 }
 
 Paragraph *Cell::addParagraph(const QString &text, const QString &style)
@@ -190,7 +187,7 @@ Paragraph *Cell::addParagraph(const QString &text, const QString &style)
     if (!text.isEmpty())
         m_currentpara->addRun(text, style);
 
-    m_ele.appendChild(pEle);
+    m_tc->m_ele.appendChild(pEle);
     m_paras.append(m_currentpara);
     return m_currentpara;
 }
@@ -205,7 +202,7 @@ Table *Cell::addTable(int rows, int cols, const QString &style)
     QDomElement pEle = m_dom->createElement(QStringLiteral("w:tbl"));
     Table *table =  new Table(m_part, pEle);
 
-    m_ele.appendChild(pEle);
+    m_tc->m_ele.appendChild(pEle);
 
     for (int i = 0; i < cols; i++) {
         table->addColumn();
@@ -216,6 +213,27 @@ Table *Cell::addTable(int rows, int cols, const QString &style)
     table->setStyle(style);
     addParagraph();
     return table;
+}
+
+Cell *Cell::merge(Cell *other)
+{
+
+    return nullptr;
+}
+
+int Cell::cellIndex()
+{
+    return m_row->m_cells.indexOf(this);
+}
+
+int Cell::rowIndex()
+{
+    return m_row->rowIndex();
+}
+
+Table *Cell::table()
+{
+    return m_row->m_table;
 }
 
 Cell::~Cell()

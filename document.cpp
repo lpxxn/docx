@@ -5,22 +5,30 @@
 #include "text.h"
 #include "table.h"
 
-using namespace Docx;
-
 #include <QDebug>
+#include <QFile>
+
+using namespace Docx;
 
 Document::Document()
 {
-    qDebug() << "construct docx document.";    
+    qDebug() << "construct docx document.";
+    open(QStringLiteral("://default.docx"));
 }
 
 Document::Document(const QString &name)
 {
     qDebug() << "construct docx document from " << name;
-    //OpcPackage * pack = new OpcPackage();
 
+    Q_ASSERT_X(QFile::exists(name), "filed", "can not find the path!");
+
+    open(name);
+}
+
+void Document::open(const QString &name)
+{
     m_package = Package::open(name);
-    m_docPart = m_package->mainDocument();    
+    m_docPart = m_package->mainDocument();
 }
 
 Document::Document(QIODevice *device)
@@ -88,3 +96,5 @@ void Document::save(const QString &path)
     qDebug() << "save docx file: " << path;
     m_package->save(path);
 }
+
+

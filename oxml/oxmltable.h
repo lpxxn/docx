@@ -8,6 +8,8 @@
 
 namespace Docx {
 
+class Table;
+class Cell;
 class CT_TblPr;
 class CT_TblGrid;
 class CT_TblGridCol;
@@ -20,15 +22,18 @@ class CT_Tc;
 class CT_Tbl
 {
 public:
-    CT_Tbl();
-
+    CT_Tbl(Table *table, const QDomElement &ele);
+    void setStyle(const QString &style);
+    void setAlignment(WD_TABLE_ALIGNMENT alignment);
     virtual ~CT_Tbl();
 
 private:
-    CT_TblPr *m_tblPr;
-    CT_TblGrid *m_tblGrid;
-    CT_TblGridCol *m_tblGridCol;
-
+    CT_TblPr *m_style = nullptr;
+    CT_TblGrid *m_tblGrid = nullptr;
+    QDomDocument *m_dom;
+    Table *m_table;
+    QDomElement m_tblEle;
+    friend class Table;
 };
 
 /*!
@@ -106,11 +111,15 @@ class CT_Tc
 {
 public:
     CT_Tc();
+    CT_Tc(Cell *cell, const QDomElement &ele);
 
 
     virtual ~CT_Tc();
 
 private:
+    Cell *m_cell = nullptr;
+    QDomElement m_ele;
+    friend class Cell;
 
 };
 
