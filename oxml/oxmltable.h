@@ -5,10 +5,12 @@
 
 #include <QDomElement>
 #include <QMap>
+#include <QSharedPointer>
 
 namespace Docx {
 
 class Table;
+class Row;
 class Cell;
 class CT_TblPr;
 class CT_TblGrid;
@@ -111,14 +113,53 @@ class CT_Tc
 {
 public:
     CT_Tc();
-    CT_Tc(Cell *cell, const QDomElement &ele);
+    CT_Tc(Cell *cell, const QDomElement &ele);    
+    CT_Tc *merge(QSharedPointer<CT_Tc> other);
+    QString vMerge() const;
+    void setvMerge(const QString &value);
+    int gridSpan() const;
+    void setGridSpan(int span);
+
+    int top() const;
+    int bottom() const;
+    int left() const;
+    int right() const;
 
 
     virtual ~CT_Tc();
 
 private:
+    void spanDimensions(QSharedPointer<CT_Tc> other, int &top, int &left, int &height, int &width);    
+    void raise_on_inverted_L(CT_Tc *a, CT_Tc *b);
+    void raise_on_tee_shaped(CT_Tc *a, CT_Tc *b);
+    int width() const;
+    void setWidth(int width);
+    Cell *tcAbove() const;
+    Cell *tcBelow() const;
+    Row *trAbove() const;
+    Row *trBelow() const;
+    void growTo(int width, int height, CT_Tc *top_tc = nullptr);
+    QString vMergeVal(int height, CT_Tc *tc);
+    void spanToWidth(int grid_width, CT_Tc *top_tc, const QString &vmerge);    
+    void moveContentTo(CT_Tc *top_tc);
+    void removeTrailingEmptyP();
+    //void removeCellStyle();
+    void swallowNextTc(int grid_width, CT_Tc *top_tc);
+    void addWidthOf(CT_Tc *other_tc);
+    void raise_on_invalid_swallow(int grid_width, CT_Tc *nextc);
+    Cell *nextTc() const;    
+
+private:
+    void checktcPr();
+    void copyCt(CT_Tc *otherCell);
+
+private:
     Cell *m_cell = nullptr;
     QDomElement m_ele;
+    QDomElement m_tcPr;
+    QDomElement m_vMerge;
+    QDomElement m_tcW;
+    QDomElement m_gridSpan;
     friend class Cell;
 
 };

@@ -4,6 +4,7 @@
 #include <QDomElement>
 #include <QByteArray>
 #include <QImage>
+#include <QException>
 
 namespace Docx
 {
@@ -24,6 +25,17 @@ public:
 
 private:
 
+};
+
+class InvalidSpanError : public QException
+{
+public:
+    InvalidSpanError(const QString &errorStr);
+    void raise() const;
+    QException *clone() const;
+
+private:
+    QString m_error;
 };
 }
 

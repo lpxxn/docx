@@ -64,9 +64,9 @@ QList<Cell *> Table::rowCells(int rowIndex)
     return row->cells();
 }
 
-Rows *Table::rows()
+QList<Row *> Table::rows()
 {
-    return new Rows();
+    return m_rows;
 }
 
 Columns *Table::columns()
@@ -217,8 +217,10 @@ Table *Cell::addTable(int rows, int cols, const QString &style)
 
 Cell *Cell::merge(Cell *other)
 {
-
-    return nullptr;
+    QSharedPointer<CT_Tc> tc = this->m_tc;
+    QSharedPointer<CT_Tc> tc2 = other->m_tc;
+    CT_Tc *tcReturn = tc->merge(tc2);
+    return tcReturn->m_cell;
 }
 
 int Cell::cellIndex()

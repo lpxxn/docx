@@ -2,6 +2,7 @@
 
 #include <QCryptographicHash>
 #include <QBuffer>
+#include <QDebug>
 
 namespace Docx{
 
@@ -71,7 +72,26 @@ QByteArray byteHash(const QByteArray &bytes)
     return QCryptographicHash::hash(bytes, QCryptographicHash::Md5);
 }
 
+InvalidSpanError::InvalidSpanError(const QString &errorStr)
+    : m_error(errorStr)
+{
+    qDebug() << m_error;
+}
+
+void InvalidSpanError::raise() const
+{
+    qDebug() << m_error;
+    throw *this;
+}
+
+QException *InvalidSpanError::clone() const
+{
+    return new InvalidSpanError(*this);
+}
 
 }
+
+
+
 
 

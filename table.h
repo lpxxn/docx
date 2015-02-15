@@ -28,7 +28,7 @@ public:
     Row* addRow();    
     Column* addColumn();
     QList<Cell*> rowCells(int rowIndex);
-    Rows* rows();
+    QList<Row *> rows();
     Columns* columns();
     void setStyle(const QString &style);
     void setAlignment(WD_TABLE_ALIGNMENT alignment);
