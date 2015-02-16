@@ -9,7 +9,7 @@ SOURCES += \
     document.cpp \
     shared.cpp \
     text.cpp \
-    blkcntnr.cpp \
+    #blkcntnr.cpp \
     parts/documentpart.cpp \
     opc/part.cpp \
     opc/packuri.cpp \
@@ -43,7 +43,7 @@ HEADERS +=\
     document.h \
     shared.h \
     text.h \
-    blkcntnr.h \
+    #blkcntnr.h \
     parts/documentpart.h \
     opc/part.h \
     opc/packuri.h \

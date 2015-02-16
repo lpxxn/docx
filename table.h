@@ -2,7 +2,6 @@
 #define TABLE_H
 #include "docx_global.h"
 #include "shared.h"
-#include "blkcntnr.h"
 #include "./oxml/oxmltable.h"
 #include "length.h"
 
@@ -76,7 +75,7 @@ private:
 
 };
 
-class DOCX_EXPORT Column : public Parented
+class DOCX_EXPORT Column
 {
 public:
     Column(const QDomElement &tlGrid, int gridIndex, Table *table);

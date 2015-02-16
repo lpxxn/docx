@@ -22,7 +22,7 @@ class DocumentPart;
 class InlineShape;
 class CT_Inline;
 
-class DOCX_EXPORT Paragraph : public Parented
+class DOCX_EXPORT Paragraph
 {
 public:
 
@@ -52,7 +52,7 @@ private:
 
 };
 
-class DOCX_EXPORT Run : public Parented
+class DOCX_EXPORT Run
 {
 public:    
     Run(DocumentPart *part, QDomElement *parent);
