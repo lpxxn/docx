@@ -84,6 +84,14 @@ InlineShape *Document::addPicture(const QImage &img, const Length &width, const 
     return picture;
 }
 
+Paragraph *Document::addPageBreak()
+{
+    Paragraph *p = addParagraph();
+    Run *run = p->addRun();
+    run->addBreak();
+    return p;
+}
+
 Document::~Document()
 {
     qDebug() << "delete Docx::Document.";

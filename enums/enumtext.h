@@ -54,6 +54,16 @@ enum class WD_UNDERLINE
 
 };
 
+enum class WD_BREAK
+{
+    LINE,
+    PAGE,
+    COLUMN,
+    LINE_CLEAR_LEFT,
+    LINE_CLEAR_RIGHT,
+    LINE_CLEAR_ALL
+};
+
 QString underLineToString(WD_UNDERLINE underline);
 
 QString paragraphAlignToString(WD_PARAGRAPH_ALIGNMENT align);

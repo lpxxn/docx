@@ -31,6 +31,7 @@ public:
 
     InlineShape *addPicture(const QString &imgPath, const Length &width = Length(), const Length &height = Length());
     InlineShape *addPicture(const QImage &img, const Length &width = Length(), const Length &height = Length());
+    Paragraph *addPageBreak();
 
     virtual ~Document();
 

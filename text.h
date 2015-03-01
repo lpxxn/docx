@@ -59,8 +59,10 @@ public:
     virtual ~Run();
 
     void addTab();
+    void addBreak(WD_BREAK breakType = WD_BREAK::PAGE);
 
     void addText(const QString &text);
+
     QString text() const;
 
     InlineShape* addPicture(const QString &path, const Length &width = Length(), const Length &height = Length());
@@ -86,6 +88,7 @@ public:
 
 private:
     InlineShape* scalePicture(InlineShape *picture, const Length &width, const Length &height);
+
 private:
 
     QString m_text;

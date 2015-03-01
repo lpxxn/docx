@@ -117,6 +117,27 @@ void Run::addTab()
     m_rEle.appendChild(tabEle);
 }
 
+void Run::addBreak(WD_BREAK breakType)
+{
+    QDomElement brele = m_dom->createElement(QStringLiteral("w:br"));
+    QString eletype, eleclear;
+    switch (breakType) {
+    case WD_BREAK::LINE: break;
+    case WD_BREAK::PAGE: eletype = QStringLiteral("page"); break;
+    case WD_BREAK::COLUMN: eletype = QStringLiteral("column"); break;
+    case WD_BREAK::LINE_CLEAR_LEFT: eletype = QStringLiteral("textWrapping"); eleclear = QStringLiteral("left"); break;
+    case WD_BREAK::LINE_CLEAR_RIGHT: eletype = QStringLiteral("textWrapping"); eleclear = QStringLiteral("right"); break;
+    case WD_BREAK::LINE_CLEAR_ALL: eletype = QStringLiteral("textWrapping"); eleclear = QStringLiteral("all"); break;
+    default: break;
+    }
+    m_rEle.appendChild(brele);
+    if (!eletype.isEmpty())
+        brele.setAttribute(QStringLiteral("w:type"), eletype);
+
+    if (!eleclear.isEmpty())
+        brele.setAttribute(QStringLiteral("w:clear"), eleclear);
+}
+
 /*!
  * \brief 添加文字
  * \param text
