@@ -38,7 +38,7 @@ public:
 
     void setAlignment(WD_PARAGRAPH_ALIGNMENT align);
 
-    Paragraph* insertParagraphBefore(const QString &text, const QString &style);
+    Paragraph* insertParagraphBefore(const QString &text, const QString &style = QString());
 
     virtual ~Paragraph();
 
@@ -56,6 +56,7 @@ class DOCX_EXPORT Run
 {
 public:    
     Run(DocumentPart *part, QDomElement *parent);
+    Run(DocumentPart *part, QDomElement *parent, const QDomElement &ele);
     virtual ~Run();
 
     void addTab();

@@ -11,6 +11,8 @@ namespace Docx
 
 QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QString &eleName, bool addToFirst = false);
 
+QByteArray getFileHash(const QString &fileName);
+
 QByteArray imageHash(const QImage &img);
 
 QByteArray byteHash(const QByteArray &bytes);

@@ -2,6 +2,7 @@
 
 #include <QCryptographicHash>
 #include <QBuffer>
+#include <QFile>
 #include <QDebug>
 
 namespace Docx{
@@ -46,6 +47,25 @@ QDomElement addOrAssignElement(QDomDocument *dom, QDomElement *parent, const QSt
     } else
         return elements.at(0).toElement();
 
+}
+
+/*!
+ * \brief 文件的Hash.
+ * \param fileName
+ * \return
+ */
+QByteArray getFileHash(const QString &fileName)
+{
+    QByteArray byteArray;
+    QFile file(fileName);
+    if (!file.exists())
+        return byteArray;
+    if (file.open(QIODevice::ReadOnly)) {
+        byteArray = QCryptographicHash::hash(file.readAll(), QCryptographicHash::Md5);
+        file.close();
+    }
+
+    return byteArray;
 }
 
 /*!

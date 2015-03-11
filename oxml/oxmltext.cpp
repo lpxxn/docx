@@ -9,7 +9,25 @@ namespace Docx {
 CT_PPr::CT_PPr(Paragraph *paragraph)
     : m_paragraph(paragraph)
 {
+    // load style
+    loadExistStyle();
+}
 
+/*!
+ * \brief 查看是否有样式，如果有则初始化各参数
+ */
+void CT_PPr::loadExistStyle()
+{
+    QDomNodeList eleStyle = m_paragraph->m_pEle->elementsByTagName(QStringLiteral("w:pPr"));
+    if (eleStyle.isEmpty())
+        return;
+
+    m_style = eleStyle.at(0).toElement();
+
+    // pStyle
+    eleStyle = m_style.elementsByTagName(QStringLiteral("w:pStyle"));
+    if (!eleStyle.isEmpty())
+        m_pStyle = eleStyle.at(0).toElement();
 }
 
 void CT_PPr::setStyle(const QString &style)
@@ -42,12 +60,26 @@ CT_PPr::~CT_PPr()
 }
 
 // CT_RPr
-
 CT_RPr::CT_RPr(Run *run)
     : m_run(run)
 {
+    // load style
+    loadExistStyle();
 
 }
+
+
+/*!
+ * \brief 加载现有的样式
+ */
+void CT_RPr::loadExistStyle()
+{
+    QDomNodeList eles = m_run->m_rEle.elementsByTagName(QStringLiteral("w:rPr"));
+    if (eles.isEmpty())
+        return;
+    m_style = eles.at(0).toElement();
+}
+
 
 /*!
  * \brief set val attribute of <w:sStyle> child Element
@@ -65,12 +97,6 @@ void CT_RPr::setStyle(const QString &style)
 void CT_RPr::setBold(bool bold)
 {
     addOrAssignStyleChildElement(QStringLiteral("w:b"), bold);
-    //    addOrAssignStyle();
-    //    QDomElement m_bold = addOrAssignElement(m_run->m_dom, &m_style, QStringLiteral("w:b"));
-    //    if (!bold)
-    //        m_bold.setAttribute("w:val", 0);
-    //    else
-    //        m_bold.removeAttribute("w:val");
 }
 
 void CT_RPr::setAllcaps(bool isallcaps)

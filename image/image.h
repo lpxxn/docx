@@ -21,7 +21,7 @@ public:
     int vertDpi() const;
     QString ext() const;
     QString contentType() const;
-    QByteArray blob() const;
+    QByteArray blob();
     ~Image();
 
 private:

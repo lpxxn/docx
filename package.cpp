@@ -5,6 +5,7 @@
 #include "shared.h"
 
 #include <QBuffer>
+#include <QDebug>
 
 namespace Docx {
 Package::Package()
@@ -23,6 +24,16 @@ void Package::loadRel(const QString &reltype, const QString &targetRef, Part *ta
 Package *Package::open(const QString &pkgFile)
 {
     PackageReader *reader = PackageReader::fromFile(pkgFile);
+    //
+    Package *package = new Package();
+    Unmarshaller::unmarshal(reader, package);
+
+    return package;
+}
+
+Package *Package::open(QIODevice *device)
+{
+    PackageReader *reader = PackageReader::fromFile(device);
     //
     Package *package = new Package();
     Unmarshaller::unmarshal(reader, package);
@@ -61,6 +72,7 @@ void Package::gatherImageParts(const QMap<QString, Relationship *> &rels)
     for (const Relationship *rel : rels.values()) {
         if (rel->relType() == Constants::IMAGE) {
             ImagePart *impart = static_cast<ImagePart *>(rel->target());
+
             m_imageParts->append(impart);
         }
         if (rel->target()) {
@@ -90,8 +102,17 @@ ImageParts::~ImageParts()
  */
 ImagePart *ImageParts::getOrAddImagePart(const PackURI &imageDescriptor)
 {
+    QByteArray key = getFileHash(imageDescriptor);
+    ImagePart *part = getByHash(key);
+    if (part)
+        return part;
+
     Image *img = new Image(imageDescriptor);
-    return getOrAddImagePart(img);
+
+    PackURI name = nextImagePartName(img->ext());
+    part = ImagePart::fromImage(name, img, key);
+    append(part);
+    return part;
 }
 
 ImagePart *ImageParts::getOrAddImagePart(const QImage &img)
@@ -113,13 +134,15 @@ ImagePart *ImageParts::getOrAddImagePart(Image *img)
         return part;
     }
     PackURI name = nextImagePartName(img->ext());
-    part = ImagePart::fromImage(name, img);
+    part = ImagePart::fromImage(name, img, key);
     append(part);
     return part;
 }
 
 void ImageParts::append(ImagePart *item)
 {
+    if (m_imageparts.contains(item))
+        return;
     m_imageparts.append(item);
 }
 

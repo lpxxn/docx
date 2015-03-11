@@ -16,6 +16,16 @@ Paragraph::Paragraph(DocumentPart *part, const QDomElement &element)
     m_dom = part->m_dom;
     m_pEle = new QDomElement(element);
     m_style = new CT_PPr(this);
+
+    // load exist run
+    QDomNodeList reles = m_pEle->elementsByTagName(QStringLiteral("w:r"));
+    if (!reles.isEmpty()) {
+        for (int i = 0; i < reles.count(); i++) {
+            QDomElement rele = reles.at(i).toElement();
+            Run *run = new Run(m_part, m_pEle, rele);
+            m_runs.append(run);
+        }
+    }
 }
 
 /*!
@@ -108,6 +118,14 @@ Run::Run(DocumentPart *part, QDomElement *parent)
     m_style = new CT_RPr(this);
 }
 
+Run::Run(DocumentPart *part, QDomElement *parent, const QDomElement &ele)
+    : m_part(part), m_parent(parent)
+{
+    m_dom = part->m_dom;
+    m_rEle = QDomElement(ele);
+    m_style = new CT_RPr(this);
+}
+
 /*!
  * \brief 添加 Tab
  */
@@ -188,8 +206,7 @@ InlineShape *Run::scalePicture(InlineShape *picture, const Length &width, const 
         }
         picture->setWidth(lwidth);
         picture->setHeight(lheight);
-    }
-    qDebug() << picture->width().emu() << " height " << picture->height().emu();
+    }    
     return picture;
 }
 

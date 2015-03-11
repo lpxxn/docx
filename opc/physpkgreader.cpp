@@ -14,6 +14,12 @@ PhysPkgReader::PhysPkgReader(const QString &filePath) :
 
 }
 
+PhysPkgReader::PhysPkgReader(QIODevice *device) :
+    m_reader(new QZipReader(device))
+{
+
+}
+
 // Return the '[Content_Types].xml' blob from the package
 QByteArray PhysPkgReader::contentTypesData()
 {

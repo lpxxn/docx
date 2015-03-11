@@ -20,7 +20,7 @@ Image::Image(const PackURI &path)
     m_vertDpi = m_img.logicalDpiY();
     m_ext = fileInfo.preferredSuffix();
     m_contentType = fileInfo.name();
-    saveBlob();
+    //saveBlob();
 
 }
 
@@ -73,8 +73,10 @@ QString Image::contentType() const
     return m_contentType;
 }
 
-QByteArray Image::blob() const
-{    
+QByteArray Image::blob()
+{
+    if (m_blob.isEmpty())
+        saveBlob();
     return m_blob;
 }
 

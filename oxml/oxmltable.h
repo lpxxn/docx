@@ -14,8 +14,6 @@ class Row;
 class Cell;
 class CT_TblPr;
 class CT_TblGrid;
-class CT_TblGridCol;
-class CT_Row;
 class CT_Tc;
 
 /*!
@@ -49,6 +47,8 @@ public:
     void setAlignment(WD_TABLE_ALIGNMENT alignment);
     virtual ~CT_TblPr();
 
+    void initAlignsMap();
+    void loadExistStyle();
 private:
     void checkStyleElement();
     void checkAlignment();
@@ -80,42 +80,16 @@ private:
 };
 
 /*!
- * \brief <w:gridCol> child of <w:tblGrid> defines a table column
- */
-class CT_TblGridCol
-{
-public:
-    CT_TblGridCol();
-
-    virtual ~CT_TblGridCol();
-
-private:
-
-};
-
-/*!
- * \brief <w:tr>
- */
-class CT_Row
-{
-public:
-    CT_Row();
-
-    virtual ~CT_Row();
-
-private:
-};
-
-/*!
  * \brief <w:tc> table cell element
  */
 class CT_Tc
 {
-public:
-    CT_Tc();
-    CT_Tc(Cell *cell, const QDomElement &ele);    
+public:    
+    CT_Tc(Cell *cell, const QDomElement &ele);
     CT_Tc *merge(QSharedPointer<CT_Tc> other);
+    QDomElement ele() const;
     QString vMerge() const;
+    void loadExistStyle();
     void setvMerge(const QString &value);
     int gridSpan() const;
     void setGridSpan(int span);
@@ -124,7 +98,6 @@ public:
     int bottom() const;
     int left() const;
     int right() const;
-
 
     virtual ~CT_Tc();
 
@@ -142,8 +115,7 @@ private:
     QString vMergeVal(int height, CT_Tc *tc);
     void spanToWidth(int grid_width, CT_Tc *top_tc, const QString &vmerge);    
     void moveContentTo(CT_Tc *top_tc);
-    void removeTrailingEmptyP();
-    //void removeCellStyle();
+    void removeTrailingEmptyP();    
     void swallowNextTc(int grid_width, CT_Tc *top_tc);
     void addWidthOf(CT_Tc *other_tc);
     void raise_on_invalid_swallow(int grid_width, CT_Tc *nextc);
@@ -160,8 +132,9 @@ private:
     QDomElement m_vMerge;
     QDomElement m_tcW;
     QDomElement m_gridSpan;
+    bool m_isLoad = false;
     friend class Cell;
-
+    friend class Row;
 };
 
 

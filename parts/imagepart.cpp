@@ -7,16 +7,20 @@
 namespace Docx {
 
 
-ImagePart::ImagePart(const PackURI &partName, const QString &contentType, const QByteArray &blob, Docx::Image *image)
+ImagePart::ImagePart(const PackURI &partName, const QString &contentType, const QByteArray &blob, Docx::Image *image, const QByteArray &hash)
     : Part(partName, contentType, blob)
 {
-    if (blob.isEmpty()) {
-        m_hash = imageHash(image->img());
+    if (blob.isEmpty() && image != nullptr) {
+        //m_hash = imageHash(image->img());
         m_image = image;
     } else {
         m_image = new Image(m_blob, m_partName.ext());
-        m_hash = byteHash(blob);
+        //m_hash = byteHash(blob);
     }
+    if (hash.isEmpty())
+        m_hash = getFileHash(partName);
+    else
+        m_hash = hash;
 }
 
 QString ImagePart::fileName() const
@@ -44,14 +48,14 @@ Length ImagePart::defaultCy() const
 
 ImagePart *ImagePart::load(const PackURI &partName, const QString &contentType, const QByteArray &blob, Image *image)
 {
-    qDebug() << "Image Name" << partName << "  image ext  " << partName.ext();
+    //qDebug() << "Image Name" << partName << "  image ext  " << partName.ext();
     return new ImagePart(partName, contentType, blob, image);
 }
 
-ImagePart *ImagePart::fromImage(const PackURI &partName, Image *image)
+ImagePart *ImagePart::fromImage(const PackURI &partName, Image *image, const QByteArray &hash)
 {
-    qDebug() << "Image Name" << partName << "  image ext  " << partName.ext();
-    return new ImagePart(partName, image->contentType(), image->blob(), image);
+    //qDebug() << "Image Name" << partName << "  image ext  " << partName.ext();
+    return new ImagePart(partName, image->contentType(), QByteArray(), image, hash);
 }
 
 void ImagePart::afterUnmarshal()
@@ -70,7 +74,18 @@ QByteArray ImagePart::hash() const
 
 ImagePart::~ImagePart()
 {
-    delete m_image;
+    if (m_image) {
+        delete m_image;
+        m_image = nullptr;
+    }
+}
+
+QByteArray ImagePart::blob() const
+{
+    return m_image->blob();
 }
 
 }
+
+
+

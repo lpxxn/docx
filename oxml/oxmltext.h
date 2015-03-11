@@ -22,6 +22,7 @@ public:
     virtual ~CT_PPr();
 
 
+    void loadExistStyle();
 private:
     QDomElement m_style;
     QDomElement m_pStyle;
@@ -44,6 +45,7 @@ public:
     void setUnderLine(WD_UNDERLINE underline);
     virtual ~CT_RPr();    
 
+    void loadExistStyle();
 private:
     void addOrAssignStyle();
 

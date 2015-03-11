@@ -13,6 +13,7 @@ class PhysPkgReader
 {
 public:
     PhysPkgReader(const QString &filePath);
+    PhysPkgReader(QIODevice *device);
     QByteArray contentTypesData();
     QByteArray blobForm(const QString &packuri);
     QByteArray relsFrom(const PackURI &sourceUri);    

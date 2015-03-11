@@ -18,6 +18,7 @@ class PackageReader
 public:
     PackageReader(SerializedRelationships *srels, ContentTypeMap *contentTypes, const QList<SerializedPart> &sparts);
     static PackageReader* fromFile(const QString &pkgFile);
+    static PackageReader* fromFile(QIODevice *device);
     static SerializedRelationships* srelsFrom(PhysPkgReader *physReader, const QString &sourceUri);
     static QList<SerializedPart> loadSerializedParts(PhysPkgReader *physReader, const SerializedRelationships *srels, const ContentTypeMap *contentTypes);
     QMap<QString, QVector<SerializedRelationship> > partRels() const;

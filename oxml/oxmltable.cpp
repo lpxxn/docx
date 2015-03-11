@@ -14,6 +14,7 @@ CT_Tbl::CT_Tbl(Table *table, const QDomElement &ele)
 {
     m_dom = m_table->m_dom;
 
+    // tblGrid
     QDomNodeList tblGrids = m_tblEle.elementsByTagName(strtblGrid);
     if (tblGrids.isEmpty()) {
         QDomElement tblGrid = m_dom->createElement(strtblGrid);
@@ -21,6 +22,13 @@ CT_Tbl::CT_Tbl(Table *table, const QDomElement &ele)
         m_tblEle.appendChild(tblGrid);
     } else {
         m_tblGrid = new CT_TblGrid(m_dom, tblGrids.at(0).toElement());
+    }
+
+    // tblPr
+    QDomNodeList tblPrEle = m_tblEle.elementsByTagName(strstyle);
+    if (!tblPrEle.isEmpty()) {
+        QDomElement styleEle = tblPrEle.at(0).toElement();
+        m_style = new CT_TblPr(m_dom, styleEle);
     }
 }
 
@@ -45,22 +53,10 @@ CT_Tbl::~CT_Tbl()
     delete m_style;
 }
 
-
-CT_Row::CT_Row()
-{
-
-}
-
-CT_Row::~CT_Row()
-{
-
-}
-
-
 CT_TblGrid::CT_TblGrid(QDomDocument *dom, const QDomElement &ele)
     : m_dom(dom), m_element(ele)
 {
-
+    cols = m_element.childNodes().count();
 }
 
 QDomElement CT_TblGrid::addGridCol()
@@ -86,17 +82,8 @@ CT_TblGrid::~CT_TblGrid()
 
 }
 
-CT_TblGridCol::CT_TblGridCol()
-{
-
-}
-
-CT_TblGridCol::~CT_TblGridCol()
-{
-
-}
-
-
+const QString strtblStyle = QStringLiteral("w:tblStyle");
+const QString strJc = QStringLiteral("w:jc");
 
 /*!
  * \brief 表格的样式
@@ -105,6 +92,28 @@ CT_TblGridCol::~CT_TblGridCol()
  */
 CT_TblPr::CT_TblPr(QDomDocument *dom, const QDomElement &ele)
     : m_dom(dom), m_element(ele)
+{
+    initAlignsMap();
+    loadExistStyle();
+}
+
+void CT_TblPr::loadExistStyle()
+{
+    QDomNodeList eles = m_element.elementsByTagName(strtblStyle);
+    if (!eles.isEmpty())
+        m_tblStyle = eles.at(0).toElement();
+
+    eles = m_element.elementsByTagName(strJc);
+    if (!eles.isEmpty())
+        m_jcAlignment = eles.at(0).toElement();
+
+}
+
+
+/*!
+ * \brief 初始化位置map
+ */
+void CT_TblPr::initAlignsMap()
 {
     m_aligns.insert(WD_TABLE_ALIGNMENT::LEFT,           QStringLiteral("left"));
     m_aligns.insert(WD_TABLE_ALIGNMENT::RIGHT,          QStringLiteral("right"));
@@ -115,9 +124,8 @@ CT_TblPr::CT_TblPr(QDomDocument *dom, const QDomElement &ele)
     m_aligns.insert(WD_TABLE_ALIGNMENT::HIGHKASHIDA,    QStringLiteral("highKashida"));
     m_aligns.insert(WD_TABLE_ALIGNMENT::LOWKASHIDA,     QStringLiteral("lowKashida"));
     m_aligns.insert(WD_TABLE_ALIGNMENT::THAIDISTRIBUTE, QStringLiteral("thaiDistribute"));
-
-
 }
+
 
 void CT_TblPr::setStyle(const QString &style)
 {
@@ -139,7 +147,7 @@ CT_TblPr::~CT_TblPr()
 void CT_TblPr::checkStyleElement()
 {
     if (m_tblStyle.isNull()) {
-        m_tblStyle = m_dom->createElement(QStringLiteral("w:tblStyle"));
+        m_tblStyle = m_dom->createElement(strtblStyle);
         m_element.appendChild(m_tblStyle);
     }
 }
@@ -147,7 +155,7 @@ void CT_TblPr::checkStyleElement()
 void CT_TblPr::checkAlignment()
 {
     if (m_jcAlignment.isNull()) {
-        m_jcAlignment = m_dom->createElement(QStringLiteral("w:jc"));
+        m_jcAlignment = m_dom->createElement(strJc);
         m_element.appendChild(m_jcAlignment);
     }
 }
@@ -157,15 +165,10 @@ void CT_TblPr::checkAlignment()
 const QString RESTART = QStringLiteral("restart");
 const QString CONTINUE = QStringLiteral("continue");
 
-CT_Tc::CT_Tc()
-{
-
-}
-
 CT_Tc::CT_Tc(Cell *cell, const QDomElement &ele)
     : m_cell(cell), m_ele(ele)
 {
-
+    loadExistStyle();
 }
 
 /*!
@@ -182,7 +185,7 @@ CT_Tc * CT_Tc::merge(QSharedPointer<CT_Tc> other)
     top_tc->growTo(width, height);
 
     if (top_tc != this) {
-        //this->m_cell->m_tc = top_tc->m_cell->m_tc;
+
         m_cell->m_tc->copyCt(top_tc);
     }
 
@@ -190,11 +193,42 @@ CT_Tc * CT_Tc::merge(QSharedPointer<CT_Tc> other)
     return top_tc;
 }
 
+QDomElement CT_Tc::ele() const
+{
+    return m_ele;
+}
+
 QString CT_Tc::vMerge() const
 {
     if (m_vMerge.isNull())
         return QString();
     return m_vMerge.attribute(QStringLiteral("w:val"));
+}
+
+void CT_Tc::loadExistStyle()
+{
+    QDomNodeList eles = m_ele.elementsByTagName(QStringLiteral("w:tcPr"));
+
+    if (!eles.isEmpty()) {
+        m_tcPr = eles.at(0).toElement();
+        m_isLoad = true;
+
+        // w:tcW
+        eles = m_tcPr.elementsByTagName(QStringLiteral("w:tcW"));
+        if (!eles.isEmpty())
+            m_tcW = eles.at(0).toElement();
+
+        // w:gridSpan
+        eles = m_tcPr.elementsByTagName(QStringLiteral("w:gridSpan"));
+        if (!eles.isEmpty())
+            m_gridSpan = eles.at(0).toElement();
+
+        // w:vMerge
+        eles = m_tcPr.elementsByTagName(QStringLiteral("w:vMerge"));
+        if (!eles.isEmpty())
+            m_vMerge = eles.at(0).toElement();
+
+    }
 }
 
 void CT_Tc::setvMerge(const QString &value)
@@ -474,8 +508,7 @@ QString CT_Tc::vMergeVal(int height, CT_Tc *tc)
  */
 void CT_Tc::spanToWidth(int grid_width, CT_Tc *top_tc, const QString &vmerge)
 {
-    moveContentTo(top_tc);
-    int span = this->gridSpan();
+    moveContentTo(top_tc);    
     while (this->gridSpan() < grid_width) {
         this->swallowNextTc(grid_width, top_tc);
     }
@@ -524,14 +557,6 @@ void CT_Tc::removeTrailingEmptyP()
 
     m_ele.removeChild(lastN);
 }
-
-//void CT_Tc::removeCellStyle()
-//{
-//    QDomNode firstN = m_ele.firstChild();
-//    if (firstN.isNull() || firstN.nodeName() != QStringLiteral("w:tcPr"))
-//        return;
-//    m_ele.removeChild(firstN);
-//}
 
 /*!
  * \brief 横向合并下一个单元格
@@ -607,24 +632,11 @@ void CT_Tc::checktcPr()
 
 void CT_Tc::copyCt(CT_Tc *otherCell)
 {
-
-//    Cell *cell = m_cell;
-//    int rowIndex = cell->rowIndex();
-//    int colIndex = cell->cellIndex();
-
-    //cell->m_tc = otherCell->m_tc;
     m_ele = QDomElement(otherCell->m_ele);
     m_tcPr = QDomElement(otherCell->m_tcPr);
     m_vMerge = QDomElement(otherCell->m_vMerge);
     m_tcW = QDomElement(otherCell->m_tcW);
-    m_gridSpan = QDomElement(otherCell->m_gridSpan);
-    int span = this->gridSpan();
-    int cellIndex = m_cell->cellIndex();
-    qDebug() << span << cellIndex;
-    //cell->m_tc->m_cell = cell;
-//    int rowIndex2 = cell->rowIndex();
-//    int colIndex2 = cell->cellIndex();
-//    qDebug() << rowIndex << colIndex << rowIndex2 << colIndex2;
+    m_gridSpan = QDomElement(otherCell->m_gridSpan);    
 }
 
 

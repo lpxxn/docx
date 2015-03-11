@@ -13,7 +13,11 @@ using namespace Docx;
 Document::Document()
 {
     qDebug() << "construct docx document.";
-    open(QStringLiteral("://default.docx"));
+    if (QLocale::system().name() == QStringLiteral("zh_CN")) {
+        open(QStringLiteral("://defaultzh_CN.docx"));
+    } else {
+        open(QStringLiteral("://default.docx"));
+    }
 }
 
 Document::Document(const QString &name)
@@ -25,15 +29,21 @@ Document::Document(const QString &name)
     open(name);
 }
 
+Document::Document(QIODevice *device)
+{
+    open(device);
+}
+
 void Document::open(const QString &name)
 {
     m_package = Package::open(name);
     m_docPart = m_package->mainDocument();
 }
 
-Document::Document(QIODevice *device)
+void Document::open(QIODevice *device)
 {
-    qDebug() << "construct docx document from io";
+    m_package = Package::open(device);
+    m_docPart = m_package->mainDocument();
 }
 
 /*!
@@ -70,6 +80,8 @@ Table *Document::addTable(int rows, int cols, const QString &style)
 
 InlineShape *Document::addPicture(const QString &imgPath, const Length &width, const Length &height)
 {
+    Q_ASSERT_X(QFile::exists(imgPath), "add image filed", "can not find the Image path!");
+
     Run *run = addParagraph()->addRun();
     InlineShape *picture = run->addPicture(imgPath, width, height);
 
@@ -90,6 +102,16 @@ Paragraph *Document::addPageBreak()
     Run *run = p->addRun();
     run->addBreak();
     return p;
+}
+
+QList<Paragraph *> Document::paragraphs()
+{
+    return m_docPart->paragraphs();
+}
+
+QList<Table *> Document::tables()
+{
+    return m_docPart->tables();
 }
 
 Document::~Document()

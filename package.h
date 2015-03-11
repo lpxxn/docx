@@ -20,6 +20,7 @@ public:
     Package();
     void loadRel(const QString &reltype, const QString &targetRef, Part *target, const QString rId, bool isternal = false);
     static Package* open(const QString &pkgFile);
+    static Package* open(QIODevice *device);
     void save(const QString &filePath);
     void afterUnmarshal();
     ImageParts *imageparts() const;

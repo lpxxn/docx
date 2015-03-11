@@ -22,9 +22,6 @@ DocumentPart::DocumentPart(const QString &partName, const QString &contentType, 
 
 Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 {
-    qDebug() << "Add Paragraph  Text = " + text;
-    //QDomNodeList nodes = m_dom->elementsByTagName(QStringLiteral("w:sectPr"));
-
     QDomNode n = lastsectPr();//nodes.at(nodes.count() - 1);
     QDomNode parentNode = n.parentNode();
 
@@ -37,6 +34,7 @@ Paragraph *DocumentPart::addParagraph(const QString &text, const QString &style)
 
     parentNode.insertBefore(pEle, n);
 
+    m_addParagraphs.append(p);
     return p;
 }
 
@@ -63,6 +61,7 @@ Table *DocumentPart::addTable(int rows, int cols, const QString &style)
         table->addRow();
     }
     table->setStyle(style);
+    m_addtables.append(table);
     return table;
 }
 void DocumentPart::afterUnmarshal()
@@ -88,10 +87,16 @@ QPair<ImagePart *, QString> DocumentPart::getOrAddImagePart(const PackURI &image
     return getOrAddImagePart(imagPart);
 }
 
+/*!
+ * \brief 是否有相同的图片如果有则返回现有的，如果没有则新添加
+ * \param img
+ * \return
+ */
 QPair<ImagePart *, QString> DocumentPart::getOrAddImagePart(const QImage &img)
 {
     ImageParts *imgs = m_package->imageparts();
     ImagePart *imagPart = imgs->getOrAddImagePart(img);
+
     return getOrAddImagePart(imagPart);
 }
 
@@ -101,10 +106,53 @@ QPair<ImagePart *, QString> DocumentPart::getOrAddImagePart(ImagePart *imagPart)
     return QPair<ImagePart *, QString>(imagPart, rId);
 }
 
+QList<Paragraph *> DocumentPart::paragraphs()
+{
+    qDeleteAll(m_ps);
+    m_ps.clear();
+    QDomNodeList pEles = m_dom->elementsByTagName(QStringLiteral("w:p"));
+    if (pEles.isEmpty())
+        return m_ps;
+
+    for (int i = 0; i < pEles.count(); i++) {
+        QDomElement pele = pEles.at(i).toElement();
+        Paragraph *p = new Paragraph(this, pele);
+        m_ps.append(p);
+    }
+    return m_ps;
+}
+
+QList<Table *> DocumentPart::tables()
+{
+    qDeleteAll(m_tables);
+    m_tables.clear();
+    QDomNodeList pEles = m_dom->elementsByTagName(QStringLiteral("w:tbl"));
+    if (pEles.isEmpty())
+        return m_tables;
+
+    for (int i = 0; i < pEles.count(); i++) {
+        QDomElement tblEle = pEles.at(i).toElement();
+        Table *p = new Table(this, tblEle);
+        m_tables.append(p);
+    }
+    return m_tables;
+}
+
 DocumentPart::~DocumentPart()
 {
     delete m_inlineshapes;
-    delete m_dom;
+    delete m_dom;    
+    qDeleteAll(m_addParagraphs);
+    m_addParagraphs.clear();
+
+    qDeleteAll(m_addtables);
+    m_addtables.clear();
+
+    qDeleteAll(m_ps);
+    m_ps.clear();
+
+    qDeleteAll(m_tables);
+    m_tables.clear();
 }
 
 int DocumentPart::nextId()

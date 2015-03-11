@@ -2,6 +2,8 @@
 #define PHYSPKGWRITER_H
 
 #include <QByteArray>
+#include <QList>
+
 class QZipWriter;
 class QIODevice;
 
@@ -17,6 +19,7 @@ public:
     ~PhysPkgWriter();
 
 private:
+    QList<QString> m_paths;
     QZipWriter *m_writer;
 };
 }

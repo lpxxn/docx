@@ -19,6 +19,9 @@ PhysPkgWriter::PhysPkgWriter(QIODevice *device)
 
 void PhysPkgWriter::write(const QString &packUri, const QByteArray &blob)
 {
+    if (m_paths.contains(packUri))
+        return;
+    m_paths.append(packUri);
     m_writer->addFile(packUri, blob);
 }
 

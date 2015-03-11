@@ -28,6 +28,16 @@ PackageReader *PackageReader::fromFile(const QString &pkgFile)
     return new PackageReader(rels, contentypes, sparts);
 }
 
+PackageReader *PackageReader::fromFile(QIODevice *device)
+{
+    PhysPkgReader *physReader = new PhysPkgReader(device);
+    ContentTypeMap *contentypes = ContentTypeMap::fromXml(physReader->contentTypesData());
+    SerializedRelationships *rels = PackageReader::srelsFrom(physReader, QStringLiteral("/"));
+    QList<SerializedPart> sparts = PackageReader::loadSerializedParts(physReader, rels, contentypes);
+
+    return new PackageReader(rels, contentypes, sparts);
+}
+
 /*!
  * \brief sourceUri 下的所有relationships
  * \param physReader
