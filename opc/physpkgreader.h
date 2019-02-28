@@ -3,6 +3,7 @@
 
 #include <QScopedPointer>
 #include <QStringList>
+#include <QIODevice>
 
 class QByteArray;
 class QZipReader;

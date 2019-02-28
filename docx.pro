@@ -1,7 +1,10 @@
-include(../../simcubelibrary.pri)
+#include(../simcube.pri)
 
 QT -= gui
 QT += xml gui-private
+
+TARGET = docxlib
+TEMPLATE = lib
 
 DEFINES += DOCX_LIBRARY
 

@@ -1,5 +1,7 @@
 #include "length.h"
 
+#include <math.h>
+
 namespace Docx {
 //
 

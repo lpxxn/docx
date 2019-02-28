@@ -6,6 +6,7 @@
 
 #include <QDomDocument>
 #include <QDebug>
+#include <math.h>
 
 namespace Docx {
 
